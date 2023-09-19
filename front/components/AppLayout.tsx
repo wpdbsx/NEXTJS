@@ -4,30 +4,44 @@ import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "../components/UserProfile";
 import LoginForm from "../components/LoginForm";
+import styled from "styled-components";
+
+const SearchInput = styled(Input.Search)`
+  vertical-align: middle;
+`;
+
 interface ComponentProps {
   children: React.ReactNode;
 }
 const AppLayout: React.FC<ComponentProps> = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   return (
     <div>
-      <Menu mode="horizontal">
-        <Menu.Item>
-          <Link href="/">노드버드</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/profile">프로필</Link>
-        </Menu.Item>
-        <Menu.Item>
-          <Input.Search enterButton style={{ verticalAlign: "middle" }} />
-        </Menu.Item>
-        <Menu.Item>
-          <Link href="/signup">회원가입</Link>
-        </Menu.Item>
-      </Menu>
+      <Menu
+        mode="horizontal"
+        defaultSelectedKeys={["home"]}
+        items={[
+          {
+            label: <Link href="/">노드버드</Link>,
+            key: "home",
+          },
+          {
+            label: <Link href="/profile">프로필</Link>,
+            key: "profile",
+          },
+          {
+            label: <Link href="/signup">회원가입</Link>,
+            key: "signup",
+          },
+        ]}
+      />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {isLoggedIn ? <UserProfile /> : <LoginForm />}
+          {isLoggedIn ? (
+            <UserProfile setIsLoggedIn={setIsLoggedIn} />
+          ) : (
+            <LoginForm setIsLoggedIn={setIsLoggedIn} />
+          )}
         </Col>
         <Col xs={24} md={12}>
           {children}
