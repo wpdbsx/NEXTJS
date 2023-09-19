@@ -3,7 +3,7 @@ import { Form, Input, Button } from "antd";
 import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
 import Link from "next/link";
 import styled from "styled-components";
-import { loginAction } from "../reducers";
+import { loginAction } from "../reducers/user";
 import { useDispatch } from "react-redux";
 // import { ErrorMessageWrapper } from "./CommonStyle";
 interface FormValue {
@@ -34,8 +34,8 @@ const LoginForm: React.FC = () => {
 
   const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
     (data) => {
-      console.log(data);
-      // dispatch(loginAction(data));
+      // console.log(data);
+      dispatch(loginAction(data));
     },
     [handleSubmit]
   );
@@ -74,10 +74,10 @@ const LoginForm: React.FC = () => {
             <Button type="primary" htmlType="submit" loading={false}>
               로그인
             </Button>
+            <Link href="/signup">
+              <Button>회원가입</Button>
+            </Link>
           </ButtonWrapper>
-          <Link href="/signup">
-            <Button>회원가입</Button>
-          </Link>
         </div>
       </FormWrapper>
     </>

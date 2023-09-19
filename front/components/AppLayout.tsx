@@ -6,7 +6,7 @@ import UserProfile from "../components/UserProfile";
 import LoginForm from "../components/LoginForm";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { initialStateType } from "../reducers";
+import { initialStateType } from "../reducers/user";
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
