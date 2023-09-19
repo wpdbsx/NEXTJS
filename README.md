@@ -42,5 +42,6 @@
 
 
 <div align=center>
-	<p>🛠 Library 🛠</p>
+	<p>👀 포트폴리오 공부 정리 사이트 👀</p>
+	<link href="https://www.notion.so/NextJS-6668e1197ae9434fbf7c7de28879c3a3 ">바로가기</link>
 </div>
