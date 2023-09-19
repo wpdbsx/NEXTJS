@@ -1,15 +1,196 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
+import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { AnyObjectSchema } from "yup";
+import { signUpValidation } from "../components/yup";
+import { Button, Checkbox, Col, Form, Input, Row, Select } from "antd";
+import Link from "next/link";
+import { ErrorMessageWrapper } from "../components/CommonStyle";
+interface FormValue {
+  userId: string;
+  nickname: string;
+  
+  password: string;
+  passwordCheck: string;
+  term: boolean;
+  gender: boolean;
+  blog: string;
+}
+
 const Signup: React.FC = () => {
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    watch,
+  } = useCallback(
+    () =>
+      useForm<FormValue>({
+        resolver: yupResolver<AnyObjectSchema>(signUpValidation),
+        mode: "onBlur",
+      }),
+    []
+  )();
+  const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
+    (data) => {
+      console.log(data);
+      // setIsLoggedIn(true);
+    },
+    [handleSubmit]
+  );
+
+  const options = useMemo(() => {
+    return [
+      {
+        value: true,
+        label: "남자",
+      },
+      {
+        value: false,
+        label: "여자",
+      },
+    ];
+  }, []);
   return (
     <>
-      <Head>
-        <meta charSet="utf-8" />
-        <title>회원가입 | 포트폴리오</title>
-      </Head>
       <AppLayout>
-        <div>회원가입 페이지</div>
+        <Head>
+          <meta charSet="utf-8" />
+          <title>회원가입 | 포트폴리오</title>
+        </Head>
+        <Form onFinish={handleSubmit(onSubmitHandler)}>
+          <div>
+            <label htmlFor="user-Id">아이디</label>
+            <br />
+            <Controller
+              name="userId"
+              control={control}
+              render={({ field }) => <Input type="text" {...field} />}
+            />
+            {errors?.userId?.message && (
+              <ErrorMessageWrapper>{errors.userId.message}</ErrorMessageWrapper>
+            )}
+          </div>
+          <div>
+            <label htmlFor="nickname">닉네임</label>
+            <br />
+            <Controller
+              name="nickname"
+              control={control}
+              render={({ field }) => <Input type="text" {...field} />}
+            />
+            {errors?.nickname?.message && (
+              <ErrorMessageWrapper>
+                {errors.nickname.message}
+              </ErrorMessageWrapper>
+            )}
+          </div>
+          <div>
+            <label htmlFor="password">비밀번호</label>
+            <br />
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => {
+                return <Input type="password" {...field} />;
+              }}
+            />
+            {errors?.password?.message && (
+              <ErrorMessageWrapper>
+                {errors.password.message}
+              </ErrorMessageWrapper>
+            )}
+          </div>
+          <div>
+            <label htmlFor="passwordCheck">비밀번호 체크</label>
+            <br />
+            <Controller
+              name="passwordCheck"
+              control={control}
+              render={({ field }) => {
+                return <Input type="password" {...field} />;
+              }}
+            />
+
+            {errors?.passwordCheck?.message && (
+              <ErrorMessageWrapper>
+                {errors.passwordCheck.message}
+              </ErrorMessageWrapper>
+            )}
+          </div>
+          <div>
+            <Row>
+              <Col span={12}>
+                <label htmlFor="gender">성별</label>
+                <br />
+                <Controller
+                  name="gender"
+                  control={control}
+                  render={({ field }) => {
+                    return (
+                      <Select
+                        defaultValue="남자"
+                        options={options}
+                        {...field}
+                      />
+                    );
+                  }}
+                />
+
+                {errors?.gender?.message && (
+                  <ErrorMessageWrapper>
+                    {errors.gender.message}
+                  </ErrorMessageWrapper>
+                )}
+              </Col>
+              <Col span={12}>
+                <label htmlFor="blog">블로그 주소</label>
+                <br />
+                <Controller
+                  name="blog"
+                  control={control}
+                  render={({ field }) => {
+                    return <Input type="text" {...field} />;
+                  }}
+                />
+
+                {errors?.blog?.message && (
+                  <ErrorMessageWrapper>
+                    {errors.blog.message}
+                  </ErrorMessageWrapper>
+                )}
+              </Col>
+            </Row>
+          </div>
+
+          <div style={{ marginTop: "10px" }}>
+            <Controller
+              name="term"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <Checkbox
+                    name="term"
+                    onChange={field.onChange}
+                    ref={field.ref}
+                  >
+                    회원가입에 동의합니다.
+                  </Checkbox>
+                );
+              }}
+            />
+            {errors?.term?.message && (
+              <ErrorMessageWrapper>{errors.term.message}</ErrorMessageWrapper>
+            )}
+          </div>
+          <div style={{ marginTop: "10px" }}>
+            <Button type="primary" htmlType="submit" loading={false}>
+              회원가입
+            </Button>
+          </div>
+        </Form>
       </AppLayout>
     </>
   );

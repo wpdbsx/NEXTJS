@@ -56,7 +56,6 @@ const AppLayout: React.FC<ComponentProps> = ({ children }) => {
           </a>
         </Col>
       </Row>
-      {children}
     </div>
   );
 };
