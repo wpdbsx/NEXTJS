@@ -1,6 +1,7 @@
 import React from "react";
 import { AppProps } from "next/app";
 import Head from "next/head";
+import wrapper from "../store/configureStore";
 const App: React.FC = ({ Component, pageProps }: AppProps) => {
   return (
     <>
@@ -14,4 +15,4 @@ const App: React.FC = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default wrapper.withRedux(App);

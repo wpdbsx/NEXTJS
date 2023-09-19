@@ -1,12 +1,10 @@
 import React, { useCallback } from "react";
 import { Form, Input, Button } from "antd";
 import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
-import { signUpValidation } from "./yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { AnyObjectSchema } from "yup";
 import Link from "next/link";
 import styled from "styled-components";
-import { LoginType } from "./CommonTypes";
+import { loginAction } from "../reducers";
+import { useDispatch } from "react-redux";
 // import { ErrorMessageWrapper } from "./CommonStyle";
 interface FormValue {
   userId: string;
@@ -22,23 +20,22 @@ const ButtonWrapper = styled.div`
 const FormWrapper = styled(Form)`
   padding: 10px;
 `;
-const LoginForm: React.FC = ({ setIsLoggedIn }: LoginType) => {
+const LoginForm: React.FC = () => {
+  const dispatch = useDispatch();
   const {
     handleSubmit,
     formState: { errors },
     control,
     watch,
-  } = useCallback(
-    () =>
-      useForm<FormValue>({
-        // resolver: yupResolver<AnyObjectSchema>(signUpValidation),
-        mode: "onBlur",
-      }),
-    []
-  )();
+  } = useForm<FormValue>({
+    // resolver: yupResolver<AnyObjectSchema>(signUpValidation),
+    mode: "onBlur",
+  });
+
   const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
     (data) => {
-      setIsLoggedIn(true);
+      console.log(data);
+      // dispatch(loginAction(data));
     },
     [handleSubmit]
   );
