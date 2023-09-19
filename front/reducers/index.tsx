@@ -24,4 +24,5 @@ const rootReducer = combineReducers({
   user,
   post,
 });
+export type RootState = ReturnType<typeof rootReducer>;
 export default rootReducer;

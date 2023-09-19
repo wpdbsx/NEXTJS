@@ -1,12 +1,10 @@
-export interface initialStateType {
-  user: {
-    isLoggedIn: boolean;
-    user: string | null;
-    signUpdata: Record<string, any>;
-    loginData: Record<string, any>;
-  };
+export interface initialUserStateType {
+  isLoggedIn: boolean;
+  user: string | null;
+  signUpdata: Record<string, any>;
+  loginData: Record<string, any>;
 }
-const initialState = {
+const initialState: initialUserStateType = {
   isLoggedIn: false,
   user: null,
   signUpdata: {},
