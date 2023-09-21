@@ -1,12 +1,12 @@
 export interface initialUserStateType {
   isLoggedIn: boolean;
-  user: string | null;
+  me: { id: number | null };
   signUpdata: Record<string, any>;
   loginData: Record<string, any>;
 }
-const initialState: initialUserStateType = {
+const initialState = {
   isLoggedIn: false,
-  user: null,
+  me: { id: 123 },
   signUpdata: {},
   loginData: {},
 };
@@ -29,13 +29,13 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.data,
+        me: { id: 1 },
       };
     case "LOG_OUT":
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
+        me: { id: null },
       };
     default:
       return state;

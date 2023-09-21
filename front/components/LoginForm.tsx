@@ -5,13 +5,11 @@ import Link from "next/link";
 import styled from "styled-components";
 import { loginAction } from "../reducers/user";
 import { useDispatch } from "react-redux";
-// import { ErrorMessageWrapper } from "./CommonStyle";
+
 interface FormValue {
   userId: string;
-  //   nickname: string;
-  //   email: string;
+
   password: string;
-  //   password_confirm: string;
 }
 
 const ButtonWrapper = styled.div`
@@ -28,17 +26,12 @@ const LoginForm: React.FC = () => {
     control,
     watch,
   } = useForm<FormValue>({
-    // resolver: yupResolver<AnyObjectSchema>(signUpValidation),
     mode: "onBlur",
   });
 
-  const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
-    (data) => {
-      // console.log(data);
-      dispatch(loginAction(data));
-    },
-    [handleSubmit]
-  );
+  const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
+    dispatch(loginAction(data));
+  };
   return (
     <>
       <FormWrapper onFinish={handleSubmit(onSubmitHandler)}>

@@ -3,7 +3,7 @@ import { Button, Card, List } from "antd";
 import { StopOutlined } from "@ant-design/icons";
 
 interface FollowType {
-  header: String;
+  header: string;
   data: Array<{ nickname: string }>;
 }
 
