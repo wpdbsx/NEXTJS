@@ -16,7 +16,6 @@ const Home: React.FC = () => {
       {isLoggedIn && <PostForm />}
       {mainPosts.map(
         (post, index) => {
-          console.log(post);
           return <PostCard key={post.id} post={post} />;
         }
         //

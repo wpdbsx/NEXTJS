@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Popover } from "antd";
+import { Avatar, Button, Card, Popover, List } from "antd";
 
 import { mainPostsState } from "../reducers/post";
 import { useSelector } from "react-redux";
@@ -11,13 +11,14 @@ import {
   HeartTwoTone,
 } from "@ant-design/icons";
 import { useCallback, useState } from "react";
+import CommentForm from "./CommentForm";
+import PostImages from "./PostImages";
 
 interface postCardType {
-  key: number;
   post: mainPostsState;
 }
 
-const PostCard = ({ key, post }: postCardType) => {
+const PostCard: React.FC<postCardType> = ({ post }) => {
   const id = useSelector((state: RootState) => state.user.me?.id);
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -34,7 +35,7 @@ const PostCard = ({ key, post }: postCardType) => {
     <>
       <div style={{ marginBottom: 20 }}>
         <Card
-          //   cover={post.Images[0] && <PostImages Images={post.Images} />}
+          cover={post.Images[0] && <PostImages Images={post.Images} />}
           actions={[
             <RetweetOutlined key="retweet" />,
             liked ? (
@@ -73,7 +74,27 @@ const PostCard = ({ key, post }: postCardType) => {
             description={post.content}
           />
         </Card>
-        {commentFormOpened && <div>댓글부분</div>}
+        {commentFormOpened && (
+          <div>
+            <CommentForm post={post} />
+            <List
+              header={`${post.Commnets.length}개의 댓글`}
+              itemLayout="horizontal"
+              dataSource={post.Commnets}
+              renderItem={(item, index) => {
+                return (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={item.User.nickname}
+                      avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                      description={item.content}
+                    />
+                  </List.Item>
+                );
+              }}
+            />
+          </div>
+        )}
         {/* <CommentForm />
         <Commnets /> */}
       </div>
