@@ -2,16 +2,17 @@ import { Avatar, Button, Card } from "antd";
 import React, { useCallback } from "react";
 import { LoginType } from "./CommonTypes";
 import { styled } from "styled-components";
-import { useDispatch } from "react-redux";
-import { logoutAction } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutRequestAction } from "../reducers/user";
+import { RootState } from "../reducers";
 const UserProfile: React.FC = () => {
   const ButtonWrapper = styled.div`
     margin-left: 47px;
   `;
-
+  const { me, isLoggingOut } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const onLogOut = useCallback(() => {
-    dispatch(logoutAction());
+    dispatch(logoutRequestAction());
   }, []);
   return (
     <>
@@ -28,9 +29,14 @@ const UserProfile: React.FC = () => {
           </div>,
         ]}
       >
-        <Card.Meta avatar={<Avatar>YT</Avatar>} title="JeYoonTae" />
+        <Card.Meta
+          avatar={<Avatar>{me.nickname[0]}</Avatar>}
+          title="JeYoonTae"
+        />
         <ButtonWrapper>
-          <Button onClick={onLogOut}>로그아웃 </Button>
+          <Button onClick={onLogOut} loading={isLoggingOut}>
+            로그아웃
+          </Button>
         </ButtonWrapper>
       </Card>
     </>

@@ -3,8 +3,9 @@ import { Form, Input, Button } from "antd";
 import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
 import Link from "next/link";
 import styled from "styled-components";
-import { loginAction } from "../reducers/user";
-import { useDispatch } from "react-redux";
+import { loginRequestAction } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../reducers";
 
 interface FormValue {
   userId: string;
@@ -20,6 +21,7 @@ const FormWrapper = styled(Form)`
 `;
 const LoginForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { isLoggingIn } = useSelector((state: RootState) => state.user);
   const {
     handleSubmit,
     formState: { errors },
@@ -30,7 +32,7 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
-    dispatch(loginAction(data));
+    dispatch(loginRequestAction({ id: data.userId, password: data.password }));
   };
   return (
     <>
@@ -64,7 +66,7 @@ const LoginForm: React.FC = () => {
         </div>
         <div style={{ marginTop: "10px" }}>
           <ButtonWrapper>
-            <Button type="primary" htmlType="submit" loading={false}>
+            <Button type="primary" htmlType="submit" loading={isLoggingIn}>
               로그인
             </Button>
             <Link href="/signup">

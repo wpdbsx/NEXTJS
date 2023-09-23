@@ -6,7 +6,6 @@ import UserProfile from "../components/UserProfile";
 import LoginForm from "../components/LoginForm";
 import styled, { createGlobalStyle } from "styled-components";
 import { useSelector } from "react-redux";
-import { initialUserStateType } from "../reducers/user";
 import { RootState } from "../reducers";
 
 const Global = createGlobalStyle`
