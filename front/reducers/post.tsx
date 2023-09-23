@@ -28,6 +28,12 @@ const initialState = {
         {
           src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?update=20180726",
         },
+        {
+          src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799584.jpg",
+        },
+        {
+          src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799583.jpg",
+        },
       ],
       Commnets: [
         {

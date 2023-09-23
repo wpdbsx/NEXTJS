@@ -13,7 +13,9 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@hookform/resolvers": "^2.8.0",
+    "@types/react-slick": "^0.23.10",
     "antd": "^5.9.1",
+    "babel-plugin-styled-components": "^2.1.4",
     "next": "^13.4.19",
     "next-images": "^1.8.5",
     "next-redux-wrapper": "^8.1.0",
@@ -27,6 +29,7 @@
     "redux": "^4.2.1",
     "redux-devtools-extension": "^2.13.9",
     "sharp": "^0.32.6",
+    "slick-carousel": "^1.8.1",
     "styled-components": "^6.0.8",
     "typescript": "^5.2.2",
     "yup": "^1.2.0"

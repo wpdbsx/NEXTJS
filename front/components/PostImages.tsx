@@ -7,13 +7,14 @@ interface PostImagesType {
   Images: ImagesState;
 }
 const PostImages: React.FC<PostImagesType> = ({ Images }) => {
-  const [showImagesZoom, setShowImagesZoom] = useState(true);
+  const [showImagesZoom, setShowImagesZoom] = useState(false);
   const onZoom = useCallback(() => {
     setShowImagesZoom(true);
   }, []);
   const onClose = useCallback(() => {
     setShowImagesZoom(false);
   }, []);
+
   if (Images.length === 1) {
     return (
       <>
