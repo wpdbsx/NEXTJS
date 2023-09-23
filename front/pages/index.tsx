@@ -7,13 +7,13 @@ import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 
 const Home: React.FC = () => {
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const { logInDone } = useSelector((state: RootState) => state.user);
 
   const { mainPosts } = useSelector((state: RootState) => state.post);
   // console.log(mainPosts);
   return (
     <AppLayout>
-      {isLoggedIn && <PostForm />}
+      {logInDone && <PostForm />}
       {mainPosts.map(
         (post, index) => {
           return <PostCard key={post.id} post={post} />;

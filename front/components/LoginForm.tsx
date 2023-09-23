@@ -21,7 +21,7 @@ const FormWrapper = styled(Form)`
 `;
 const LoginForm: React.FC = () => {
   const dispatch = useDispatch();
-  const { isLoggingIn } = useSelector((state: RootState) => state.user);
+  const { logInLoading } = useSelector((state: RootState) => state.user);
   const {
     handleSubmit,
     formState: { errors },
@@ -66,7 +66,7 @@ const LoginForm: React.FC = () => {
         </div>
         <div style={{ marginTop: "10px" }}>
           <ButtonWrapper>
-            <Button type="primary" htmlType="submit" loading={isLoggingIn}>
+            <Button type="primary" htmlType="submit" loading={logInLoading}>
               로그인
             </Button>
             <Link href="/signup">

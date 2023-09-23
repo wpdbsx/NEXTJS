@@ -9,7 +9,7 @@ const UserProfile: React.FC = () => {
   const ButtonWrapper = styled.div`
     margin-left: 47px;
   `;
-  const { me, isLoggingOut } = useSelector((state: RootState) => state.user);
+  const { me, logOutLoading } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
@@ -34,7 +34,7 @@ const UserProfile: React.FC = () => {
           title="JeYoonTae"
         />
         <ButtonWrapper>
-          <Button onClick={onLogOut} loading={isLoggingOut}>
+          <Button onClick={onLogOut} loading={logOutLoading}>
             로그아웃
           </Button>
         </ButtonWrapper>
