@@ -13,6 +13,7 @@ import {
 import { useCallback, useState } from "react";
 import CommentForm from "./CommentForm";
 import PostImages from "./PostImages";
+import PostCardContent from "./PostCardContent";
 
 interface postCardType {
   post: mainPostsState;
@@ -20,6 +21,7 @@ interface postCardType {
 
 const PostCard: React.FC<postCardType> = ({ post }) => {
   const id = useSelector((state: RootState) => state.user.me?.id);
+
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
@@ -52,15 +54,15 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               key="more"
               content={
                 <Button.Group>
-                  {/* {id ? (
+                  {id ? (
                     <>
                       <Button>수정</Button>
                       <Button type="dashed">삭제</Button>
                     </>
                   ) : (
                     <Button>신고</Button>
-                  )} */}
-                  <Button>신고</Button>
+                  )}
+                  {/* <Button>신고</Button> */}
                 </Button.Group>
               }
             >
@@ -71,7 +73,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
           <Card.Meta
             avatar={<Avatar>{post.User.nickName}</Avatar>}
             title={post.User.nickName}
-            description={post.content}
+            description={<PostCardContent postData={post.content} />}
           />
         </Card>
         {commentFormOpened && (
