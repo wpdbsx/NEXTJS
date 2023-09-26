@@ -2,7 +2,7 @@ import shortId from "shortid";
 import { produce } from "immer";
 import { faker } from "@faker-js/faker";
 faker.seed(123);
-type Post = {
+export type Post = {
   id: string;
   User: {
     id: string;
@@ -19,6 +19,25 @@ type Post = {
     content: string;
   }[];
 };
+
+type initialStateType = {
+  mainPosts: Post[];
+  hasMorePosts: boolean;
+  imagePaths: string[];
+  addPostLoading: boolean;
+  addPostDone: boolean;
+  addPostError: boolean;
+  loadPostsLoading: boolean;
+  loadPostsDone: boolean;
+  loadPostsError: boolean;
+  addCommentLoading: boolean;
+  addCommentDone: boolean;
+  addCommentError: string | null;
+  removePostLoading: boolean;
+  removePostDone: boolean;
+  removePostError: string | null;
+};
+
 export type postState = ReturnType<typeof reducer>;
 
 export type mainPostsState = Pick<postState, "mainPosts">["mainPosts"][0];
@@ -26,7 +45,7 @@ export type ImagesState = Pick<
   postState,
   "mainPosts"
 >["mainPosts"][0]["Images"];
-export const generateDummyPost = (number) =>
+export const generateDummyPost = (number): Post[] =>
   Array(number)
     .fill(null)
     .map((v, i) => {
@@ -87,7 +106,7 @@ const dummyPost = (data): Post => ({
   ],
 });
 
-const initialState = {
+const initialState: initialStateType = {
   mainPosts: [],
   hasMorePosts: false,
   imagePaths: [],

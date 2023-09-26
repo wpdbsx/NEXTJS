@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
 import {
   WindowScroller,
@@ -8,8 +8,61 @@ import {
   List,
   ListRowProps,
 } from "react-virtualized";
-const InfiniteLoader: React.FC = () => {
-  return <></>;
+import { Post } from "../../reducers/post";
+import PostCard from "../PostCard";
+
+interface InfiniteLoaderType {
+  renderData: Post[];
+}
+
+const cellCache = new CellMeasurerCache({
+  fixedWidth: true,
+});
+const InfiniteLoader: React.FC<InfiniteLoaderType> = ({ renderData }) => {
+  const listRef = useRef<Post>(null);
+  const rowRenderer = ({ index, key, parent, style }: ListRowProps) => {
+    return (
+      <CellMeasurer
+        cache={cellCache}
+        parent={parent}
+        key={key}
+        columnIndex={0}
+        rowIndex={index}
+      >
+        {({ measure }) => (
+          <div style={style} key={index}>
+            <PostCard key={renderData[index].id} post={renderData[index]} />
+          </div>
+        )}
+      </CellMeasurer>
+    );
+  };
+  return (
+    <>
+      <WindowScroller>
+        {({ height, scrollTop, isScrolling, onChildScroll }) => (
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <List
+                ref={listRef}
+                autoHeight
+                height={height}
+                width={width}
+                overscanRowCount={5} // overscanRowCount 속성은 사용자가 스크롤하는 방향으로 추가 행을 렌더링하여 사용자가 가상화된 콘텐츠를 렌더링할 수 있는 것보다 빠르게 스크롤시 깜빡임을 최소화합니다.
+                isScrolling={isScrolling}
+                onScroll={onChildScroll}
+                scrollTop={scrollTop}
+                rowCount={renderData.length}
+                rowHeight={cellCache.rowHeight}
+                rowRenderer={rowRenderer}
+                deferredMeasurementCache={cellCache}
+              />
+            )}
+          </AutoSizer>
+        )}
+      </WindowScroller>
+    </>
+  );
 };
 
 export default InfiniteLoader;

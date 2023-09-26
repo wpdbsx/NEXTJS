@@ -6,6 +6,7 @@ import { RootState } from "../reducers";
 import PostForm from "../components/PostForm";
 import PostCard from "../components/PostCard";
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
+import InfiniteLoader from "../components/InfiniteLoader";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
         }
       }
     }
-    console.log("test");
+
     window.addEventListener("scroll", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -48,12 +49,14 @@ const Home: React.FC = () => {
   return (
     <AppLayout>
       {me.id && <PostForm />}
-      {mainPosts.map(
+
+      <InfiniteLoader renderData={mainPosts} />
+      {/* {mainPosts.map(
         (post, index) => {
           return <PostCard key={post.id} post={post} />;
         }
         //
-      )}
+      )} */}
     </AppLayout>
   );
 };

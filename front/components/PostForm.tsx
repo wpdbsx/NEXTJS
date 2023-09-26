@@ -40,7 +40,9 @@ const PostForm: React.FC = () => {
   };
 
   const onClickImageUpload = useCallback(() => {
-    imageInput.current.input.click();
+    if (imageInput.current) {
+      imageInput.current.input.click();
+    }
   }, [imageInput.current]);
   return (
     <>
