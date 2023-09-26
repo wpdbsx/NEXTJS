@@ -25,15 +25,17 @@ function addCommentAPI(data) {
   return axios.post(`/api/${data.postId}/commnet`, data);
 }
 
-function* addPost() {
+function* addPost(action) {
   try {
     // const result = yield call(addPostAPI);
     yield delay(1000);
+    yield console.log(action.data);
     yield put({
       type: ADD_POST_SUCCESS,
-      //   data: result.data,
+      data: action.data,
     });
   } catch (err) {
+    console.log(err);
     yield put({
       type: ADD_POST_FAILURE,
       data: err.response.data,
@@ -41,13 +43,13 @@ function* addPost() {
   }
 }
 
-function* addComment() {
+function* addComment(action) {
   try {
     // const result = yield call(addPostAPI);
     yield delay(1000);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      //   data: result.data,
+      data: action.data,
     });
   } catch (err) {
     yield put({

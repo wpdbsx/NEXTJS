@@ -20,7 +20,7 @@ interface postCardType {
 }
 
 const PostCard: React.FC<postCardType> = ({ post }) => {
-  const id = useSelector((state: RootState) => state.user.me?.id);
+  const email = useSelector((state: RootState) => state.user.me?.email);
 
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
@@ -54,7 +54,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               key="more"
               content={
                 <Button.Group>
-                  {id ? (
+                  {email ? (
                     <>
                       <Button>수정</Button>
                       <Button type="dashed">삭제</Button>
@@ -80,9 +80,9 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
           <div>
             <CommentForm post={post} />
             <List
-              header={`${post.Commnets.length}개의 댓글`}
+              header={`${post.Comments.length}개의 댓글`}
               itemLayout="horizontal"
-              dataSource={post.Commnets}
+              dataSource={post.Comments}
               renderItem={(item, index) => {
                 return (
                   <List.Item>

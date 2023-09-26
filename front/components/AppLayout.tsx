@@ -28,8 +28,8 @@ interface ComponentProps {
   children: React.ReactNode;
 }
 const AppLayout: React.FC<ComponentProps> = ({ children }) => {
-  const { logInDone } = useSelector((state: RootState) => state.user);
-
+  const { me } = useSelector((state: RootState) => state.user);
+  console.log(me);
   return (
     <div>
       <Global />
@@ -53,7 +53,7 @@ const AppLayout: React.FC<ComponentProps> = ({ children }) => {
       />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {logInDone ? <UserProfile /> : <LoginForm />}
+          {me.email ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

@@ -1,12 +1,21 @@
-export interface post {
-  id: number;
-  User: { id: number; nickName: string };
+import shortId from "shortid";
+type Post = {
+  email: string;
+  User: {
+    email: number;
+    nickName: string;
+  };
   content: string;
-  Images: String[];
-  Comments: { User: { nickName: string }; content: String }[];
-  imagePaths: string[];
-}
-
+  Images: {
+    src: string;
+  }[];
+  Comments: {
+    User: {
+      nickname: string;
+    };
+    content: string;
+  }[];
+};
 export type postState = ReturnType<typeof reducer>;
 
 export type mainPostsState = Pick<postState, "mainPosts">["mainPosts"][0];
@@ -15,25 +24,25 @@ export type ImagesState = Pick<
   "mainPosts"
 >["mainPosts"][0]["Images"];
 
-const dummyPost = {
-  id: 2,
+const dummyPost = ({ content }): Post => ({
+  email: shortId.generate(),
   User: {
-    id: 1,
+    email: shortId.generate(),
     nickName: "제윤태",
   },
-  content: "더미데이터입니다",
+  content: content,
   Images: [
-    {
-      src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?update=20180726",
-    },
-    {
-      src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799584.jpg",
-    },
-    {
-      src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799583.jpg",
-    },
+    // {
+    //   src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?update=20180726",
+    // },
+    // {
+    //   src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799584.jpg",
+    // },
+    // {
+    //   src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799583.jpg",
+    // },
   ],
-  Commnets: [
+  Comments: [
     {
       User: {
         nickname: "hi",
@@ -47,17 +56,14 @@ const dummyPost = {
       content: "코딩권리",
     },
   ],
-  addPostLoading: false,
-  addPostDone: false,
-  addPostError: null,
-};
+});
 
 const initialState = {
   mainPosts: [
     {
-      id: 1,
+      email: "wpdbsx@naver.com",
       User: {
-        id: 1,
+        email: "wpdbsx@naver.com",
         nickName: "제윤태",
       },
       content: "첫번째 게시글 #해시태그 # 익스프레스",
@@ -72,7 +78,7 @@ const initialState = {
           src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799583.jpg",
         },
       ],
-      Commnets: [
+      Comments: [
         {
           User: {
             nickname: "hi",
@@ -92,10 +98,13 @@ const initialState = {
   addPostLoading: false,
   addPostDone: false,
   addPostError: false,
+  addCommnetLoading: false,
+  addCommnetDone: false,
+  addCommnetError: null,
 };
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
-export const ADD_POST_SUCCESS = "ADD_POST_REQUEST";
-export const ADD_POST_FAILURE = "ADD_POST_REQUEST";
+export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
+export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 
 export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
@@ -110,7 +119,15 @@ export const addComment = (data) => ({
   type: ADD_COMMENT_REQUEST,
   data,
 });
-
+const dummyComment = (data) => {
+  return {
+    content: data.content,
+    User: {
+      email: data.userEmail,
+      nickname: "bye",
+    },
+  };
+};
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST_REQUEST:
@@ -121,9 +138,11 @@ const reducer = (state = initialState, action) => {
         addPostError: null,
       };
     case ADD_POST_SUCCESS:
+      const addPost = dummyPost({ content: action.data }); // dummyPost 호출하여 실제 데이터 생성
+
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [addPost, ...state.mainPosts],
         addPostLoading: false,
         addPostDone: true,
       };
@@ -142,9 +161,22 @@ const reducer = (state = initialState, action) => {
         addCommentError: null,
       };
     case ADD_COMMENT_SUCCESS:
+      const postIndex = state.mainPosts.findIndex(
+        (v) => v.email === action.data.postEmail
+      );
+      const post = state.mainPosts[postIndex];
+      const Comments = [
+        dummyComment({
+          content: action.data.content,
+          userEmail: action.data.userEmail,
+        }),
+        ...post.Comments,
+      ];
+      const mainPosts = [...state.mainPosts];
+      mainPosts[postIndex] = { ...post, Comments };
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts,
         addCommentLoading: false,
         addCommentDone: true,
       };

@@ -5,11 +5,14 @@ interface PostCardContent {
   postData: String;
 }
 const PostCardContent: React.FC<PostCardContent> = ({ postData }) => {
+  console.log(postData);
   return (
     <>
       <div>
-        {postData.split(/(#[^s#]+)/g).map((v, index) => {
+        {postData?.split(/(#[^#]+)/g).map((v, index) => {
+          console.log(v);
           if (v.match(/(#[^s#]+)/)) {
+            // console.log(v);
             return (
               <Link href={`/hashtag/${v.slice(1)}`} key={index}>
                 {v}

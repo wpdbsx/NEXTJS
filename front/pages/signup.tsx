@@ -8,10 +8,12 @@ import { signUpValidation } from "../components/yup";
 import { Button, Checkbox, Col, Form, Input, Row, Select } from "antd";
 import Link from "next/link";
 import { ErrorMessageWrapper } from "../components/CommonStyle";
+import { SIGN_UP_REQUEST } from "../reducers/user";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../reducers";
 interface FormValue {
-  userId: string;
+  email: string;
   nickname: string;
-  
   password: string;
   passwordCheck: string;
   term: boolean;
@@ -20,6 +22,8 @@ interface FormValue {
 }
 
 const Signup: React.FC = () => {
+  const dispatch = useDispatch();
+  const { signUpLoading } = useSelector((state: RootState) => state.user);
   const {
     handleSubmit,
     formState: { errors },
@@ -37,6 +41,10 @@ const Signup: React.FC = () => {
     (data) => {
       console.log(data);
       // setIsLoggedIn(true);
+      dispatch({
+        type: SIGN_UP_REQUEST,
+        data,
+      });
     },
     [handleSubmit]
   );
@@ -62,15 +70,15 @@ const Signup: React.FC = () => {
         </Head>
         <Form onFinish={handleSubmit(onSubmitHandler)}>
           <div>
-            <label htmlFor="user-Id">아이디</label>
+            <label htmlFor="user-Id">이메일</label>
             <br />
             <Controller
-              name="userId"
+              name="email"
               control={control}
-              render={({ field }) => <Input type="text" {...field} />}
+              render={({ field }) => <Input type="email" {...field} />}
             />
-            {errors?.userId?.message && (
-              <ErrorMessageWrapper>{errors.userId.message}</ErrorMessageWrapper>
+            {errors?.email?.message && (
+              <ErrorMessageWrapper>{errors.email.message}</ErrorMessageWrapper>
             )}
           </div>
           <div>
@@ -186,7 +194,7 @@ const Signup: React.FC = () => {
             )}
           </div>
           <div style={{ marginTop: "10px" }}>
-            <Button type="primary" htmlType="submit" loading={false}>
+            <Button type="primary" htmlType="submit" loading={signUpLoading}>
               회원가입
             </Button>
           </div>

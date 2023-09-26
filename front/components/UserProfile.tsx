@@ -14,18 +14,20 @@ const UserProfile: React.FC = () => {
   const onLogOut = useCallback(() => {
     dispatch(logoutRequestAction());
   }, []);
+
   return (
     <>
       <Card
         actions={[
           <div key="twit">
-            짹짹 <br /> 0
+            포스트 개수 <br /> {me.Posts.length}
           </div>,
           <div key="followings">
-            팔로잉 <br /> 0
+            팔로잉 <br /> {me.Followings.length}
           </div>,
           <div key="follower">
-            팔로워 <br /> 0
+            팔로워
+            <br /> {me.Followers.length}
           </div>,
         ]}
       >

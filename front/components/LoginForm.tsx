@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers";
 
 interface FormValue {
-  userId: string;
+  userEmail: string;
 
   password: string;
 }
@@ -32,18 +32,20 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
-    dispatch(loginRequestAction({ id: data.userId, password: data.password }));
+    dispatch(
+      loginRequestAction({ email: data.userEmail, password: data.password })
+    );
   };
   return (
     <>
       <FormWrapper onFinish={handleSubmit(onSubmitHandler)}>
         <div>
-          <label htmlFor="user-Id">아이디</label>
+          <label htmlFor="user-email">이메일</label>
           <br />
           <Controller
-            name="userId"
+            name="userEmail"
             control={control}
-            render={({ field }) => <Input type="text" {...field} />}
+            render={({ field }) => <Input type="email" {...field} />}
           />
           {/* <ErrorMessageWrapper>
             <p className="text-red-600">{errors.userId?.message}</p>

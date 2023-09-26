@@ -7,7 +7,7 @@ interface FollowType {
   data: Array<{ nickname: string }>;
 }
 
-const FollowList: React.FC = ({ header, data }: FollowType) => {
+const FollowList: React.FC<FollowType> = ({ header, data }) => {
   console.log(data);
   console.log(header);
   return (

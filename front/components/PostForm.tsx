@@ -1,10 +1,10 @@
 import { Button, Form, Input, InputRef } from "antd";
-import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../reducers";
 import { addPost } from "../reducers/post";
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 interface FormValue {
   content: string;
   file: string;
@@ -12,10 +12,15 @@ interface FormValue {
 const FormWrapper = styled(Form)`
   margin: 10px 0 20px;
 `;
+
 const PostForm: React.FC = () => {
-  const { imagePaths } = useSelector((state: RootState) => state.post);
+  const { imagePaths, addPostDone } = useSelector(
+    (state: RootState) => state.post
+  );
   const dispatch = useDispatch();
+
   const imageInput = useRef<InputRef | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -23,10 +28,18 @@ const PostForm: React.FC = () => {
     control,
     setValue,
   } = useForm();
+
+  useEffect(() => {
+    if (addPostDone) {
+      setValue("content", "");
+    }
+  }, [addPostDone]);
+
   const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
-    dispatch(addPost);
-    setValue("content", "");
+    console.log(data);
+    dispatch(addPost(data.content));
   };
+
   const onClickImageUpload = useCallback(() => {
     imageInput.current.input.click();
   }, [imageInput.current]);

@@ -62,13 +62,13 @@ function* logOut() {
   }
 }
 
-function* signUp() {
+function* signUp(action) {
   try {
     yield delay(1000);
-    // const result = ;yield call(signUpAPI);
+    // const result = yield call(signUpAPI);
     yield put({
       type: SIGN_UP_SUCCESS,
-      //   data: result.data,
+      // data: result.data,
     });
   } catch (err) {
     yield put({
