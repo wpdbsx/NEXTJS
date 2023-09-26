@@ -21,9 +21,10 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         style={{
           width: "50%",
           textAlign: "center",
-          display: "flex",
-          justifyContent: "center", // 수평 가운데 정렬
-          alignItems: "center", // 수직 가운데 정렬
+
+          display: "block",
+          marginLeft: "auto",
+          marginRight: "auto",
         }}
       >
         <Image
