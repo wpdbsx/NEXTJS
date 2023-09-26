@@ -39,7 +39,6 @@ const Signup: React.FC = () => {
   )();
   const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
     (data) => {
-      console.log(data);
       // setIsLoggedIn(true);
       dispatch({
         type: SIGN_UP_REQUEST,

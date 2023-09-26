@@ -1,5 +1,7 @@
 import shortId from "shortid";
 import { produce } from "immer";
+import { faker } from "@faker-js/faker";
+faker.seed(123);
 type Post = {
   id: string;
   User: {
@@ -24,7 +26,35 @@ export type ImagesState = Pick<
   postState,
   "mainPosts"
 >["mainPosts"][0]["Images"];
-
+export const generateDummyPost = (number) =>
+  (initialState.mainPosts = initialState.mainPosts.concat(
+    Array(20)
+      .fill(null)
+      .map((v, i) => {
+        return {
+          id: shortId.generate(),
+          User: {
+            id: shortId.generate(),
+            nickName: faker.name.fullName(),
+          },
+          content: faker.lorem.paragraph(),
+          Images: [
+            {
+              src: faker.image.url(),
+            },
+          ],
+          Comments: [
+            {
+              User: {
+                id: shortId.generate(),
+                nickname: faker.name.fullName(),
+              },
+              content: faker.lorem.sentence(),
+            },
+          ],
+        };
+      })
+  ));
 const dummyPost = (data): Post => ({
   id: data.id,
   User: {
@@ -72,12 +102,12 @@ const initialState = {
         {
           src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?update=20180726",
         },
-        {
-          src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799584.jpg",
-        },
-        {
-          src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799583.jpg",
-        },
+        // {
+        //   src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799584.jpg",
+        // },
+        // {
+        //   src: "https://bookthumb-phinf.pstatic.net/cover/137/995/13799583.jpg",
+        // },
       ],
       Comments: [
         {
@@ -106,6 +136,7 @@ const initialState = {
   removePostDone: false,
   removePostError: null,
 };
+
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
 export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
@@ -161,7 +192,7 @@ const reducer = (state = initialState, action) => {
         break;
       case ADD_COMMENT_SUCCESS:
         const post = draft.mainPosts.find((v) => v.id === action.data.postId);
-        post.Comments.unshift(dummyComment(action.data.content));
+        post.Comments.unshift(dummyComment(action.data));
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
 

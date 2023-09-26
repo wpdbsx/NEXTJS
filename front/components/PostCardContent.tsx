@@ -5,7 +5,6 @@ interface PostCardContent {
   postData: String;
 }
 const PostCardContent: React.FC<PostCardContent> = ({ postData }) => {
-  console.log(postData);
   return (
     <>
       <div>

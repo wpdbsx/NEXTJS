@@ -33,7 +33,6 @@ function signUpAPI() {
 function* logIn(action) {
   try {
     yield delay(1000);
-    console.log("saga_login");
     // const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,

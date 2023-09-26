@@ -34,7 +34,7 @@ function* addPost(action) {
   try {
     // const result = yield call(addPostAPI);
     yield delay(1000);
-    yield console.log(action.data);
+  
     const id = shortId.generate();
     yield put({
       type: ADD_POST_SUCCESS,
@@ -64,7 +64,7 @@ function* removePost(action) {
     });
     yield put({ type: REMOVE_POST_OF_ME, data: action.data });
   } catch (err) {
-    console.log(err);
+   
     yield put({
       type: REMOVE_POST_FAILURE,
       data: err.response.data,

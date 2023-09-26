@@ -20,7 +20,7 @@ interface postCardType {
 }
 
 const PostCard: React.FC<postCardType> = ({ post }) => {
-  const email = useSelector((state: RootState) => state.user.me?.email);
+  const id = useSelector((state: RootState) => state.user.me?.id);
   const { removePostLoading } = useSelector((state: RootState) => state.post);
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
@@ -61,7 +61,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               key="more"
               content={
                 <Button.Group>
-                  {email ? (
+                  {id ? (
                     <>
                       <Button>수정</Button>
                       <Button

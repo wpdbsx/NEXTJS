@@ -16,6 +16,27 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
   }, []);
 
   if (Images.length === 1) {
+    return (
+      <div
+        style={{
+          width: "50%",
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center", // 수평 가운데 정렬
+          alignItems: "center", // 수직 가운데 정렬
+        }}
+      >
+        <Image
+          role="presentation"
+          src={Images[0].src}
+          alt={Images[0].src}
+          onClick={onZoom}
+          layout="responsive"
+          width={20}
+          height={20}
+        />
+      </div>
+    );
   } else if (Images.length === 2) {
     return (
       <>

@@ -36,7 +36,6 @@ const PostForm: React.FC = () => {
   }, [addPostDone]);
 
   const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
-    console.log(data);
     dispatch(addPost(data.content));
   };
 

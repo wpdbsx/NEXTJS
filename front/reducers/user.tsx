@@ -3,7 +3,7 @@ export interface meType {
   Posts: { id: string }[];
   Followings: string[];
   Followers: string[];
-  email: string | null;
+  id: string | null;
   nickname: string | null;
 }
 export interface initialUserStateType {
@@ -39,7 +39,7 @@ const initialState = {
   changeNicknameError: null,
 
   me: {
-    email: "wpdbsx@naver.com",
+    id: "wpdbsx@naver.com",
     nickname: "",
     Posts: [{ id: "wpdbsx@naver.com" }],
     Followings: ["바보", "천재", "안녕"],
@@ -81,7 +81,7 @@ const dummyUser: (data: any, state: { me: meType }) => meType = (
 ) => ({
   ...state.me,
   nickname: "제윤태",
-  email: data?.email || "",
+  id: data?.email || "",
   Posts: [{ id: "1" }],
   Followings: ["바보", "천재", "안녕"],
   Followers: [],

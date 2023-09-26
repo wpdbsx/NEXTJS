@@ -8,8 +8,7 @@ interface FollowType {
 }
 
 const FollowList: React.FC<FollowType> = ({ header, data }) => {
-  console.log(data);
-  console.log(header);
+
   return (
     <List
       header={<div>{header}</div>}

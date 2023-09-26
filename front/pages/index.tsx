@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   // console.log(mainPosts);
   return (
     <AppLayout>
-      {me.email && <PostForm />}
+      {me.id && <PostForm />}
       {mainPosts.map(
         (post, index) => {
           return <PostCard key={post.id} post={post} />;
