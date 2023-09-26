@@ -10,7 +10,6 @@ const PostCardContent: React.FC<PostCardContent> = ({ postData }) => {
     <>
       <div>
         {postData?.split(/(#[^#]+)/g).map((v, index) => {
-          console.log(v);
           if (v.match(/(#[^s#]+)/)) {
             // console.log(v);
             return (

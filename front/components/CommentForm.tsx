@@ -39,7 +39,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
       type: ADD_COMMENT_REQUEST,
       data: {
         content: data.commentText,
-        postEmail: post.email,
+        postId: post.id,
         userEmail: email,
       },
     });

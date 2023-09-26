@@ -4,7 +4,7 @@ import { StopOutlined } from "@ant-design/icons";
 
 interface FollowType {
   header: string;
-  data: Array<{ nickname: string }>;
+  data: string[];
 }
 
 const FollowList: React.FC<FollowType> = ({ header, data }) => {
@@ -26,7 +26,7 @@ const FollowList: React.FC<FollowType> = ({ header, data }) => {
       renderItem={(item) => (
         <List.Item style={{ marginTop: 20 }}>
           <Card actions={[<StopOutlined key="stop" />]}>
-            <Card.Meta description={item.nickname} />
+            <Card.Meta description={item} />
           </Card>
         </List.Item>
       )}

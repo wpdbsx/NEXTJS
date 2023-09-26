@@ -1,7 +1,7 @@
 import { Avatar, Button, Card, Popover, List } from "antd";
 
-import { mainPostsState } from "../reducers/post";
-import { useSelector } from "react-redux";
+import { REMOVE_POST_REQUEST, mainPostsState } from "../reducers/post";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../reducers";
 import {
   RetweetOutlined,
@@ -21,7 +21,8 @@ interface postCardType {
 
 const PostCard: React.FC<postCardType> = ({ post }) => {
   const email = useSelector((state: RootState) => state.user.me?.email);
-
+  const { removePostLoading } = useSelector((state: RootState) => state.post);
+  const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
@@ -33,6 +34,12 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
     setCommentFormOpened((prev) => !prev);
   }, []);
 
+  const onRemovePost = useCallback(() => {
+    dispatch({
+      type: REMOVE_POST_REQUEST,
+      data: post.id,
+    });
+  }, []);
   return (
     <>
       <div style={{ marginBottom: 20 }}>
@@ -57,7 +64,13 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
                   {email ? (
                     <>
                       <Button>수정</Button>
-                      <Button type="dashed">삭제</Button>
+                      <Button
+                        type="dashed"
+                        onClick={onRemovePost}
+                        loading={removePostLoading}
+                      >
+                        삭제
+                      </Button>
                     </>
                   ) : (
                     <Button>신고</Button>

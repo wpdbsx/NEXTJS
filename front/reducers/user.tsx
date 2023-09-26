@@ -1,5 +1,5 @@
 export interface meType {
-  Posts: string[];
+  Posts: { id: string }[];
   Followings: string[];
   Followers: string[];
   email: string | null;
@@ -40,8 +40,8 @@ const initialState = {
   me: {
     email: "wpdbsx@naver.com",
     nickname: "",
-    Posts: [],
-    Followings: [],
+    Posts: [{ id: "wpdbsx@naver.com" }],
+    Followings: ["바보", "천재", "안녕"],
     Followers: [],
   },
   signUpdata: {},
@@ -72,6 +72,8 @@ export const UNFOLLOW_REQUEST = "SIGN_UP_REQUEST";
 export const UNFOLLOW_SUCCESS = "SIGN_UP_SUCCESS";
 export const UNFOLLOW_FAILURE = "SIGN_UP_FAILURE";
 
+export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
+export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 const dummyUser: (data: any, state: { me: meType }) => meType = (
   data,
   state
@@ -79,8 +81,8 @@ const dummyUser: (data: any, state: { me: meType }) => meType = (
   ...state.me,
   nickname: "제윤태",
   email: data?.email || "",
-  Posts: [],
-  Followings: [],
+  Posts: [{ id: "1" }],
+  Followings: ["바보", "천재", "안녕"],
   Followers: [],
 });
 
@@ -176,6 +178,24 @@ const reducer = (state = initialState, action) => {
         ...state,
         changeNicknameLoading: false,
         changeNicknameError: action.error,
+      };
+    case ADD_POST_TO_ME:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: [{ id: action.data }, ...state.me.Posts],
+        },
+      };
+    case REMOVE_POST_OF_ME:
+      console.log(action.data);
+      console.log(state.me.Posts.filter((v) => v.id !== action.data));
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          Posts: state.me.Posts.filter((v) => v.id !== action.data),
+        },
       };
     default:
       return state;
