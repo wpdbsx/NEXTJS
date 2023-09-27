@@ -25,7 +25,10 @@ import {
   REMOVE_POST_SUCCESS,
   generateDummyPost,
 } from "../reducers/post";
-import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
+import {
+  ADD_POST_TO_ME,
+  REMOVE_POST_OF_ME,
+} from "../reducers/user";
 import shortId from "shortid";
 
 function loadPostsAPI() {
@@ -35,6 +38,13 @@ function addPostAPI() {
   return axios.post("/api/post");
 }
 function addCommentAPI(data) {
+  return axios.post(`/api/${data.postId}/commnet`, data);
+}
+
+function followAPI() {
+  return axios.post("/api/post");
+}
+function unfollowAPI(data) {
   return axios.post(`/api/${data.postId}/commnet`, data);
 }
 
@@ -112,6 +122,7 @@ function* addComment(action) {
   }
 }
 
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -126,8 +137,11 @@ function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 
+
+
 export default function* postSaga() {
   yield all([
+   
     fork(watchAddPost),
     fork(watchAddComment),
     fork(watchRemovePost),

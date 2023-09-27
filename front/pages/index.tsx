@@ -22,11 +22,11 @@ const Home: React.FC = () => {
   );
   useEffect(() => {
     function onScroll() {
-      console.log(
-        window.scrollY,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight
-      );
+      // console.log(
+      //   window.scrollY,
+      //   document.documentElement.clientHeight,
+      //   document.documentElement.scrollHeight
+      // );
       if (
         window.scrollY + document.documentElement.clientHeight + 300 >
         document.documentElement.scrollHeight

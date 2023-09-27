@@ -14,6 +14,7 @@ import { useCallback, useState } from "react";
 import CommentForm from "./CommentForm";
 import PostImages from "./PostImages";
 import PostCardContent from "./PostCardContent";
+import FollowButton from "./FollowButton";
 
 interface postCardType {
   post: mainPostsState;
@@ -82,6 +83,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               <EllipsisOutlined />
             </Popover>,
           ]}
+          extra={id && <FollowButton post={post} />}
         >
           <Card.Meta
             avatar={<Avatar>{post.User.nickName}</Avatar>}

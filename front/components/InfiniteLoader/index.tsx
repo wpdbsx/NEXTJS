@@ -16,7 +16,7 @@ interface InfiniteLoaderType {
 }
 
 const cellCache = new CellMeasurerCache({
-  fixedWidth: true,
+  fixedWidth: true, //이미지를 동적으로 받을수있다.
 });
 const InfiniteLoader: React.FC<InfiniteLoaderType> = ({ renderData }) => {
   const listRef = useRef<Post>(null);

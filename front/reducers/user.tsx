@@ -1,8 +1,8 @@
 import { produce } from "immer";
 export interface meType {
   Posts: { id: string }[];
-  Followings: string[];
-  Followers: string[];
+  Followings: { id: string }[];
+  Followers: { id: string }[];
   id: string | null;
   nickname: string | null;
 }
@@ -16,15 +16,25 @@ export interface initialUserStateType {
   signUpLoading: boolean;
   signUpDone: boolean;
   signUpError: string | null;
-  me: meType;
+  me: meType | null;
   signUpdata: Record<string, any>;
   loginData: Record<string, any>;
+  changeNicknameLoading: boolean; //닉네임 변경 시도중
+  changeNicknameDone: boolean;
+  changeNicknameError: string | null;
+  followLoading: Boolean;
+  followDone: Boolean;
+  followError: string | null;
+  unfollowLoading: Boolean;
+  unfollowDone: Boolean;
+  unfollowError: string | null;
+  selectedPostId: String | null;
 }
 
 export type userStateType = ReturnType<typeof reducer>;
 
 export type userState = Pick<userStateType, "me">;
-const initialState = {
+const initialState: initialUserStateType = {
   logInLoading: false,
   logInDone: false,
   logInError: null,
@@ -37,16 +47,22 @@ const initialState = {
   changeNicknameLoading: false, //닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
-
+  followLoading: false,
+  followDone: false,
+  followError: null,
+  unfollowLoading: false,
+  unfollowDone: false,
+  unfollowError: null,
   me: {
     id: "wpdbsx@naver.com",
     nickname: "",
     Posts: [{ id: "wpdbsx@naver.com" }],
-    Followings: ["바보", "천재", "안녕"],
+    Followings: [],
     Followers: [],
   },
   signUpdata: {},
   loginData: {},
+  selectedPostId: null,
 };
 
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
@@ -65,13 +81,13 @@ export const CHANGE_NICKNAME_REQUEST = "SIGN_UP_REQUEST";
 export const CHANGE_NICKNAME_SUCCESS = "SIGN_UP_SUCCESS";
 export const CHANGE_NICKNAME_FAILURE = "SIGN_UP_FAILURE";
 
-export const FOLLOW_REQUEST = "SIGN_UP_REQUEST";
-export const FOLLOW_SUCCESS = "SIGN_UP_SUCCESS";
-export const FOLLOW_FAILURE = "SIGN_UP_FAILURE";
+export const FOLLOW_REQUEST = "FOLLOW_REQUEST";
+export const FOLLOW_SUCCESS = "FOLLOW_SUCCESS";
+export const FOLLOW_FAILURE = "FOLLOW_FAILURE";
 
-export const UNFOLLOW_REQUEST = "SIGN_UP_REQUEST";
-export const UNFOLLOW_SUCCESS = "SIGN_UP_SUCCESS";
-export const UNFOLLOW_FAILURE = "SIGN_UP_FAILURE";
+export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
+export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
+export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
@@ -83,7 +99,7 @@ const dummyUser: (data: any, state: { me: meType }) => meType = (
   nickname: "제윤태",
   id: data?.email || "",
   Posts: [{ id: "1" }],
-  Followings: ["바보", "천재", "안녕"],
+  Followings: [],
   Followers: [],
 });
 
@@ -102,6 +118,42 @@ export const logoutRequestAction = () => {
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case UNFOLLOW_REQUEST:
+        draft.unfollowLoading = true;
+        draft.unfollowError = null;
+        draft.unfollowDone = false;
+        draft.selectedPostId = action.data.postId;
+        break;
+      case UNFOLLOW_SUCCESS:
+        draft.unfollowLoading = false;
+        draft.unfollowDone = true;
+        draft.me.Followings = draft.me.Followings.filter(
+          (v) => v.id !== action.data.userId
+        );
+        draft.selectedPostId = null;
+        break;
+      case UNFOLLOW_FAILURE:
+        draft.unfollowLoading = false;
+        draft.unfollowError = action.error;
+        draft.selectedPostId = null;
+        break;
+      case FOLLOW_REQUEST:
+        draft.followLoading = true;
+        draft.followError = null;
+        draft.followDone = false;
+        draft.selectedPostId = action.data.postId;
+        break;
+      case FOLLOW_SUCCESS:
+        draft.followLoading = false;
+        draft.followDone = true;
+        draft.me.Followings.push({ id: action.data.userId });
+        draft.selectedPostId = null;
+        break;
+      case FOLLOW_FAILURE:
+        draft.followLoading = false;
+        draft.followError = action.error;
+        draft.selectedPostId = null;
+        break;
       case LOG_IN_REQUEST:
         draft.logInLoading = true;
         draft.logInError = null;
