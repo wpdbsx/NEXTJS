@@ -3,7 +3,15 @@ const postRouter = require("./routes/post");
 const userRouter = require("./routes/user");
 const db = require("./models");
 const cors = require("cors");
+const passportConfig = require("./passport");
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+
+const dotenv = require("dotenv");
 const app = express();
+passportConfig();
+dotenvConfig();
 db.sequelize
   .sync()
   .then(() => {
@@ -20,7 +28,16 @@ app.use(
 );
 app.use(express.json()); // 프론트에서 보낸 데이터를 res.body에 넣는 역할을한다.
 app.use(express.urlencoded({ extended: true }));
-
+app.use(session());
+app.use(passport.initialize());
+app.use(
+  passport.session({
+    saveUninitalized: false,
+    resave: false,
+    secret: process.env.COOKIE_SECRET,
+  })
+);
+app.use(cookieParser("react"));
 app.get("/", (req, res) => {
   res.send("hello express");
 });

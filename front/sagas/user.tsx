@@ -42,19 +42,18 @@ function logInAPI(data) {
   return axios.post("/api/login");
 }
 function logOutAPI() {
-  return axios.post("/api/logout");
+  return axios.post("http://localhost:3065/user");
 }
 function signUpAPI(action: signUpType) {
-
   return axios.post("http://localhost:3065/user", action.data);
 }
 function* logIn(action) {
   try {
     yield delay(1000);
-    // const result = yield call(logInAPI, action.data);
+    const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (err) {
     yield put({

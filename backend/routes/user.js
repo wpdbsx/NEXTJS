@@ -2,6 +2,26 @@ const express = require("express");
 const router = express.Router();
 const { User } = require("../models");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    //미들웨어 확장
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+    if (info) {
+      return res.status(401).send(info.reason);
+    }
+    return req.login(user, async (loginErr) => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      //res.setHeader('Cookie',)
+      return res.json(user);
+    });
+  })(req, res, next);
+});
 router.post("/", async (req, res, next) => {
   try {
     const exUser = await User.findOne({
