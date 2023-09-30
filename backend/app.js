@@ -1,6 +1,8 @@
 const express = require("express");
 const postRouter = require("./routes/post");
+const userRouter = require("./routes/user");
 const db = require("./models");
+const cors = require("cors");
 const app = express();
 db.sequelize
   .sync()
@@ -10,6 +12,15 @@ db.sequelize
   .catch((err) => {
     console.log(err);
   });
+app.use(
+  cors({
+    origin: "*",
+    credentials: false, //쿠키 공유
+  })
+);
+app.use(express.json()); // 프론트에서 보낸 데이터를 res.body에 넣는 역할을한다.
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.send("hello express");
 });
@@ -26,6 +37,8 @@ app.get("/api/posts", (req, res) => {
 });
 
 app.use("/post", postRouter);
+
+app.use("/user", userRouter);
 
 app.listen(3065, () => {
   console.log("서버 실행중 !!");

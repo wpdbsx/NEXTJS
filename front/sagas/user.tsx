@@ -27,14 +27,26 @@ import {
   UNFOLLOW_SUCCESS,
 } from "../reducers/user";
 
+interface signUpType {
+  data: {
+    email: string;
+    nickname: string;
+    password: string;
+    passwordCheck: string;
+    gender: string;
+    blog: string;
+  };
+  type: string;
+}
 function logInAPI(data) {
   return axios.post("/api/login");
 }
 function logOutAPI() {
   return axios.post("/api/logout");
 }
-function signUpAPI() {
-  return axios.post("/api/logout");
+function signUpAPI(action: signUpType) {
+
+  return axios.post("http://localhost:3065/user", action.data);
 }
 function* logIn(action) {
   try {
@@ -67,10 +79,11 @@ function* logOut() {
   }
 }
 
-function* signUp(action) {
+function* signUp(action: signUpType) {
   try {
-    yield delay(1000);
-    // const result = yield call(signUpAPI);
+    // yield delay(1000);
+    const result = yield call(signUpAPI, action);
+    console.log(result);
     yield put({
       type: SIGN_UP_SUCCESS,
       // data: result.data,

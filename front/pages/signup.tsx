@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AnyObjectSchema } from "yup";
 import { signUpValidation } from "../components/yup";
 import { Button, Checkbox, Col, Form, Input, Row, Select } from "antd";
-import Link from "next/link";
+import Router from "next/router";
 import { ErrorMessageWrapper } from "../components/CommonStyle";
 import { SIGN_UP_REQUEST } from "../reducers/user";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,13 +17,26 @@ interface FormValue {
   password: string;
   passwordCheck: string;
   term: boolean;
-  gender: boolean;
+  gender: string;
   blog: string;
 }
 
 const Signup: React.FC = () => {
   const dispatch = useDispatch();
-  const { signUpLoading } = useSelector((state: RootState) => state.user);
+  const { signUpLoading, signUpDone, signUpError } = useSelector(
+    (state: RootState) => state.user
+  );
+
+  useEffect(() => {
+    if (signUpDone) {
+      Router.push("/");
+    }
+  }, [signUpDone]);
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
   const {
     handleSubmit,
     formState: { errors },
@@ -40,6 +53,7 @@ const Signup: React.FC = () => {
   const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
     (data) => {
       // setIsLoggedIn(true);
+      console.log(data);
       dispatch({
         type: SIGN_UP_REQUEST,
         data,
@@ -51,11 +65,11 @@ const Signup: React.FC = () => {
   const options = useMemo(() => {
     return [
       {
-        value: true,
+        value: "M",
         label: "남자",
       },
       {
-        value: false,
+        value: "F",
         label: "여자",
       },
     ];
@@ -135,13 +149,11 @@ const Signup: React.FC = () => {
                 <Controller
                   name="gender"
                   control={control}
+                  defaultValue="M"
                   render={({ field }) => {
+                    console.log(field);
                     return (
-                      <Select
-                        defaultValue="남자"
-                        options={options}
-                        {...field}
-                      />
+                      <Select defaultValue="M" options={options} {...field} />
                     );
                   }}
                 />
