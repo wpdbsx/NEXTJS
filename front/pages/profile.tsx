@@ -11,11 +11,11 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     console.log("test");
-    if (!(me && me.id)) {
+    if (!(me && me?.id)) {
       Router.push("/");
     }
-  }, [me && me.id]);
-  if (!me.id) {
+  }, [me && me?.id]);
+  if (!me?.id) {
     return null;
   }
   return (

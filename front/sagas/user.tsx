@@ -39,23 +39,26 @@ interface signUpType {
   type: string;
 }
 function logInAPI(data) {
-  return axios.post("/api/login");
+  console.log("탔냐?");
+  return axios.post("http://localhost:3065/user/login", data);
 }
 function logOutAPI() {
-  return axios.post("http://localhost:3065/user");
+  return axios.post("http://localhost:3065/user/logout");
 }
 function signUpAPI(action: signUpType) {
   return axios.post("http://localhost:3065/user", action.data);
 }
 function* logIn(action) {
   try {
-    yield delay(1000);
+    // yield delay(1000);
     const result = yield call(logInAPI, action.data);
+    console.log(result);
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
   } catch (err) {
+    console.log(err);
     yield put({
       type: LOG_IN_FAILURE,
       error: err.response.data,
@@ -64,8 +67,7 @@ function* logIn(action) {
 }
 function* logOut() {
   try {
-    yield delay(1000);
-    // const result = ;yield call(logOutAPI);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
       //   data: result.data,

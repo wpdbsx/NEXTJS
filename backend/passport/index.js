@@ -3,7 +3,7 @@ const local = require("./local");
 const { User } = require("../models");
 module.exports = () => {
   passport.serializeUser((user, done) => {
-    done(user.id);
+    done(null, user.id);
 
     //쿠키랑 묶어줄 id만 저장 세션이 무거워서 하나만 저장
   });
@@ -15,7 +15,7 @@ module.exports = () => {
       done(null, user);
     } catch (error) {
       console.error(error);
-      done(erorr);
+      done(error);
     }
   });
 

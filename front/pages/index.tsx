@@ -48,7 +48,7 @@ const Home: React.FC = () => {
   // console.log(mainPosts);
   return (
     <AppLayout>
-      {me.id && <PostForm />}
+      {me?.id && <PostForm />}
 
       <InfiniteLoader renderData={mainPosts} />
       {/* {mainPosts.map(

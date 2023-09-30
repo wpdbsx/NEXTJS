@@ -53,13 +53,7 @@ const initialState: initialUserStateType = {
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
-  me: {
-    id: "wpdbsx@naver.com",
-    nickname: "",
-    Posts: [{ id: "wpdbsx@naver.com" }],
-    Followings: [],
-    Followers: [],
-  },
+  me: null,
   signUpdata: {},
   loginData: {},
   selectedPostId: null,
@@ -155,6 +149,7 @@ const reducer = (state = initialState, action) => {
         draft.selectedPostId = null;
         break;
       case LOG_IN_REQUEST:
+        console.log("여기왔냐");
         draft.logInLoading = true;
         draft.logInError = null;
         draft.logInDone = false;
@@ -162,7 +157,7 @@ const reducer = (state = initialState, action) => {
       case LOG_IN_SUCCESS:
         draft.logInLoading = false;
         draft.logInDone = true;
-        draft.me = dummyUser(action.data, state);
+        draft.me = action.data;
         break;
       case LOG_IN_FAILURE:
         draft.logInLoading = false;
@@ -211,7 +206,7 @@ const reducer = (state = initialState, action) => {
         draft.changeNicknameError = action.error;
         break;
       case ADD_POST_TO_ME:
-        draft.me.Posts.unshift({ id: action.data });
+        draft.me?.Posts.unshift({ id: action.id });
         break;
 
       case REMOVE_POST_OF_ME:

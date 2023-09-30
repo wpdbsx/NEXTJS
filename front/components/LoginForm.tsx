@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
 import Link from "next/link";
@@ -21,7 +21,9 @@ const FormWrapper = styled(Form)`
 `;
 const LoginForm: React.FC = () => {
   const dispatch = useDispatch();
-  const { logInLoading } = useSelector((state: RootState) => state.user);
+  const { logInLoading, logInError } = useSelector(
+    (state: RootState) => state.user
+  );
   const {
     handleSubmit,
     formState: { errors },
@@ -36,6 +38,12 @@ const LoginForm: React.FC = () => {
       loginRequestAction({ email: data.userEmail, password: data.password })
     );
   };
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
   return (
     <>
       <FormWrapper onFinish={handleSubmit(onSubmitHandler)}>

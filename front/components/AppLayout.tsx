@@ -53,7 +53,7 @@ const AppLayout: React.FC<ComponentProps> = ({ children }) => {
       />
       <Row gutter={8}>
         <Col xs={24} md={6}>
-          {me.id ? <UserProfile /> : <LoginForm />}
+          {me?.id ? <UserProfile /> : <LoginForm />}
         </Col>
         <Col xs={24} md={12}>
           {children}

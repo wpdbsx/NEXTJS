@@ -10,8 +10,9 @@ const passport = require("passport");
 
 const dotenv = require("dotenv");
 const app = express();
+
 passportConfig();
-dotenvConfig();
+dotenv.config();
 db.sequelize
   .sync()
   .then(() => {
@@ -28,16 +29,19 @@ app.use(
 );
 app.use(express.json()); // 프론트에서 보낸 데이터를 res.body에 넣는 역할을한다.
 app.use(express.urlencoded({ extended: true }));
-app.use(session());
-app.use(passport.initialize());
+
 app.use(
-  passport.session({
-    saveUninitalized: false,
+  session({
+    saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
   })
 );
-app.use(cookieParser("react"));
+
+app.use(session());
+app.use(passport.initialize());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
 app.get("/", (req, res) => {
   res.send("hello express");
 });
