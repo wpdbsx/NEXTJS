@@ -26,7 +26,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
-
+ console.log(commentFormOpened)
   const onToggleLike = useCallback(() => {
     setLiked((prev) => !prev);
   }, []);
@@ -86,11 +86,12 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
           extra={id && <FollowButton post={post} />}
         >
           <Card.Meta
-            avatar={<Avatar>{post.User.nickName}</Avatar>}
-            title={post.User.nickName}
+            avatar={<Avatar>{post.User.nickname}</Avatar>}
+            title={post.User.nickname}
             description={<PostCardContent postData={post.content} />}
           />
         </Card>
+        
         {commentFormOpened && (
           <div>
             <CommentForm post={post} />
@@ -99,6 +100,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               itemLayout="horizontal"
               dataSource={post.Comments}
               renderItem={(item, index) => {
+                console.log(item)
                 return (
                   <List.Item>
                     <List.Item.Meta
@@ -112,8 +114,6 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
             />
           </div>
         )}
-        {/* <CommentForm />
-        <Commnets /> */}
       </div>
     </>
   );

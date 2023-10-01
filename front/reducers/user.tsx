@@ -7,6 +7,9 @@ export interface meType {
   nickname: string | null;
 }
 export interface initialUserStateType {
+  loadUserLoading : boolean;
+  loadUserDone   : boolean;
+  loadUserError :string | null;
   logInLoading: boolean;
   logInDone: boolean;
   logInError: string | null;
@@ -35,21 +38,30 @@ export type userStateType = ReturnType<typeof reducer>;
 
 export type userState = Pick<userStateType, "me">;
 const initialState: initialUserStateType = {
+  loadUserLoading: false,
+  loadUserDone: false,
+  loadUserError: null,
+
   logInLoading: false,
   logInDone: false,
   logInError: null,
+  
   logOutLoading: false,
   logOutDone: false,
   logOutError: null,
+  
   signUpLoading: false,
   signUpDone: false,
   signUpError: null,
+  
   changeNicknameLoading: false, //닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
+  
   followLoading: false,
   followDone: false,
   followError: null,
+  
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
@@ -85,6 +97,12 @@ export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
+
+export const LOAD_MY_INFO_REQUEST = "LOAD_MY_INFO_REQUEST";
+export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
+export const LOAD_MY_INFO_FAILURE = "LOAD_MY_INFO_FAILURE";
+
+
 const dummyUser: (data: any, state: { me: meType }) => meType = (
   data,
   state
@@ -112,6 +130,21 @@ export const logoutRequestAction = () => {
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_MY_INFO_REQUEST:
+        draft.loadUserLoading = true;
+        draft.loadUserError = null;
+        draft.loadUserDone = false;
+        break;
+      case LOAD_MY_INFO_SUCCESS:
+        draft.loadUserLoading = false;
+        draft.me = action.data;
+        draft.loadUserDone = true;
+        break;
+      case LOAD_MY_INFO_FAILURE:
+        draft.loadUserLoading = false;
+        draft.loadUserError = action.error;
+    
+        break;
       case UNFOLLOW_REQUEST:
         draft.unfollowLoading = true;
         draft.unfollowError = null;
@@ -149,7 +182,7 @@ const reducer = (state = initialState, action) => {
         draft.selectedPostId = null;
         break;
       case LOG_IN_REQUEST:
-        console.log("여기왔냐");
+    
         draft.logInLoading = true;
         draft.logInError = null;
         draft.logInDone = false;

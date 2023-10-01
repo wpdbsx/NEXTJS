@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       email: {
         type: DataTypes.STRING(30),
         allowNull: false, // 필수
-        unique: true, //고유한 값
+        unique: 'email', //고유한 값
       },
       nickname: {
         type: DataTypes.STRING(30),
@@ -27,13 +27,14 @@ module.exports = (sequelize, DataTypes) => {
 
       //Mysql에서는 user로 저장된다.
     },
-    {
+    { 
+      
       charset: "utf8",
       collate: "utf8_general_ci", //한글 저장
     }
   );
   User.associate = (db) => {
-    db.User.hasMany(db.Post, { as: "Posts" });
+    db.User.hasMany(db.Post);
     db.User.hasMany(db.Comment);
     db.User.belongsToMany(db.Post, { through: "Like", as: "Liked" });
     db.User.belongsToMany(db.User, {

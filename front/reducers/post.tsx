@@ -6,7 +6,7 @@ export type Post = {
   id: string;
   User: {
     id: string;
-    nickName: string;
+    nickname: string;
   };
   content: string;
   Images: {
@@ -53,7 +53,7 @@ export const generateDummyPost = (number): Post[] =>
         id: shortId.generate(),
         User: {
           id: shortId.generate(),
-          nickName: faker.name.fullName(),
+          nickname: faker.name.fullName(),
         },
         content: faker.lorem.paragraph(),
         Images: [
@@ -76,7 +76,7 @@ const dummyPost = (data): Post => ({
   id: data.id,
   User: {
     id: shortId.generate(),
-    nickName: "제윤태",
+    nickname: "제윤태",
   },
   content: data.content,
   Images: [
@@ -183,10 +183,11 @@ const reducer = (state = initialState, action) => {
         draft.addPostError = null;
         break;
       case ADD_POST_SUCCESS:
+        console.log(action.data)
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.addPostError = null;
-        draft.mainPosts.unshift(dummyPost(action.data));
+        draft.mainPosts.unshift(action.data);
         break;
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -199,8 +200,10 @@ const reducer = (state = initialState, action) => {
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS:
-        const post = draft.mainPosts.find((v) => v.id === action.data.postId);
-        post.Comments.unshift(dummyComment(action.data));
+        console.log(action)
+        const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
+        console.log(post)
+        post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
 

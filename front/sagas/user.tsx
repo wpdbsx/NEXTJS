@@ -25,6 +25,9 @@ import {
   UNFOLLOW_FAILURE,
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE
 } from "../reducers/user";
 
 interface signUpType {
@@ -40,14 +43,19 @@ interface signUpType {
 }
 function logInAPI(data) {
   console.log("탔냐?");
-  return axios.post("http://localhost:3065/user/login", data);
+  return axios.post("/user/login", data);
 }
 function logOutAPI() {
-  return axios.post("http://localhost:3065/user/logout");
+  return axios.post("/user/logout");
 }
 function signUpAPI(action: signUpType) {
-  return axios.post("http://localhost:3065/user", action.data);
+  return axios.post("/user", action.data);
 }
+function loadUserAPI(action) {
+
+  return axios.get("/user");
+}
+
 function* logIn(action) {
   try {
     // yield delay(1000);
@@ -132,6 +140,24 @@ function* unfollow(action) {
     });
   }
 }
+function* loadUser(action) {
+  try {
+    const result = yield call(loadUserAPI,action.data);
+    // yield delay(1000);
+
+    yield put({
+      type: LOAD_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: LOAD_MY_INFO_FAILURE,
+      data: err.response.data,
+    });
+  }
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -151,6 +177,10 @@ function* watchFollow() {
 function* watchUnfollow() {
   yield takeLatest(UNFOLLOW_REQUEST, unfollow);
 }
+function* watchLoadUser() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadUser);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchFollow),
@@ -158,5 +188,6 @@ export default function* userSaga() {
     fork(watchLogin),
     fork(watchLogOut),
     fork(watchSignUp),
+    fork(watchLoadUser),
   ]);
 }

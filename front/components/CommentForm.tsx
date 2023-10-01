@@ -13,8 +13,8 @@ interface FormValue {
   commentText: string;
 }
 const CommentForm: React.FC<postCardType> = ({ post }) => {
-  const email = useSelector((state: RootState) => state.user.me?.email);
-  const { addCommnetDone, addCommnetLoading } = useSelector(
+  const id = useSelector((state: RootState) => state.user.me?.id);
+  const { addCommentDone, addCommentLoading } = useSelector(
     (state: RootState) => state.post
   );
   const dispatch = useDispatch();
@@ -29,10 +29,10 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
   });
 
   useEffect(() => {
-    if (addCommnetDone) {
+    if (addCommentDone) {
       setValue("commentText", "");
     }
-  }, [addCommnetDone]);
+  }, [addCommentDone]);
 
   const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
     dispatch({
@@ -40,14 +40,15 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
       data: {
         content: data.commentText,
         postId: post.id,
-        userEmail: email,
+        userEmail: id,
       },
     });
   };
   return (
     <>
-      <Form onFinish={handleSubmit(onSubmitHandler)}>
-        <Form.Item>
+   
+      <Form onFinish={handleSubmit(onSubmitHandler)} >
+        <Form.Item style={{position:'relative',margin:0}}>
           <Controller
             name="commentText"
             control={control}
@@ -57,7 +58,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
             style={{ position: "absolute", right: 0, bottom: -40, zIndex: 1 }}
             type="primary"
             htmlType="submit"
-            loading={addCommnetLoading}
+            loading={addCommentLoading}
           >
             입력
           </Button>

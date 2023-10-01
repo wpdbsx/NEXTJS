@@ -4,15 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { RootState } from "../reducers";
 import PostForm from "../components/PostForm";
-import PostCard from "../components/PostCard";
+
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
+import {LOAD_MY_INFO_REQUEST} from "../reducers/user"
 import InfiniteLoader from "../components/InfiniteLoader";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
-      type: LOAD_POSTS_REQUEST,
+      type:LOAD_MY_INFO_REQUEST  //사용자 정보불러오기 
+    })
+    dispatch({
+      type: LOAD_POSTS_REQUEST,  //게시글 불러오기
     });
   }, []);
   const { me } = useSelector((state: RootState) => state.user);

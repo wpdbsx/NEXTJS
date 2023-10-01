@@ -20,9 +20,7 @@ const Global = createGlobalStyle`
     padding-right:0 !important;
   }
 `;
-const SearchInput = styled(Input.Search)`
-  vertical-align: middle;
-`;
+
 
 interface ComponentProps {
   children: React.ReactNode;
