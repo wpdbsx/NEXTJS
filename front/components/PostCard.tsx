@@ -10,11 +10,12 @@ import {
   EllipsisOutlined,
   HeartTwoTone,
 } from "@ant-design/icons";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import CommentForm from "./CommentForm";
 import PostImages from "./PostImages";
 import PostCardContent from "./PostCardContent";
 import FollowButton from "./FollowButton";
+import CommentModal from "./CommentModal";
 
 interface postCardType {
   post: mainPostsState;
@@ -26,14 +27,20 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
   const dispatch = useDispatch();
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
- console.log(commentFormOpened)
+
+  const [visibleComments, setVisibleComments] = useState(3);
+  const [visibelModal, setVisibelModal] = useState(false);
+
+  const loadMoreComments = () => {
+    setVisibelModal(true)
+    document.body.style.overflow = "hidden";
+  };
+
   const onToggleLike = useCallback(() => {
     setLiked((prev) => !prev);
   }, []);
 
-  const onToggleComment = useCallback(() => {
-    setCommentFormOpened((prev) => !prev);
-  }, []);
+ 
 
   const onRemovePost = useCallback(() => {
     dispatch({
@@ -41,9 +48,14 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
       data: post.id,
     });
   }, []);
+  const onClose = useCallback(() => {
+
+    setVisibelModal(false);
+    document.body.style.overflow = "auto";
+  }, [])
   return (
     <>
-      <div style={{ marginBottom: 20 }}>
+      <div >
         <Card
           cover={post.Images[0] && <PostImages Images={post.Images} />}
           actions={[
@@ -57,7 +69,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
             ) : (
               <HeartOutlined key="heart" onClick={onToggleLike} />
             ),
-            <MessageOutlined key="comment" onClick={onToggleComment} />,
+            <MessageOutlined key="comment" onClick={loadMoreComments} />,
             <Popover
               key="more"
               content={
@@ -91,28 +103,37 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
             description={<PostCardContent postData={post.content} />}
           />
         </Card>
-        
+
+        <div>
+          <CommentForm post={post} />
+          <List
+            header={`${post.Comments.length}개의 댓글`}
+            itemLayout="horizontal"
+            dataSource={post.Comments.slice(0, visibleComments)}
+            locale={{ emptyText: <></> }}
+            renderItem={(item, index) => {
+
+              return (
+                <List.Item>
+                  <List.Item.Meta
+                    title={item.User.nickname}
+                    avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                    description={item.content}
+
+                  />
+                </List.Item>
+              );
+            }}
+          />
+          {visibleComments < post.Comments.length && ( // 현재 보이는 댓글 수가 전체 댓글 수보다 적을 때만 더보기 버튼을 표시
+            <Button onClick={loadMoreComments}>더보기</Button>
+          )}
+
+          {visibelModal && <CommentModal post={post} onClose={onClose} />}
+        </div>
         {commentFormOpened && (
-          <div>
-            <CommentForm post={post} />
-            <List
-              header={`${post.Comments.length}개의 댓글`}
-              itemLayout="horizontal"
-              dataSource={post.Comments}
-              renderItem={(item, index) => {
-                console.log(item)
-                return (
-                  <List.Item>
-                    <List.Item.Meta
-                      title={item.User.nickname}
-                      avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
-                      description={item.content}
-                    />
-                  </List.Item>
-                );
-              }}
-            />
-          </div>
+          //모달창 구현예정
+          <></>
         )}
       </div>
     </>

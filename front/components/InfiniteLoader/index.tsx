@@ -30,7 +30,7 @@ const InfiniteLoader: React.FC<InfiniteLoaderType> = ({ renderData }) => {
         rowIndex={index}
       >
         {({ measure }) => (
-          <div style={style} key={index}>
+          <div style={{...style ,marginBottom :60}} key={index}>
             <PostCard key={renderData[index].id} post={renderData[index]} />
           </div>
         )}

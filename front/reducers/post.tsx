@@ -17,6 +17,7 @@ export type Post = {
       nickname: string;
     };
     content: string;
+    // hasMoreComment:boolean;
   }[];
 };
 
@@ -36,6 +37,7 @@ type initialStateType = {
   removePostLoading: boolean;
   removePostDone: boolean;
   removePostError: string | null;
+  
 };
 
 export type postState = ReturnType<typeof reducer>;
@@ -68,7 +70,9 @@ export const generateDummyPost = (number): Post[] =>
               nickname: faker.name.fullName(),
             },
             content: faker.lorem.sentence(),
+            // hasMoreComment: false,
           },
+       
         ],
       };
     });
@@ -96,12 +100,14 @@ const dummyPost = (data): Post => ({
         nickname: "hi",
       },
       content: "코딩테스트",
+      // hasMoreComment:false,
     },
     {
       User: {
         nickname: "bye",
       },
       content: "코딩권리",
+      // hasMoreComment:false,
     },
   ],
 });
@@ -183,11 +189,12 @@ const reducer = (state = initialState, action) => {
         draft.addPostError = null;
         break;
       case ADD_POST_SUCCESS:
-        console.log(action.data)
+        
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.addPostError = null;
         draft.mainPosts.unshift(action.data);
+        
         break;
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -200,12 +207,13 @@ const reducer = (state = initialState, action) => {
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS:
-        console.log(action)
+        
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        console.log(post)
+        
         post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;
+        // post.Comments.hasMoreComment = false;
 
         break;
       case ADD_COMMENT_FAILURE:

@@ -17,6 +17,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
   const { addCommentDone, addCommentLoading } = useSelector(
     (state: RootState) => state.post
   );
+  
   const dispatch = useDispatch();
   const {
     handleSubmit,

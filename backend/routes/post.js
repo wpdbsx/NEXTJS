@@ -13,11 +13,13 @@ router.post("/", isLoggedIn, async (req, res, next) => {
             where: {
                 id: post.id
             },
+            
             include: [
                 {
                     model: Image
                 }, {
-                    model: Comment
+                    model: Comment,
+                  
                 }, {
                     model: User
                 }

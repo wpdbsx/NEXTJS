@@ -1,6 +1,6 @@
 const express = require('express');
 const {Post, Image, User, Comment} = require('../models')
-
+const Sequelize = require("sequelize");
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
@@ -19,11 +19,21 @@ router.get('/', async (req, res, next) => {
                     model: Image
                 }, {
                     model: Comment,
+                    // attributes: [
+                    //     'id',
+                    //     'content',
+                    //     'UserId',
+                    //     'PostId',
+                    //     [
+                    //         Sequelize.literal('CASE WHEN LENGTH(comments.content) >= 3 THEN true ELSE false END'), 'hasMoreComment'
+                    //     ]
+                    // ],
                     include: [
                         {
                             model: User,
                             attributes: ['id', 'nickname']
                         }
+
                     ]
                 }
             ]
