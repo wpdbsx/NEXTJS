@@ -46,6 +46,9 @@ type initialStateType = {
   unlikePostLoading: boolean,
   unlikePostDone: boolean,
   unlikePostError: string | null,
+  changeNicknameLoading: boolean,
+  changeNicknameDone: boolean,
+  changeNicknameError: string | null,
 
 };
 
@@ -146,6 +149,10 @@ const initialState: initialStateType = {
   unlikePostLoading: false,
   unlikePostDone: false,
   unlikePostError: null,
+  changeNicknameLoading: false,
+  changeNicknameDone: false,
+  changeNicknameError: null,
+
 
 };
 
@@ -172,6 +179,10 @@ export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
 export const UNLIKE_POST_REQUEST = "UNLIKE_POST_REQUEST";
 export const UNLIKE_POST_SUCCESS = "UNLIKE_POST_SUCCESS";
 export const UNLIKE_POST_FAILURE = "UNLIKE_POST_FAILURE";
+
+export const CHANGE_NICKNAME_REQUEST = "CHANGE_NICKNAME_REQUEST";
+export const CHANGE_NICKNAME_SUCCESS = "CHANGE_NICKNAME_SUCCESS";
+export const CHANGE_NICKNAME_FAILURE = "CHANGE_NICKNAME_FAILURE";
 
 
 
@@ -292,15 +303,28 @@ const reducer = (state = initialState, action) => {
         break;
       case REMOVE_POST_SUCCESS:
         // const addPost = dummyPost(action.data); // dummyPost 호출하여 실제 데이터 생성
-        draft.mainPosts = [
-          ...state.mainPosts.filter((v) => v.id !== action.data),
-        ];
-        draft.removePostLoading = false;
+        draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.data.postId),
+          draft.removePostLoading = false;
         draft.removePostDone = true;
         break;
       case REMOVE_POST_FAILURE:
         draft.removePostLoading = false;
         draft.removePostError = action.error;
+        break;
+
+      case REMOVE_POST_REQUEST:
+        draft.changeNicknameLoading = true;
+        draft.changeNicknameDone = false;
+        draft.changeNicknameError = null;
+        break;
+      case REMOVE_POST_SUCCESS:
+
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameDone = true;
+        break;
+      case REMOVE_POST_FAILURE:
+        draft.changeNicknameLoading = false;
+        draft.changeNicknameError = action.error;
         break;
       default:
         break;

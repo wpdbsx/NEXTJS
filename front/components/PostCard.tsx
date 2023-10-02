@@ -28,7 +28,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
 
   const { removePostLoading } = useSelector((state: RootState) => state.post);
   const dispatch = useDispatch();
-  const [commentFormOpened, setCommentFormOpened] = useState(false);
+
 
   const [visibleComments, setVisibleComments] = useState(3);
   const [visibelModal, setVisibelModal] = useState(false);

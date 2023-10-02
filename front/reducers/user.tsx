@@ -71,7 +71,6 @@ const initialState: initialUserStateType = {
   loginData: {},
   selectedPostId: null,
 };
-
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS";
 export const LOG_IN_FAILURE = "LOG_IN_FAILURE";
@@ -84,9 +83,9 @@ export const SIGN_UP_REQUEST = "SIGN_UP_REQUEST";
 export const SIGN_UP_SUCCESS = "SIGN_UP_SUCCESS";
 export const SIGN_UP_FAILURE = "SIGN_UP_FAILURE";
 
-export const CHANGE_NICKNAME_REQUEST = "SIGN_UP_REQUEST";
-export const CHANGE_NICKNAME_SUCCESS = "SIGN_UP_SUCCESS";
-export const CHANGE_NICKNAME_FAILURE = "SIGN_UP_FAILURE";
+export const CHANGE_NICKNAME_REQUEST = "CHANGE_NICKNAME_REQUEST";
+export const CHANGE_NICKNAME_SUCCESS = "CHANGE_NICKNAME_SUCCESS";
+export const CHANGE_NICKNAME_FAILURE = "CHANGE_NICKNAME_FAILURE";
 
 export const FOLLOW_REQUEST = "FOLLOW_REQUEST";
 export const FOLLOW_SUCCESS = "FOLLOW_SUCCESS";
@@ -234,7 +233,7 @@ const reducer = (state = initialState, action) => {
       case CHANGE_NICKNAME_SUCCESS:
         draft.changeNicknameLoading = false;
         draft.changeNicknameDone = true;
-
+        draft.me.nickname = action.data.nickname;
         break;
       case CHANGE_NICKNAME_FAILURE:
         draft.changeNicknameLoading = false;
@@ -249,7 +248,8 @@ const reducer = (state = initialState, action) => {
         break;
 
       case REMOVE_POST_OF_ME:
-        draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
+
+        draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data.postId);
         break;
       default:
         break;

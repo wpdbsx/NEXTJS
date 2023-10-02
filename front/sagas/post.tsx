@@ -83,14 +83,15 @@ function* loadPosts(action) {
         yield put({ type: LOAD_POSTS_FAILURE, data: err.response.data });
     }
 }
+
+function removePostAPI(data) {
+    return axios.delete(`/post/${data}`);
+}
 function* removePost(action) {
     try {
-        // const result = yield call(addPostAPI);
-        yield delay(1000);
-
-
-        yield put({ type: REMOVE_POST_SUCCESS, data: action.data });
-        yield put({ type: REMOVE_POST_OF_ME, data: action.data });
+        const result = yield call(removePostAPI, action.data);
+        yield put({ type: REMOVE_POST_SUCCESS, data: result.data });
+        yield put({ type: REMOVE_POST_OF_ME, data: result.data });
     } catch (err) {
         yield put({ type: REMOVE_POST_FAILURE, data: err.response.data });
     }

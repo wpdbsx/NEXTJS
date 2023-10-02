@@ -33,7 +33,7 @@ const UserProfile: React.FC = () => {
       >
         <Card.Meta
           avatar={<Avatar>{me.nickname[0]}</Avatar>}
-          title="JeYoonTae"
+          title={me.nickname}
         />
         <ButtonWrapper>
           <Button onClick={onLogOut} loading={logOutLoading}>

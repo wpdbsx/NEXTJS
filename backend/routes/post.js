@@ -46,7 +46,7 @@ router.post("/", isLoggedIn, async (req, res, next) => {
 router.delete("/", (req, res) => {
     res.json({ id: 1 });
 });
-router.patch('/:postId/like', async (req, res, next) => {  //PATCH /post/1/like
+router.patch('/:postId/like', isLoggedIn, async (req, res, next) => {  //PATCH /post/1/like
     try {
         const post = await Post.findOne({ where: { id: req.params.postId } });
         if (!post) {
@@ -59,7 +59,7 @@ router.patch('/:postId/like', async (req, res, next) => {  //PATCH /post/1/like
         next(error);
     }
 })
-router.delete('/:postId/like', async (req, res, next) => { //DELETE /post/1/like
+router.delete('/:postId/like', isLoggedIn, async (req, res, next) => { //DELETE /post/1/like
     try {
         const post = await Post.findOne({ where: { id: req.params.postId } });
         if (!post) {
@@ -110,5 +110,23 @@ router.post(
         }
     }
 );
+
+router.delete('/:postId', isLoggedIn, async (req, res, next) => { //게시글 삭제
+    try {
+        await Post.destroy({
+            where: {
+                id: req.params.postId,
+                UserId: req.user.id
+            },
+        })
+        res.json({ postId: parseInt(req.params.postId, 10) });
+    } catch (error) {
+        console.error(error);
+        next(error);
+
+    }
+})
+
+
 
 module.exports = router;

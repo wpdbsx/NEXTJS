@@ -22,8 +22,6 @@ const CommentModal: React.FC<postCardType> = ({ post, onClose }) => {
     console.log('useEffect')
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
-
-    // 2. 모달 백드롭에 필요한 CSS 스타일을 설정합니다.
     backdrop.style.position = 'fixed';
     backdrop.style.top = '0';
     backdrop.style.left = '0';

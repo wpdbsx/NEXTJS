@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const {User, Post, Image, Comment} = require("../models");
+const { User, Post, Image, Comment } = require("../models");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const {isLoggedIn, isNotLoggedIn} = require("./middlewares");
+const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 
 router.post("/", isNotLoggedIn, async (req, res, next) => {
     try {
@@ -19,7 +19,7 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         await User.create(
-            {email: req.body.email, nickname: req.body.nickname, password: hashedPassword, gender: req.body.gender, blog: req.body.blog}
+            { email: req.body.email, nickname: req.body.nickname, password: hashedPassword, gender: req.body.gender, blog: req.body.blog }
         );
 
         // res.setHeader("Access-Control-Allow-Origin", "*")
@@ -33,11 +33,11 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
     }
 });
 
-router.get('/',isLoggedIn,async (req, res, next) => {
+router.get('/', isLoggedIn, async (req, res, next) => {
     //GET /user
     try {
         if (req.user) {
-             const fullUserWithoutPassword = await User.findOne({
+            const fullUserWithoutPassword = await User.findOne({
                 where: {
                     id: req.user.id
                 },
@@ -133,5 +133,18 @@ router.post("/logout", isLoggedIn, async (req, res, next) => {
         next(error);
     }
 });
+router.patch('/nickname', isLoggedIn, async (req, res, next) => { //닉네임 수정
+    try {
 
+        await User.update({
+            nickname: req.body.nickname,
+        }, {
+            where: { id: req.user.id }
+        })
+        res.status(200).json({ nickname: req.body.nickname })
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+})
 module.exports = router;
