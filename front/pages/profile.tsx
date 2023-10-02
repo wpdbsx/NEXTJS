@@ -3,11 +3,22 @@ import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import NickNameEditForm from "../components/NickNameEditForm";
 import FollowList from "../components/FollowList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../reducers";
 import Router from "next/router";
+import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from "../reducers/user";
 const Profile: React.FC = () => {
+  const dispatch = useDispatch();
   const { me } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_FOLLOWERS_REQUEST,
+    }),
+      dispatch({
+        type: LOAD_FOLLOWINGS_REQUEST,
+      })
+  }, [])
 
   useEffect(() => {
 

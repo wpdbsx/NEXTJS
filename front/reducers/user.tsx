@@ -1,8 +1,8 @@
 import { produce } from "immer";
 export interface meType {
   Posts: { id: string }[];
-  Followings: { id: string }[];
-  Followers: { id: string }[];
+  Followings: { id: string, nickname: string }[];
+  Followers: { id: string, nickname: string }[];
   id: string | null;
   email: string;
   nickname: string | null;
@@ -33,6 +33,15 @@ export interface initialUserStateType {
   unfollowDone: Boolean;
   unfollowError: string | null;
   selectedPostId: String | null;
+  loadFollowingsLoading: Boolean;
+  loadFollowingsDone: Boolean;
+  loadFollowingsError: String | null;
+  loadFollowersLoading: Boolean;
+  loadFollowersDone: Boolean;
+  loadFollowersError: String | null;
+  removefollowerLoading: Boolean,
+  removefollowerDone: Boolean,
+  removefollowerError: String | null,
 }
 
 export type userStateType = ReturnType<typeof reducer>;
@@ -66,10 +75,23 @@ const initialState: initialUserStateType = {
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
+
+  removefollowerLoading: false,
+  removefollowerDone: false,
+  removefollowerError: null,
+
   me: null,
   signUpdata: {},
   loginData: {},
   selectedPostId: null,
+  loadFollowingsLoading: false,
+  loadFollowingsDone: false,
+  loadFollowingsError: null,
+
+  loadFollowersLoading: false,
+  loadFollowersDone: false,
+  loadFollowersError: null,
+
 };
 export const LOG_IN_REQUEST = "LOG_IN_REQUEST";
 export const LOG_IN_SUCCESS = "LOG_IN_SUCCESS";
@@ -95,6 +117,11 @@ export const UNFOLLOW_REQUEST = "UNFOLLOW_REQUEST";
 export const UNFOLLOW_SUCCESS = "UNFOLLOW_SUCCESS";
 export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 
+
+export const REMOVE_FOLLOWER_REQUEST = "REMOVE_FOLLOWER_REQUEST";
+export const REMOVE_FOLLOWER_SUCCESS = "REMOVE_FOLLOWER_SUCCESS";
+export const REMOVE_FOLLOWER_FAILURE = "REMOVE_FOLLOWER_FAILURE";
+
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 export const SELECT_POST = "SELECT_POST"
@@ -102,6 +129,14 @@ export const SELECT_POST = "SELECT_POST"
 export const LOAD_MY_INFO_REQUEST = "LOAD_MY_INFO_REQUEST";
 export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
 export const LOAD_MY_INFO_FAILURE = "LOAD_MY_INFO_FAILURE";
+
+export const LOAD_FOLLOWINGS_REQUEST = "LOAD_FOLLOWINGS_REQUEST";
+export const LOAD_FOLLOWINGS_SUCCESS = "LOAD_FOLLOWINGS_SUCCESS";
+export const LOAD_FOLLOWINGS_FAILURE = "LOAD_FOLLOWINGS_FAILURE";
+
+export const LOAD_FOLLOWERS_REQUEST = "LOAD_FOLLOWERS_REQUEST";
+export const LOAD_FOLLOWERS_SUCCESS = "LOAD_FOLLOWERS_SUCCESS";
+export const LOAD_FOLLOWERS_FAILURE = "LOAD_FOLLOWERS_FAILURE";
 
 
 const dummyUser: (data: any, state: { me: meType }) => meType = (
@@ -131,12 +166,59 @@ export const logoutRequestAction = () => {
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case REMOVE_FOLLOWER_REQUEST:
+        draft.removefollowerLoading = true;
+        draft.removefollowerError = null;
+        draft.removefollowerDone = false;
+        break;
+      case REMOVE_FOLLOWER_SUCCESS:
+
+        draft.removefollowerLoading = false;
+        draft.me.Followers = draft.me.Followers.filter((v) => v.id !== action.data.userId);
+        draft.removefollowerDone = true;
+        break;
+      case REMOVE_FOLLOWER_FAILURE:
+        draft.removefollowerLoading = false;
+        draft.removefollowerError = action.error;
+        break;
+      case LOAD_FOLLOWINGS_REQUEST:
+        draft.loadFollowingsLoading = true;
+        draft.loadFollowingsError = null;
+        draft.loadFollowingsDone = false;
+        break;
+      case LOAD_FOLLOWINGS_SUCCESS:
+
+        draft.loadFollowingsLoading = false;
+        draft.me.Followings = action.data;
+        draft.loadFollowingsDone = true;
+        break;
+      case LOAD_FOLLOWINGS_FAILURE:
+        draft.loadFollowingsLoading = false;
+        draft.loadFollowingsError = action.error;
+        break;
+      case LOAD_FOLLOWERS_REQUEST:
+        draft.loadFollowersLoading = true;
+        draft.loadFollowersError = null;
+        draft.loadFollowersDone = false;
+        break;
+      case LOAD_FOLLOWERS_SUCCESS:
+
+        draft.loadFollowersLoading = false;
+        draft.me.Followers = action.data;
+        draft.loadFollowersDone = true;
+        break;
+      case LOAD_FOLLOWERS_FAILURE:
+        draft.loadUserLoading = false;
+        draft.loadUserError = action.error;
+
+        break;
       case LOAD_MY_INFO_REQUEST:
         draft.loadUserLoading = true;
         draft.loadUserError = null;
         draft.loadUserDone = false;
         break;
       case LOAD_MY_INFO_SUCCESS:
+
         draft.loadUserLoading = false;
         draft.me = action.data;
         draft.loadUserDone = true;
@@ -172,9 +254,10 @@ const reducer = (state = initialState, action) => {
         draft.selectedPostId = action.data.postId;
         break;
       case FOLLOW_SUCCESS:
+        console.log(action.data)
         draft.followLoading = false;
         draft.followDone = true;
-        draft.me.Followings.push({ id: action.data.userId });
+        draft.me.Followings.push({ id: action.data.userId, nickname: action.data.nickname });
         draft.selectedPostId = null;
         break;
       case FOLLOW_FAILURE:
@@ -243,7 +326,7 @@ const reducer = (state = initialState, action) => {
         draft.me?.Posts.unshift({ id: action.id });
         break;
       case SELECT_POST:
-        console.log(action.data)
+
         draft.selectedPostId = action.data.postId
         break;
 

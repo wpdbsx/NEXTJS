@@ -13,25 +13,25 @@ const FollowButton: React.FC<postCardType> = ({ post }) => {
     (state: RootState) => state.user
   );
 
- 
+
   const isFollowing = me && me.Followings.find((v) => v.id === post.User.id);
   const dispatch = useDispatch();
   const onClickButton = useCallback(() => {
     if (isFollowing) {
       dispatch({
         type: UNFOLLOW_REQUEST,
-        data: { userId: post.User.id, postId: post.id },
+        data: post.User.id,
       });
     } else {
       dispatch({
         type: FOLLOW_REQUEST,
-        data: { userId: post.User.id, postId: post.id },
+        data: post.User.id,
       });
     }
   }, [isFollowing]);
-  
- if (post.User.id === me.id) {
-   return null;
+
+  if (post.User.id === me.id) {
+    return null;
   }
   return (
     <>
