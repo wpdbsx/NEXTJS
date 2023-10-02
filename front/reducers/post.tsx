@@ -19,6 +19,9 @@ export type Post = {
     content: string;
     // hasMoreComment:boolean;
   }[];
+  Likers: {
+    id: string
+  }[]
 };
 
 type initialStateType = {
@@ -37,6 +40,12 @@ type initialStateType = {
   removePostLoading: boolean;
   removePostDone: boolean;
   removePostError: string | null;
+  likePostLoading: boolean,
+  likePostDone: boolean,
+  likePostError: string | null,
+  unlikePostLoading: boolean,
+  unlikePostDone: boolean,
+  unlikePostError: string | null,
 
 };
 
@@ -74,7 +83,9 @@ export const generateDummyPost = (number): Post[] =>
           },
 
         ],
+        Likers: [{ id: "1" }]
       };
+
     });
 const dummyPost = (data): Post => ({
   id: data.id,
@@ -110,6 +121,7 @@ const dummyPost = (data): Post => ({
       // hasMoreComment:false,
     },
   ],
+  Likers: [{ id: "1" }]
 });
 
 const initialState: initialStateType = {
@@ -128,6 +140,13 @@ const initialState: initialStateType = {
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
+  likePostLoading: false,
+  likePostDone: false,
+  likePostError: null,
+  unlikePostLoading: false,
+  unlikePostDone: false,
+  unlikePostError: null,
+
 };
 
 export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
@@ -145,6 +164,16 @@ export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
 export const LOAD_POSTS_FAILURE = "LOAD_POSTS_FAILURE";
+
+export const LIKE_POST_REQUEST = "LIKE_POST_REQUEST";
+export const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
+export const LIKE_POST_FAILURE = "LIKE_POST_FAILURE";
+
+export const UNLIKE_POST_REQUEST = "UNLIKE_POST_REQUEST";
+export const UNLIKE_POST_SUCCESS = "UNLIKE_POST_SUCCESS";
+export const UNLIKE_POST_FAILURE = "UNLIKE_POST_FAILURE";
+
+
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
@@ -166,7 +195,42 @@ const dummyComment = (data) => {
 };
 const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
+    let selectedPost;
     switch (action.type) {
+
+      case UNLIKE_POST_REQUEST:
+        draft.unlikePostLoading = true;
+        draft.unlikePostDone = false;
+        draft.unlikePostError = null;
+        break;
+      case UNLIKE_POST_SUCCESS:
+        selectedPost = draft.mainPosts.find((v) => v.id === action.data.PostId)
+        selectedPost.Likers = selectedPost.Likers.filter((v) => v.id !== action.data.UserId)
+        draft.unlikePostLoading = false;
+        draft.unlikePostDone = true;
+        draft.unlikePostError = null;
+        break;
+      case UNLIKE_POST_FAILURE:
+        draft.unlikePostLoading = false;
+        draft.unlikePostError = action.error;
+        break;
+      case LIKE_POST_REQUEST:
+        draft.likePostLoading = true;
+        draft.likePostDone = false;
+        draft.likePostError = null;
+        break;
+      case LIKE_POST_SUCCESS:
+        selectedPost = draft.mainPosts.find((v) => v.id === action.data.PostId)
+        selectedPost.Likers.push({ id: action.data.UserId })
+        draft.likePostLoading = false;
+        draft.likePostDone = true;
+        draft.likePostError = null;
+
+        break;
+      case LIKE_POST_FAILURE:
+        draft.likePostLoading = false;
+        draft.likePostError = action.error;
+        break;
       case LOAD_POSTS_REQUEST:
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;

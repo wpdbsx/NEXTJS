@@ -49,9 +49,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
       },
     });
   };
-  console.log(selectedPostId)
-  console.log(post.id)
-  console.log(selectedPostId === post.id && addCommentLoading)
+
   return (
     <>
 

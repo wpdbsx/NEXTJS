@@ -4,6 +4,7 @@ export interface meType {
   Followings: { id: string }[];
   Followers: { id: string }[];
   id: string | null;
+  email: string;
   nickname: string | null;
 }
 export interface initialUserStateType {
