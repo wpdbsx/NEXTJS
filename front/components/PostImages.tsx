@@ -9,7 +9,9 @@ interface PostImagesType {
 const PostImages: React.FC<PostImagesType> = ({ Images }) => {
   const [showImagesZoom, setShowImagesZoom] = useState(false);
   const onZoom = useCallback(() => {
+
     setShowImagesZoom(true);
+
   }, []);
   const onClose = useCallback(() => {
     setShowImagesZoom(false);
@@ -17,26 +19,29 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
 
   if (Images.length === 1) {
     return (
-      <div
-        style={{
-          width: "50%",
-          textAlign: "center",
-
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto",
-        }}
-      >
-        <Image
-          role="presentation"
-          src={Images[0].src}
-          alt={Images[0].src}
-          onClick={onZoom}
-          layout="responsive"
-          width={20}
-          height={20}
-        />
-      </div>
+      <>
+        <div
+          style={{
+            width: "200px",
+            textAlign: "center",
+            height: "100px",
+            display: "block",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+        >
+          <Image
+            role="presentation"
+            src={`http://localhost:3065/${Images[0].src}`}
+            alt={Images[0].src}
+            onClick={onZoom}
+            layout="responsive"
+            width={100}
+            height={100}
+          />
+        </div>
+        {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />}
+      </>
     );
   } else if (Images.length === 2) {
     return (
@@ -44,14 +49,15 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         <div
           style={{
             display: "inline-block",
-            width: "50%",
+            width: "100px",
+            height: "100px",
             textAlign: "center",
             verticalAlign: "middle",
           }}
         >
           <Image
             role="presentation"
-            src={Images[0].src}
+            src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
             layout="responsive"
@@ -62,14 +68,15 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         <div
           style={{
             display: "inline-block",
-            width: "50%",
+            width: "100px",
+            height: "100px",
             textAlign: "center",
             verticalAlign: "middle",
           }}
         >
           <Image
             role="presentation"
-            src={Images[1].src}
+            src={`http://localhost:3065/${Images[1].src}`}
             alt={Images[1].src}
             onClick={onZoom}
             layout="responsive"
@@ -93,7 +100,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         >
           <Image
             role="presentation"
-            src={Images[0].src}
+            src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
             layout="responsive"

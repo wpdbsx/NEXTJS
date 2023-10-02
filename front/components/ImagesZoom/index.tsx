@@ -19,6 +19,7 @@ interface ImagesZoomType {
 }
 
 const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
+  console.log('zoom')
   const [currentSlide, setCurrentSlide] = useState(0);
   const settings = useMemo<Settings>(
     () => ({
@@ -46,7 +47,7 @@ const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
           <Slick {...settings}>
             {Images.map((v) => (
               <ImgWrapper key={v.src}>
-                <img src={v.src} alt={v.src} />
+                <img src={`http://localhost:3065/${v.src}`} alt={v.src} />
               </ImgWrapper>
             ))}
           </Slick>

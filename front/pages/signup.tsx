@@ -48,14 +48,10 @@ const Signup: React.FC = () => {
     formState: { errors },
     control,
     watch,
-  } = useCallback(
-    () =>
-      useForm<FormValue>({
-        resolver: yupResolver<AnyObjectSchema>(signUpValidation),
-        mode: "onBlur",
-      }),
-    []
-  )();
+  } = useForm<FormValue>({
+    resolver: yupResolver<AnyObjectSchema>(signUpValidation),
+    mode: "onBlur",
+  });
   const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
     (data) => {
       // setIsLoggedIn(true);

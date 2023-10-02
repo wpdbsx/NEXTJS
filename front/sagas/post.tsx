@@ -52,7 +52,8 @@ function unfollowAPI(data) {
 }
 
 function addPostAPI(action: postType) {
-    return axios.post("/post", { content: action.data });
+    console.log(action.data)
+    return axios.post("/post", action.data);
 }
 
 function* addPost(action: postType) {

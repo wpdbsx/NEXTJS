@@ -8,9 +8,9 @@ const passportConfig = require("./passport");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-const morgan =require('morgan')
+const morgan = require('morgan')
 const dotenv = require("dotenv");
-
+const path = require('path')
 dotenv.config();
 const app = express();
 
@@ -22,7 +22,7 @@ db.sequelize
   .catch((err) => {
     console.error(err);
   });
-  passportConfig();
+passportConfig();
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -30,6 +30,7 @@ app.use(
   })
 );
 app.use(morgan('dev'))
+app.use('/', express.static(path.join(__dirname, 'uploads'))) // path.join은 운영체제의 차이점에 따라 알아서 경로를 지정해준다.
 app.use(express.json()); // 프론트에서 보낸 데이터를 res.body에 넣는 역할을한다.
 app.use(express.urlencoded({ extended: true }));
 
