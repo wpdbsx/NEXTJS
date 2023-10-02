@@ -66,7 +66,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
   }, [])
   return (
     <>
-      <div style={{ marginBottom: 60 }}>
+      <div >
         <Card
           cover={post.Images[0] && <PostImages Images={post.Images} />}
           actions={[
@@ -143,7 +143,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
           {visibelModal && <CommentModal post={post} onClose={onClose} />}
         </div>
 
-      </div>
+      </div >
     </>
   );
 };

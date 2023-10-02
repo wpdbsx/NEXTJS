@@ -6,14 +6,14 @@ import { RootState } from "../reducers";
 import PostForm from "../components/PostForm";
 
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
-import {LOAD_MY_INFO_REQUEST} from "../reducers/user"
+import { LOAD_MY_INFO_REQUEST } from "../reducers/user"
 import InfiniteLoader from "../components/InfiniteLoader";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({
-      type:LOAD_MY_INFO_REQUEST  //사용자 정보불러오기 
+      type: LOAD_MY_INFO_REQUEST  //사용자 정보불러오기 
     })
     dispatch({
       type: LOAD_POSTS_REQUEST,  //게시글 불러오기
@@ -35,11 +35,11 @@ const Home: React.FC = () => {
         window.scrollY + document.documentElement.clientHeight + 300 >
         document.documentElement.scrollHeight
       ) {
-        if (hasMorePosts && !loadPostsLoading) {
-          dispatch({
-            type: LOAD_POSTS_REQUEST,
-          });
-        }
+        // if (hasMorePosts && !loadPostsLoading) {
+        //   dispatch({
+        //     type: LOAD_POSTS_REQUEST,
+        //   });
+        // }
       }
     }
 
@@ -53,7 +53,7 @@ const Home: React.FC = () => {
   return (
     <AppLayout>
       {me?.id && <PostForm />}
-      
+
       <InfiniteLoader renderData={mainPosts} />
       {/* {mainPosts.map(
         (post, index) => {

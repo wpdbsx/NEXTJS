@@ -2,12 +2,11 @@ import { CloseOutlined } from "@ant-design/icons";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const Overlay = styled.div`
-  position: fixed;
+  position: absolute;
+  transform: translate(60%, 50%);
+  width: 45%; /* 너비를 50%로 조절 */
+  height: 50%; /* 높이를 50%로 조절 */
   z-index: 5000;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 `;
 export const Header = styled.header`
   height: 44px;
@@ -33,7 +32,8 @@ export const CloseBtn = styled(CloseOutlined)`
   cursor: pointer;
 `;
 export const SlickWrapper = styled.div`
-
+  overflow-y: auto;
+  max-height: 500px; 
   height: calc(100% - 44px);
   background: white;
   border:'1px solid black'
