@@ -9,7 +9,8 @@ router.get('/', async (req, res, next) => {
             // where : { id:lastId},
             limit: 10,
             order: [
-                ['createdAt', 'DESC']
+                ['createdAt', 'DESC'],
+                [Comment, 'createdAt','DESC']
             ],
             include: [
                 {

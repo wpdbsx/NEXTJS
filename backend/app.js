@@ -20,7 +20,7 @@ db.sequelize
     console.log("db 연결 성공");
   })
   .catch((err) => {
-    console.log(err);
+    console.error(err);
   });
   passportConfig();
 app.use(
@@ -58,5 +58,5 @@ app.use("/posts", postsRouter);
 // app.use((err, req, res, next) => {});
 
 app.listen(3065, () => {
-  console.log("서버 실행중 !!");
+  console.error("서버 실행중 !!");
 });

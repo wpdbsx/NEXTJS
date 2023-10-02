@@ -40,7 +40,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
     setLiked((prev) => !prev);
   }, []);
 
- 
+
 
   const onRemovePost = useCallback(() => {
     dispatch({
@@ -55,7 +55,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
   }, [])
   return (
     <>
-      <div >
+      <div style={{ marginBottom: 60 }}>
         <Card
           cover={post.Images[0] && <PostImages Images={post.Images} />}
           actions={[
@@ -131,10 +131,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
 
           {visibelModal && <CommentModal post={post} onClose={onClose} />}
         </div>
-        {commentFormOpened && (
-          //모달창 구현예정
-          <></>
-        )}
+
       </div>
     </>
   );

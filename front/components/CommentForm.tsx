@@ -17,7 +17,11 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
   const { addCommentDone, addCommentLoading } = useSelector(
     (state: RootState) => state.post
   );
-  
+
+  const { selectedPostId } = useSelector(
+    (state: RootState) => state.user
+  );
+
   const dispatch = useDispatch();
   const {
     handleSubmit,
@@ -45,11 +49,14 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
       },
     });
   };
+  console.log(selectedPostId)
+  console.log(post.id)
+  console.log(selectedPostId === post.id && addCommentLoading)
   return (
     <>
-   
+
       <Form onFinish={handleSubmit(onSubmitHandler)} >
-        <Form.Item style={{position:'relative',margin:0}}>
+        <Form.Item style={{ position: 'relative', margin: 0 }}>
           <Controller
             name="commentText"
             control={control}
@@ -59,7 +66,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
             style={{ position: "absolute", right: 0, bottom: -40, zIndex: 1 }}
             type="primary"
             htmlType="submit"
-            loading={addCommentLoading}
+            loading={selectedPostId === post.id && addCommentLoading}
           >
             입력
           </Button>

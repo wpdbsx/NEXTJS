@@ -25,7 +25,7 @@ import {
     REMOVE_POST_SUCCESS,
     generateDummyPost
 } from "../reducers/post";
-import {ADD_POST_TO_ME, REMOVE_POST_OF_ME} from "../reducers/user";
+import { ADD_POST_TO_ME, REMOVE_POST_OF_ME, SELECT_POST } from "../reducers/user";
 import shortId from "shortid";
 
 interface postType {
@@ -35,8 +35,8 @@ interface postType {
 function loadPostsAPI(data) {
     return axios.get("/posts");
 }
-function addPostAPI(action : postType) {
-    return axios.post("/post", {content: action.data});
+function addPostAPI(action: postType) {
+    return axios.post("/post", { content: action.data });
 }
 function addCommentAPI(data) {
     return axios.post(
@@ -52,54 +52,59 @@ function unfollowAPI(data) {
     return axios.post(`/api/${data.postId}/comment`, data);
 }
 
-function* addPost(action : postType) {
+function* addPost(action: postType) {
     try {
         const result = yield call(addPostAPI, action);
 
         // const id = shortId.generate();
-      
+
         yield put({
             type: ADD_POST_SUCCESS,
-            data:  result.data
-            
+            data: result.data
+
         });
-        yield put({type: ADD_POST_TO_ME, id: result.data.id});
+        yield put({ type: ADD_POST_TO_ME, id: result.data.id });
     } catch (err) {
-        console.log(err);
-        yield put({type: ADD_POST_FAILURE, data: err.response.data});
+        console.error(err);
+        yield put({ type: ADD_POST_FAILURE, data: err.response.data });
     }
 }
 function* loadPosts(action) {
     try {
-        const result = yield call(loadPostsAPI,action.data);
+        const result = yield call(loadPostsAPI, action.data);
 
-        yield put({type: LOAD_POSTS_SUCCESS, data: result.data});
-      
+        yield put({ type: LOAD_POSTS_SUCCESS, data: result.data });
+
     } catch (err) {
-        console.log(err);
-        yield put({type: LOAD_POSTS_FAILURE, data: err.response.data});
+        console.error(err);
+        yield put({ type: LOAD_POSTS_FAILURE, data: err.response.data });
     }
 }
 function* removePost(action) {
     try {
         // const result = yield call(addPostAPI);
         yield delay(1000);
-        yield console.log(action.data);
 
-        yield put({type: REMOVE_POST_SUCCESS, data: action.data});
-        yield put({type: REMOVE_POST_OF_ME, data: action.data});
+
+        yield put({ type: REMOVE_POST_SUCCESS, data: action.data });
+        yield put({ type: REMOVE_POST_OF_ME, data: action.data });
     } catch (err) {
-        yield put({type: REMOVE_POST_FAILURE, data: err.response.data});
+        yield put({ type: REMOVE_POST_FAILURE, data: err.response.data });
     }
 }
 function* addComment(action) {
     try {
+
+
+        console.log(action.data)
+        yield put({ type: SELECT_POST, data: action.data });
         const result = yield call(addCommentAPI, action.data);
 
-        yield put({type: ADD_COMMENT_SUCCESS, data: result.data});
+        yield put({ type: ADD_COMMENT_SUCCESS, data: result.data });
+
     } catch (err) {
         console.error(err)
-        yield put({type: ADD_COMMENT_FAILURE, data: err.response.data});
+        yield put({ type: ADD_COMMENT_FAILURE, data: err.response.data });
     }
 }
 

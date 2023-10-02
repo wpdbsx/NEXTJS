@@ -10,7 +10,7 @@ const Profile: React.FC = () => {
   const { me } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    console.log("test");
+
     if (!(me && me?.id)) {
       Router.push("/");
     }

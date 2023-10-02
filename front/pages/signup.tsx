@@ -59,7 +59,7 @@ const Signup: React.FC = () => {
   const onSubmitHandler: SubmitHandler<FormValue> = useCallback(
     (data) => {
       // setIsLoggedIn(true);
-      console.log(data);
+
       dispatch({
         type: SIGN_UP_REQUEST,
         data,
@@ -157,7 +157,7 @@ const Signup: React.FC = () => {
                   control={control}
                   defaultValue="M"
                   render={({ field }) => {
-                    console.log(field);
+
                     return (
                       <Select defaultValue="M" options={options} {...field} />
                     );

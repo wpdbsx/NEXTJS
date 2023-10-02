@@ -37,7 +37,7 @@ type initialStateType = {
   removePostLoading: boolean;
   removePostDone: boolean;
   removePostError: string | null;
-  
+
 };
 
 export type postState = ReturnType<typeof reducer>;
@@ -72,7 +72,7 @@ export const generateDummyPost = (number): Post[] =>
             content: faker.lorem.sentence(),
             // hasMoreComment: false,
           },
-       
+
         ],
       };
     });
@@ -189,12 +189,12 @@ const reducer = (state = initialState, action) => {
         draft.addPostError = null;
         break;
       case ADD_POST_SUCCESS:
-        
+
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.addPostError = null;
         draft.mainPosts.unshift(action.data);
-        
+
         break;
       case ADD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -207,9 +207,9 @@ const reducer = (state = initialState, action) => {
         draft.addCommentError = null;
         break;
       case ADD_COMMENT_SUCCESS:
-        
+
         const post = draft.mainPosts.find((v) => v.id === action.data.PostId);
-        
+
         post.Comments.unshift(action.data);
         draft.addCommentLoading = false;
         draft.addCommentDone = true;

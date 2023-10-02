@@ -9,9 +9,9 @@ exports.isLoggedIn = (req, res, next) => {
 };
 
 exports.isNotLoggedIn = (req, res, next) => {
-  console.log("test");
+
   if (!req.isAuthenticated()) {
-    console.log("test22");
+  
     //로그인 안한상태면
     next(); // next에 인자가 없으면 다음 미들웨어로 갑니다.
   } else {

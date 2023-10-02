@@ -42,7 +42,7 @@ interface signUpType {
   type: string;
 }
 function logInAPI(data) {
-  console.log("탔냐?");
+
   return axios.post("/user/login", data);
 }
 function logOutAPI() {
@@ -60,13 +60,13 @@ function* logIn(action) {
   try {
     // yield delay(1000);
     const result = yield call(logInAPI, action.data);
-    console.log(result);
+ 
     yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     yield put({
       type: LOG_IN_FAILURE,
       error: err.response.data,
@@ -92,7 +92,7 @@ function* signUp(action: signUpType) {
   try {
     // yield delay(1000);
     const result = yield call(signUpAPI, action);
-    console.log(result);
+  
     yield put({
       type: SIGN_UP_SUCCESS,
       // data: result.data,
@@ -115,7 +115,7 @@ function* follow(action) {
       data: action.data,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     yield put({
       type: FOLLOW_FAILURE,
       data: err.response.data,
@@ -133,7 +133,7 @@ function* unfollow(action) {
       data: action.data,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     yield put({
       type: UNFOLLOW_FAILURE,
       data: err.response.data,
@@ -150,7 +150,7 @@ function* loadUser(action) {
       data: result.data,
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
     yield put({
       type: LOAD_MY_INFO_FAILURE,
       data: err.response.data,

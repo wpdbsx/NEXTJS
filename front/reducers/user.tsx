@@ -7,9 +7,9 @@ export interface meType {
   nickname: string | null;
 }
 export interface initialUserStateType {
-  loadUserLoading : boolean;
-  loadUserDone   : boolean;
-  loadUserError :string | null;
+  loadUserLoading: boolean;
+  loadUserDone: boolean;
+  loadUserError: string | null;
   logInLoading: boolean;
   logInDone: boolean;
   logInError: string | null;
@@ -45,23 +45,23 @@ const initialState: initialUserStateType = {
   logInLoading: false,
   logInDone: false,
   logInError: null,
-  
+
   logOutLoading: false,
   logOutDone: false,
   logOutError: null,
-  
+
   signUpLoading: false,
   signUpDone: false,
   signUpError: null,
-  
+
   changeNicknameLoading: false, //닉네임 변경 시도중
   changeNicknameDone: false,
   changeNicknameError: null,
-  
+
   followLoading: false,
   followDone: false,
   followError: null,
-  
+
   unfollowLoading: false,
   unfollowDone: false,
   unfollowError: null,
@@ -97,6 +97,7 @@ export const UNFOLLOW_FAILURE = "UNFOLLOW_FAILURE";
 
 export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
+export const SELECT_POST = "SELECT_POST"
 
 export const LOAD_MY_INFO_REQUEST = "LOAD_MY_INFO_REQUEST";
 export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
@@ -143,7 +144,7 @@ const reducer = (state = initialState, action) => {
       case LOAD_MY_INFO_FAILURE:
         draft.loadUserLoading = false;
         draft.loadUserError = action.error;
-    
+
         break;
       case UNFOLLOW_REQUEST:
         draft.unfollowLoading = true;
@@ -182,7 +183,7 @@ const reducer = (state = initialState, action) => {
         draft.selectedPostId = null;
         break;
       case LOG_IN_REQUEST:
-    
+
         draft.logInLoading = true;
         draft.logInError = null;
         draft.logInDone = false;
@@ -240,6 +241,10 @@ const reducer = (state = initialState, action) => {
         break;
       case ADD_POST_TO_ME:
         draft.me?.Posts.unshift({ id: action.id });
+        break;
+      case SELECT_POST:
+        console.log(action.data)
+        draft.selectedPostId = action.data.postId
         break;
 
       case REMOVE_POST_OF_ME:

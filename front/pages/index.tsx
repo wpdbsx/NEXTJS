@@ -49,11 +49,11 @@ const Home: React.FC = () => {
     };
   }, [hasMorePosts, loadPostsLoading]);
 
-  // console.log(mainPosts);
+
   return (
     <AppLayout>
       {me?.id && <PostForm />}
-
+      
       <InfiniteLoader renderData={mainPosts} />
       {/* {mainPosts.map(
         (post, index) => {
