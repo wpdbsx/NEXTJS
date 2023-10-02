@@ -3,7 +3,7 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../reducers";
-import { addPost } from "../reducers/post";
+import { addPost, UPLOAD_IMAGES_REQUEST } from "../reducers/post";
 import React, { useCallback, useEffect, useRef } from "react";
 interface FormValue {
   content: string;
@@ -44,6 +44,19 @@ const PostForm: React.FC = () => {
       imageInput.current.input.click();
     }
   }, [imageInput.current]);
+
+  const onChangeImages = useCallback((e) => {
+    console.log('images', e.target.files);
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append('image', f);
+    });
+    dispatch({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imageFormData,
+    })
+
+  }, [])
   return (
     <>
       <FormWrapper
@@ -68,7 +81,7 @@ const PostForm: React.FC = () => {
             name="file"
             control={control}
             render={({ field }) => (
-              <Input type="file" {...field} multiple hidden ref={imageInput} />
+              <Input type="file" {...field} multiple hidden ref={imageInput} onChange={onChangeImages} />
             )}
           />
 

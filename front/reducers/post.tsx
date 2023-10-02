@@ -49,7 +49,9 @@ type initialStateType = {
   changeNicknameLoading: boolean,
   changeNicknameDone: boolean,
   changeNicknameError: string | null,
-
+  uploadImagesLoading: boolean,
+  uploadImagesDone: boolean,
+  uploadImagesError: string | null,
 };
 
 export type postState = ReturnType<typeof reducer>;
@@ -152,7 +154,9 @@ const initialState: initialStateType = {
   changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
-
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
 
 };
 
@@ -185,6 +189,12 @@ export const CHANGE_NICKNAME_SUCCESS = "CHANGE_NICKNAME_SUCCESS";
 export const CHANGE_NICKNAME_FAILURE = "CHANGE_NICKNAME_FAILURE";
 
 
+export const UPLOAD_IMAGES_REQUEST = "UPLOAD_IMAGES_REQUEST";
+export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
+export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
+
+
+
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
@@ -208,7 +218,21 @@ const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     let selectedPost;
     switch (action.type) {
-
+ case UPLOAD_IMAGES_REQUEST:
+        draft.uploadImagesLoading = true;
+        draft.uploadImagesDone = false;
+        draft.uploadImagesError = null;
+        break;
+      case UPLOAD_IMAGES_SUCCESS:
+        draft.imagePaths = action.data
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesDone = true;
+        draft.uploadImagesError = null;
+        break;
+      case UPLOAD_IMAGES_FAILURE:
+        draft.uploadImagesLoading = false;
+        draft.uploadImagesError = action.error;
+        break;
       case UNLIKE_POST_REQUEST:
         draft.unlikePostLoading = true;
         draft.unlikePostDone = false;

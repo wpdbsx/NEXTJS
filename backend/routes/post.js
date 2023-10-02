@@ -2,7 +2,16 @@ const express = require("express");
 const router = express.Router();
 const { Post, User, Image, Comment } = require('../models')
 const { isLoggedIn } = require('./middlewares')
+const multer = require("multer")
+const path = require('path')
+const fs = require('fs');
 
+try {
+    fs.accessSync('uploads')
+} catch (error) {
+    console.log("uploads 폴더 생성")
+    fs.mkdirSync('uploads')
+}
 router.post("/", isLoggedIn, async (req, res, next) => {
     try {
         const post = await Post.create(
@@ -125,6 +134,28 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => { //게시글 �
         next(error);
 
     }
+})
+
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, done) { //  하드디스크에 저장
+            done(null, 'uploads');
+        },
+        filename(req, file, done) {   // text.png
+            const ext = path.extname(file.originalname); // 확장자 추출(png) 
+            const basename = path.basename(file.originalname, ext); //text
+            done(null, basename + new Date().getTime() + ext); // text2143532.png 
+
+        }
+    }),
+    limits: { fileSize: 20 * 1024 * 1024 } // 20MB
+})
+//array(여러개) ,sigle(한개) , none ,fills( 2개이상의 이미지파일에서 올릴때) 
+router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { //Post /post/images
+
+    console.log(req.files) //업로드된 이미지의 정보가 있다.
+    res.json(req.files.map((v) => v.filename));
+
 })
 
 
