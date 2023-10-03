@@ -23,7 +23,7 @@ interface postCardType {
 
 const PostCard: React.FC<postCardType> = ({ post }) => {
   const id = useSelector((state: RootState) => state.user.me?.id);
-
+  console.log(id)
   const liked = post?.Likers?.find((v) => v.id === id);
 
   const { removePostLoading } = useSelector((state: RootState) => state.post);
@@ -48,7 +48,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
       type: LIKE_POST_REQUEST,
       data: post.id
     })
-  }, []);
+  }, [id]);
   const onUnLike = useCallback(() => {
 
     if (!id) {
@@ -58,10 +58,11 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
       type: UNLIKE_POST_REQUEST,
       data: post.id
     })
-  }, []);
+  }, [id]);
 
 
   const onRemovePost = useCallback(() => {
+
     if (!id) {
       return alert("로그인이 필요합니다.");
     }
@@ -69,7 +70,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
       type: REMOVE_POST_REQUEST,
       data: post.id,
     });
-  }, []);
+  }, [id]);
   const onClose = useCallback(() => {
 
     setVisibelModal(false);
@@ -88,7 +89,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
     <>
       <div >
         <Card
-          cover={post.Images[0] && <PostImages Images={post.Images} />}
+          cover={post?.Images[0] && <PostImages Images={post?.Images} />}
           actions={[
             <RetweetOutlined key="retweet" onClick={onRetweet} />,
             liked ? (

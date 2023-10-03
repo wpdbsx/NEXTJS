@@ -232,20 +232,25 @@ router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => { //Post /
                     model: User,
                     attributes: ['id', 'nickname']  // 리트윗 게시글의 작성자
                 }, { model: Image }]  // 리트윗 게시글 이미지
-            }]
-        }, {
-            model: User,
-            attributes: ['id', 'nickname'],
-        }, {
-            model: Image,
-        }, {
-            model: Comment,
-            include: [{
+            }, {
                 model: User,
-                attributes: ['id', 'nickname']
+                attributes: ['id', 'nickname'],
+            }, {
+                model: Image,
+            }, {
+                model: Comment,
+                include: [{
+                    model: User,
+                    attributes: ['id', 'nickname']
+                }]
+            }, {
+                model: User,
+                as: 'Likers',
+                attributes: ['id']
             }]
-        }, { model: User, as: 'Likers', attributes: ['id'] })
+        })
         res.status(201).json(retweetWithPrevPost)
+
     } catch (error) {
         console.error(error);
         next(error)

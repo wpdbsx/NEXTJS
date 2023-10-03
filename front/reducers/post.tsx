@@ -109,7 +109,19 @@ export const generateDummyPost = (number): Post[] =>
         ],
         Likers: [{ id: "1" }],
         RetweetId: '1',
-        Retweet: {},
+        Retweet: {
+          id: "1",
+          User: {
+            id: "1",
+            nickname: "nick",
+          },
+          content: "test",
+          Images: [{
+            src: "",
+          }],
+          UserId: "1",
+          RetweetId: "1",
+        },
       };
 
     });
@@ -149,7 +161,19 @@ const dummyPost = (data): Post => ({
   ],
   Likers: [{ id: "1" }],
   RetweetId: '1',
-  Retweet: {},
+  Retweet: {
+    id: "1",
+    User: {
+      id: "1",
+      nickname: "nick",
+    },
+    content: "test",
+    Images: [{
+      src: "",
+    }],
+    UserId: "1",
+    RetweetId: "1",
+  },
 });
 
 const initialState: initialStateType = {
