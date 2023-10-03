@@ -20,14 +20,14 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
   if (Images.length === 1) {
     return (
       <>
+
         <div
           style={{
-            width: "200px",
-            textAlign: "center",
-            height: "100px",
-            display: "block",
-            marginLeft: "auto",
-            marginRight: "auto",
+            height: "500px",
+            width: "98%",
+            position: 'relative',
+            top: 1,
+            left: 10,
           }}
         >
           <Image
@@ -35,43 +35,50 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
-            layout="responsive"
-            width={100}
-            height={100}
+            layout="fill"
+            objectFit="fill"
           />
         </div>
+
         {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />}
       </>
     );
   } else if (Images.length === 2) {
     return (
       <>
+
         <div
           style={{
             display: "inline-block",
-            width: "100px",
-            height: "100px",
+            width: "50%",
+            height: "500px",
             textAlign: "center",
             verticalAlign: "middle",
+            position: 'relative',
+            top: 1,
+            left: 1,
           }}
         >
+
           <Image
             role="presentation"
             src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
-            layout="responsive"
-            width={20}
-            height={20}
+            layout="fill"
+            objectFit="fill"
           />
         </div>
         <div
           style={{
             display: "inline-block",
-            width: "100px",
-            height: "100px",
+            width: "50%",
+            height: "500px",
             textAlign: "center",
             verticalAlign: "middle",
+            position: 'relative',
+            top: 1,
+            right: 1,
           }}
         >
           <Image
@@ -79,12 +86,15 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[1].src}`}
             alt={Images[1].src}
             onClick={onZoom}
-            layout="responsive"
-            width={20}
-            height={20}
+            layout="fill"
+            objectFit="fill"
+
           />
-        </div>
-        {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />}
+
+        </div >
+
+        {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />
+        }
       </>
     );
   } else {
@@ -94,8 +104,12 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
           style={{
             display: "inline-block",
             width: "50%",
+            height: "500px",
             textAlign: "center",
             verticalAlign: "middle",
+            position: 'relative',
+            top: 1,
+            left: 1,
           }}
         >
           <Image
@@ -103,18 +117,17 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
-            layout="responsive"
-            width={20}
-            height={20}
+            layout="fill"
+            objectFit="fill"
           />
         </div>
         <div
-          role="presentation"
           style={{
             display: "inline-block",
             width: "50%",
             textAlign: "center",
             verticalAlign: "middle",
+            position: 'relative',
           }}
           onClick={onZoom}
         >
