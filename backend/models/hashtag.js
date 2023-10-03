@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const Hashtag = sequelize.define(
-    "Hastag",
+    "Hashtag",
     {
       //id가 기본적으로 들어있다.
       name: {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Post, User, Image, Comment } = require('../models')
+const { Post, User, Image, Comment, Hashtag } = require('../models')
 const { isLoggedIn } = require('./middlewares')
 const multer = require("multer")
 const path = require('path')
@@ -120,9 +120,20 @@ const upload = multer({
 //array(여러개) ,sigle(한개) , none ,fills( 2개이상의 이미지파일에서 올릴때) 
 router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
     try {
+        const hashtags = req.body.content.match(/#[^\s#]+/g);
         const post = await Post.create(
             { content: req.body.content, UserId: req.user.id }
         );
+
+        if (hashtags) {
+            //findOrCreate 있으면 가져오고 없으면 등록한다.
+            const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
+                where: { name: tag.slice(1).toLowerCase() }
+            })))
+            // [[#노드 ,true],[#리액트,true]] 이런 형태라 v[0]을 등록
+            console.log(Object.keys(post.__proto__));
+            await post.addHashtags(result.map((v) => v[0]))
+        }
 
         if (req.body.image) {
             if (Array.isArray(req.body.image)) { //이미지가 여러개면 이미지는 배열이 된다.

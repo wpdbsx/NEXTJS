@@ -30,6 +30,7 @@ app.use(
   })
 );
 app.use(morgan('dev'))
+
 app.use('/', express.static(path.join(__dirname, 'uploads'))) // path.join은 운영체제의 차이점에 따라 알아서 경로를 지정해준다.
 app.use(express.json()); // 프론트에서 보낸 데이터를 res.body에 넣는 역할을한다.
 app.use(express.urlencoded({ extended: true }));
