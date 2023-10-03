@@ -30,7 +30,7 @@ const FollowButton: React.FC<postCardType> = ({ post }) => {
     }
   }, [isFollowing]);
 
-  if (post.User.id === me.id) {
+  if (post.User.id === me?.id) {
     return null;
   }
   return (

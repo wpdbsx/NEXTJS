@@ -21,9 +21,14 @@ const Home: React.FC = () => {
   }, []);
   const { me } = useSelector((state: RootState) => state.user);
 
-  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
+  const { mainPosts, hasMorePosts, loadPostsLoading, retweetError } = useSelector(
     (state: RootState) => state.post
   );
+  useEffect(() => {
+    if (retweetError) {
+      alert(retweetError)
+    }
+  }, [retweetError])
   useEffect(() => {
     function onScroll() {
       // console.log(

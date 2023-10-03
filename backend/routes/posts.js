@@ -40,6 +40,14 @@ router.get('/', async (req, res, next) => {
                     model: User, // 좋아요 누른사람
                     as: 'Likers',
                     attributes: ['id']
+                },
+                {
+                    model: Post,
+                    as: 'Retweet',
+                    include: [{
+                        model: User,
+                        attributes: ['id', 'nickname']  // 리트윗 게시글의 작성자
+                    }, { model: Image }]  // 리트윗 게시글 이미지
                 }
             ]
 

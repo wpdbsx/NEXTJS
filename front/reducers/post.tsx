@@ -2,6 +2,19 @@ import shortId from "shortid";
 import { produce } from "immer";
 import { faker } from "@faker-js/faker";
 faker.seed(123);
+export type Retweet = {
+  id: string;
+  User: {
+    id: string;
+    nickname: string;
+  };
+  content: string;
+  Images: {
+    src: string;
+  }[];
+  UserId: string;
+  RetweetId: string;
+};
 export type Post = {
   id: string;
   User: {
@@ -21,7 +34,9 @@ export type Post = {
   }[];
   Likers: {
     id: string
-  }[]
+  }[];
+  RetweetId: string;
+  Retweet: Retweet;
 };
 
 type initialStateType = {
@@ -52,6 +67,10 @@ type initialStateType = {
   uploadImagesLoading: boolean,
   uploadImagesDone: boolean,
   uploadImagesError: string | null,
+  retweetLoading: boolean,
+  retweetDone: boolean,
+  retweetError: string | null,
+
 };
 
 export type postState = ReturnType<typeof reducer>;
@@ -88,7 +107,9 @@ export const generateDummyPost = (number): Post[] =>
           },
 
         ],
-        Likers: [{ id: "1" }]
+        Likers: [{ id: "1" }],
+        RetweetId: '1',
+        Retweet: {},
       };
 
     });
@@ -126,7 +147,9 @@ const dummyPost = (data): Post => ({
       // hasMoreComment:false,
     },
   ],
-  Likers: [{ id: "1" }]
+  Likers: [{ id: "1" }],
+  RetweetId: '1',
+  Retweet: {},
 });
 
 const initialState: initialStateType = {
@@ -157,6 +180,9 @@ const initialState: initialStateType = {
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+  retweetLoading: false,
+  retweetDone: false,
+  retweetError: null,
 
 };
 
@@ -194,6 +220,12 @@ export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
 
 
+export const RETWEET_REQUEST = "RETWEET_REQUEST";
+export const RETWEET_SUCCESS = "RETWEET_SUCCESS";
+export const RETWEET_FAILURE = "RETWEET_FAILURE";
+
+
+
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
 
 
@@ -221,7 +253,28 @@ const reducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     let selectedPost;
     switch (action.type) {
+
+
+
+      case RETWEET_REQUEST:
+        draft.retweetLoading = true;
+        draft.retweetDone = false;
+        draft.retweetError = null;
+        break;
+      case RETWEET_SUCCESS:
+        console.log(action.data)
+        draft.retweetLoading = false;
+        draft.retweetDone = true;
+        draft.retweetError = null;
+        draft.mainPosts.unshift(action.data)
+        break;
+      case RETWEET_FAILURE:
+        draft.retweetLoading = false;
+        draft.retweetError = action.error;
+        break;
+
       case REMOVE_IMAGE:
+        console.log(action.data)
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
         break;
       case UPLOAD_IMAGES_REQUEST:
