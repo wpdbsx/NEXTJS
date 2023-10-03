@@ -5,6 +5,7 @@ const { isLoggedIn } = require('./middlewares')
 const multer = require("multer")
 const path = require('path')
 const fs = require('fs');
+const iconv = require('iconv-lite');
 
 try {
     fs.accessSync('uploads')
@@ -105,8 +106,12 @@ const upload = multer({
         },
         filename(req, file, done) {   // text.png
             const ext = path.extname(file.originalname); // 확장자 추출(png) 
-            const basename = path.basename(file.originalname, ext); //text
-            done(null, basename + "_" + new Date().getTime() + ext); // text2143532.png 
+            const basename = path.basename(file.originalname, ext); // 파일명 추출
+            const timestamp = new Date().getTime();
+            const newFilename = `${basename}_${timestamp}${ext}`;
+            console.log(newFilename)
+            done(null, iconv.decode(newFilename, 'utf-8')); // text2143532.png 
+
 
         }
     }),
@@ -123,8 +128,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
             if (Array.isArray(req.body.image)) { //이미지가 여러개면 이미지는 배열이 된다.
 
                 const images = await Promise.all(req.body.image.map(async (image) => Image.create({ src: image })))
-                console.log("!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$!@#$$!@")
-                console.log(images)
+
 
                 await post.addImages(images);
                 // 디비에는 파일을 저장하는게 아니라 파일의 주소만 저장한다. 
