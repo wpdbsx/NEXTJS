@@ -95,10 +95,10 @@ const InfiniteLoaderScroll: React.FC = () => {
           return !!mainPosts[index];
         }}
         loadMoreRows={loadMoreRows}
-        rowCount={mainPosts.length + 1} // 전체 댓글 개수 설정 
+        rowCount={mainPosts.length} // 전체 댓글 개수 설정 
         threshold={0.7} // 데이터 호출지점
       >
-        {({ onRowRendered, registerChild }) => {
+        {({ onRowsRendered, registerChild }) => {
           // listRef.current = registerChild
 
           return (
@@ -106,21 +106,21 @@ const InfiniteLoaderScroll: React.FC = () => {
               {({ height, scrollTop, isScrolling, onChildScroll }) => {
 
                 return (
-                  <AutoSizer>
-                    {({ width, height }) => {
+                  <AutoSizer disableHeight>
+                    {({ width }) => {
                       return (
                         <List
                           ref={listRef}
                           autoHeight
                           height={height}
                           width={width}
-                          overscanRowCount={10} // overscanRowCount 속성은 사용자가 스크롤하는 방향으로 추가 행을 렌더링하여 사용자가 가상화된 콘텐츠를 렌더링할 수 있는 것보다 빠르게 스크롤시 깜빡임을 최소화합니다.
+                          overscanRowCount={5} // overscanRowCount 속성은 사용자가 스크롤하는 방향으로 추가 행을 렌더링하여 사용자가 가상화된 콘텐츠를 렌더링할 수 있는 것보다 빠르게 스크롤시 깜빡임을 최소화합니다.
                           scrollTop={scrollTop}
                           rowCount={mainPosts.length}
                           rowHeight={cellCache.rowHeight}
                           rowRenderer={rowRenderer}
                           deferredMeasurementCache={cellCache}
-                          onRowRendered={onRowRendered}
+                          onRowsRendered={onRowsRendered}
                         />
                       )
                     }
