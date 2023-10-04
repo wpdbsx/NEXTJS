@@ -19,11 +19,12 @@ import CommentModal from "./CommentModal";
 
 interface postCardType {
   post: mainPostsState;
+
 }
 
-const PostCard: React.FC<postCardType> = ({ post }) => {
+const PostCard: React.FC<postCardType> = ({ post}) => {
   const id = useSelector((state: RootState) => state.user.me?.id);
-  console.log(id)
+
   const liked = post?.Likers?.find((v) => v.id === id);
 
   const { removePostLoading } = useSelector((state: RootState) => state.post);

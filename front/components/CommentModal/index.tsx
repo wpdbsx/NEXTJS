@@ -19,7 +19,6 @@ const CommentModal: React.FC<postCardType> = ({ post, onClose }) => {
 
 
   useEffect(() => {
-    console.log('useEffect')
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
     backdrop.style.position = 'fixed';

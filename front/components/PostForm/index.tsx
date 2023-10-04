@@ -54,6 +54,7 @@ const PostForm: React.FC = () => {
                 data: formData
             }
         );
+        setValue('file', '')
     };
 
     const onClickImageUpload = useCallback(() => {
@@ -63,7 +64,7 @@ const PostForm: React.FC = () => {
     }, [imageInput.current]);
 
     const onChangeImages = useCallback((e) => {
-        console.log('images', e.target.files);
+
         const imageFormData = new FormData();
         [].forEach.call(e.target.files, (f) => {
             imageFormData.append('image', f);

@@ -35,8 +35,10 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
-            layout="fill"
-            objectFit="fill"
+            fill
+            priority
+            sizes="100%"
+            style={{ objectFit: "fill" }}
           />
         </div>
 
@@ -65,8 +67,10 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
-            layout="fill"
-            objectFit="fill"
+            fill
+            priority
+            sizes="100%"
+            style={{ objectFit: "fill" }}
           />
         </div>
         <div
@@ -86,8 +90,10 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[1].src}`}
             alt={Images[1].src}
             onClick={onZoom}
-            layout="fill"
-            objectFit="fill"
+            fill
+            priority
+            sizes="100%"
+            style={{ objectFit: "fill" }}
 
           />
 
@@ -117,8 +123,11 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             src={`http://localhost:3065/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
-            layout="fill"
-            objectFit="fill"
+            fill
+            priority
+            sizes="100%"
+            style={{ objectFit: "fill" }}
+
           />
         </div>
         <div

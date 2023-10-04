@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import AppLayout from "../components/AppLayout";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,10 +7,13 @@ import PostForm from "../components/PostForm";
 
 import { LOAD_POSTS_REQUEST } from "../reducers/post";
 import { LOAD_MY_INFO_REQUEST } from "../reducers/user"
-import InfiniteLoader from "../components/InfiniteLoader";
+import InfiniteLoaderScroll from "../components/InfiniteLoaderScroll";
+import PostCard from "../components/PostCard";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch();
+
+  const childRef = useRef(null);
   useEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST  //사용자 정보불러오기 
@@ -21,9 +24,11 @@ const Home: React.FC = () => {
   }, []);
   const { me } = useSelector((state: RootState) => state.user);
 
-  const { mainPosts, hasMorePosts, loadPostsLoading, retweetError } = useSelector(
+  const { hasMorePosts, loadPostsLoading, retweetError } = useSelector(
     (state: RootState) => state.post
   );
+
+
   useEffect(() => {
     if (retweetError) {
       alert(retweetError)
@@ -55,11 +60,12 @@ const Home: React.FC = () => {
   }, [hasMorePosts, loadPostsLoading]);
 
 
+
   return (
     <AppLayout>
       {me?.id && <PostForm />}
 
-      <InfiniteLoader renderData={mainPosts} />
+      <InfiniteLoaderScroll />
       {/* {mainPosts.map(
         (post, index) => {
           return <PostCard key={post.id} post={post} />;
