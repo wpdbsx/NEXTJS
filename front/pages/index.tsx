@@ -13,7 +13,7 @@ import PostCard from "../components/PostCard";
 const Home: React.FC = () => {
   const dispatch = useDispatch();
 
-  const childRef = useRef(null);
+
   useEffect(() => {
     dispatch({
       type: LOAD_MY_INFO_REQUEST  //사용자 정보불러오기 

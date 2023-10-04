@@ -31,7 +31,7 @@ const CommentModal: React.FC<postCardType> = ({ post, onClose }) => {
     backdrop.style.display = 'block';
     el.appendChild(backdrop);
     return () => {
-      console.log('test')
+
       el.removeChild(backdrop);
       onClose();
 

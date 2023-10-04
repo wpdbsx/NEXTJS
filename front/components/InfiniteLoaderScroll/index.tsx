@@ -29,10 +29,10 @@ const InfiniteLoaderScroll: React.FC = () => {
 
 
   const listRef = useRef(null);
-  const { mainPosts } = useSelector(
+  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
     (state: RootState) => state.post
   );
-  console.log(mainPosts.length)
+
   const prevRenderData = useRef<Post[]>(mainPosts);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -74,23 +74,27 @@ const InfiniteLoaderScroll: React.FC = () => {
   }, [mainPosts]);
 
 
-  const loadMoreRows = ({ startIndex, stopIndex }) => {
-    console.log("loadMoreRows", startIndex, stopIndex)
-    // const 
-    // dispatch(
-    //   {
-    //     type: LOAD_POSTS_REQUEST,
+  const loadMoreRows = useCallback(({ startIndex, stopIndex }) => {
 
-    //   }
-    // )
-  }
+    const lastId = mainPosts[mainPosts.length - 1]?.id;
+
+    
+    if (hasMorePosts && !loadPostsLoading) {
+      dispatch(
+        {
+          type: LOAD_POSTS_REQUEST,
+          lastId
+        }
+      )
+    }
+  }, [mainPosts,loadPostsLoading])
   // console.log(mainPosts.length) 
 
   return (
     <>
       <InfiniteLoader
         isRowLoaded={({ index }) => {
-          console.log('test')
+
           // 해당 인덱스의 데이터가 존재하면 true를 반환하고, 없으면 false를 반환
           return !!mainPosts[index];
         }}
