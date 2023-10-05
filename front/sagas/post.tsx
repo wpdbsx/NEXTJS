@@ -23,6 +23,9 @@ import {
     LOAD_POSTS_FAILURE,
     LOAD_POSTS_REQUEST,
     LOAD_POSTS_SUCCESS,
+    LOAD_POST_FAILURE,
+    LOAD_POST_REQUEST,
+    LOAD_POST_SUCCESS,
     REMOVE_POST_FAILURE,
     REMOVE_POST_REQUEST,
     REMOVE_POST_SUCCESS,
@@ -88,6 +91,20 @@ function* loadPosts(action) {
     } catch (err) {
         console.error(err);
         yield put({ type: LOAD_POSTS_FAILURE, error: err.response.data });
+    }
+}
+function loadPostAPI(data) {
+    return axios.get(`/post/${data}`);
+}
+function* loadPost(action) {
+    try {
+        const result = yield call(loadPostAPI, action.data);
+
+        yield put({ type: LOAD_POST_SUCCESS, data: result.data });
+
+    } catch (err) {
+        console.error(err);
+        yield put({ type: LOAD_POST_FAILURE, error: err.response.data });
     }
 }
 
@@ -200,8 +217,11 @@ function* retweet(action) {
 function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
 }
-function* watchLoadPost() {
+function* watchLoadPosts() {
     yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
+}
+function* watchLoadPost() {
+    yield throttle(5000, LOAD_POST_REQUEST, loadPost);
 }
 function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
@@ -226,6 +246,6 @@ function* watchRetweet() {
 
 export default function* postSaga() {
     yield all(
-        [fork(watchRetweet), fork(watchUploadImages), fork(watchUnLikePost), fork(watchLikePost), fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost), fork(watchLoadPost)]
+        [fork(watchRetweet), fork(watchUploadImages), fork(watchUnLikePost), fork(watchLikePost), fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost), fork(watchLoadPosts), fork(watchLoadPost)]
     ); //call과는 다르다.
 }

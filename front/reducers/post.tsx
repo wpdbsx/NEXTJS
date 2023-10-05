@@ -40,6 +40,7 @@ export type Post = {
 };
 
 type initialStateType = {
+  singlePost: Post;
   mainPosts: Post[];
   hasMorePosts: boolean;
   imagePaths: string[];
@@ -49,6 +50,9 @@ type initialStateType = {
   loadPostsLoading: boolean;
   loadPostsDone: boolean;
   loadPostsError: boolean;
+  loadPostLoading: boolean;
+  loadPostDone: boolean;
+  loadPostError: boolean;
   addCommentLoading: boolean;
   addCommentDone: boolean;
   addCommentError: string | null;
@@ -177,6 +181,7 @@ const dummyPost = (data): Post => ({
 });
 
 const initialState: initialStateType = {
+  singlePost: null,
   mainPosts: [],
   hasMorePosts: false,
   imagePaths: [],
@@ -186,6 +191,9 @@ const initialState: initialStateType = {
   loadPostsLoading: false,
   loadPostsDone: false,
   loadPostsError: false,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: false,
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
@@ -225,6 +233,12 @@ export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
 export const LOAD_POSTS_REQUEST = "LOAD_POSTS_REQUEST";
 export const LOAD_POSTS_SUCCESS = "LOAD_POSTS_SUCCESS";
 export const LOAD_POSTS_FAILURE = "LOAD_POSTS_FAILURE";
+
+export const LOAD_POST_REQUEST = "LOAD_POST_REQUEST";
+export const LOAD_POST_SUCCESS = "LOAD_POST_SUCCESS";
+export const LOAD_POST_FAILURE = "LOAD_POST_FAILURE";
+
+
 
 export const LIKE_POST_REQUEST = "LIKE_POST_REQUEST";
 export const LIKE_POST_SUCCESS = "LIKE_POST_SUCCESS";
@@ -350,14 +364,12 @@ const reducer = (state = initialState, action) => {
         draft.likePostError = action.error;
         break;
       case LOAD_POSTS_REQUEST:
-
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
-        console.log('LOAD_POSTS_REQUEST')
+
         break;
       case LOAD_POSTS_SUCCESS:
-
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.loadPostsError = null;
@@ -367,6 +379,22 @@ const reducer = (state = initialState, action) => {
       case LOAD_POSTS_FAILURE:
         draft.loadPostsLoading = false;
         draft.loadPostsError = action.error;
+        break;
+      case LOAD_POST_REQUEST:
+        draft.loadPostLoading = true;
+        draft.loadPostDone = false;
+        draft.loadPostError = null;
+
+        break;
+      case LOAD_POST_SUCCESS:
+        draft.loadPostLoading = false;
+        draft.loadPostDone = true;
+        draft.loadPostError = null;
+        draft.singlePost = action.data;
+        break;
+      case LOAD_POST_FAILURE:
+        draft.loadPostLoading = false;
+        draft.loadPostError = action.error;
         break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
