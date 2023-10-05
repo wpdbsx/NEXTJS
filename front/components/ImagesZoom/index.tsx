@@ -1,4 +1,4 @@
-import React, { use, useMemo, useState } from "react";
+import React, { use, useEffect, useMemo, useState } from "react";
 import { ImagesState } from "../../reducers/post";
 
 import Slick, { Settings } from "react-slick";
@@ -12,14 +12,16 @@ import {
   Overlay,
   SlickWrapper,
 } from "./style";
-
+import reactDom from "react-dom";
+import { createModalBackdrop } from "../createModalBackdrop";
 interface ImagesZoomType {
   Images: ImagesState;
   onClose: () => void;
 }
 
 const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
-  console.log('zoom')
+
+  const el = document.getElementById("docTop");
   const [currentSlide, setCurrentSlide] = useState(0);
   const settings = useMemo<Settings>(
     () => ({
@@ -35,9 +37,17 @@ const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
     []
   );
 
-  return (
+
+  useEffect(() => {
+    const removeBackdrop = createModalBackdrop(el);
+    return () => {
+      removeBackdrop();
+      onClose();
+    };
+  }, [el, onClose])
+  return reactDom.createPortal(
     <>
-      <Overlay>
+      <Overlay style={{ top: window.scrollY === 0 ? -120 : window.scrollY - 90 }}>
         <Global />
         <Header>
           <h1> 상세 이미지</h1>
@@ -50,6 +60,7 @@ const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
                 <img src={`http://localhost:3065/${v.src}`} alt={v.src} />
               </ImgWrapper>
             ))}
+
           </Slick>
           <Indicator>
             <div>
@@ -57,8 +68,8 @@ const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
             </div>
           </Indicator>
         </SlickWrapper>
-      </Overlay>
-    </>
+      </Overlay >
+    </>, el
   );
 };
 

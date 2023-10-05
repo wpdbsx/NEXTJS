@@ -36,8 +36,9 @@ export const SlickWrapper = styled.div`
   max-height: 500px; 
   height: calc(100% - 44px);
   background: white;
-  border:'1px solid black'
+  border:'1px solid black';
 `;
+
 export const ImgWrapper = styled.div`
   padding: 32px;
   text-align: center;

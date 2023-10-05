@@ -2,19 +2,20 @@ import { CloseOutlined } from "@ant-design/icons";
 import styled, { createGlobalStyle } from "styled-components";
 
 export const Overlay = styled.div`
-  position: fixed;
+  position: absolute;
+  transform: translate(50%, 40%);
+  width: 50%; /* 너비를 50%로 조절 */
+  height: 50%; /* 높이를 50%로 조절 */
   z-index: 5000;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  border-radius: 15px;
 `;
 export const Header = styled.header`
   height: 44px;
-  background: white;
+  background: #eacccc;
   position: relative;
   padding: 0;
   text-align: center;
+ 
 
   & h1 {
     margin: 0;
@@ -33,28 +34,33 @@ export const CloseBtn = styled(CloseOutlined)`
   cursor: pointer;
 `;
 export const SlickWrapper = styled.div`
-  height: calc(100% - 44px);
-  background: #090909;
+  
+  max-height: 1000px; 
+  /* height: calc(100% - 44px); */
+  background: white;
+ 
+  
 `;
+
 export const ImgWrapper = styled.div`
-  padding: 32px;
-  text-align: center;
+ 
+  text-align: -webkit-center;
   & img {
-    margin: 0 auto;
-    max-height: 750px;
+    
+    max-height: 970px; 
+ 
   }
 `;
 export const Indicator = styled.div`
-  text-align: center;
-
+  text-align: -webkit-center;
+  background: white;
   & > div {
     width: 75px;
     height: 30px;
     line-height: 30px;
-    border-radius: 15px;
+    
     background: #313131;
-    display: inline-block;
-    text-align: center;
+    text-align: -webkit-center;
     color: white;
     font-size: 15px;
   }

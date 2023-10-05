@@ -59,12 +59,12 @@ const InfiniteLoaderScroll: React.FC = () => {
         key={key}
         columnIndex={0}
         rowIndex={index}
-        style={{ marginBottom: 10 }}
+
       >
         {({ measure, registerChild }) => {
 
           return (
-            <div ref={registerChild} key={index} style={{ ...style, marginBottom: 30 }}>
+            <div ref={registerChild} key={index} style={{ ...style, paddingBottom: 100 }}>
               <PostCard key={mainPosts[index].id} post={mainPosts[index]} />
             </div>
           )
@@ -78,7 +78,7 @@ const InfiniteLoaderScroll: React.FC = () => {
 
     const lastId = mainPosts[mainPosts.length - 1]?.id;
 
-    
+
     if (hasMorePosts && !loadPostsLoading) {
       dispatch(
         {
@@ -87,7 +87,7 @@ const InfiniteLoaderScroll: React.FC = () => {
         }
       )
     }
-  }, [mainPosts,loadPostsLoading])
+  }, [mainPosts, loadPostsLoading])
   // console.log(mainPosts.length) 
 
   return (
@@ -116,6 +116,7 @@ const InfiniteLoaderScroll: React.FC = () => {
                         <List
                           ref={listRef}
                           autoHeight
+                          style={{ overflowY: 'auto' }}
                           height={height}
                           width={width}
                           overscanRowCount={5} // overscanRowCount 속성은 사용자가 스크롤하는 방향으로 추가 행을 렌더링하여 사용자가 가상화된 콘텐츠를 렌더링할 수 있는 것보다 빠르게 스크롤시 깜빡임을 최소화합니다.
