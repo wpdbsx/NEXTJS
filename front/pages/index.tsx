@@ -76,7 +76,7 @@ const Home: React.FC = () => {
 
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ req }) => {
-
+  //순전히 프론트서버에서 실행하는 부분
   const cookie = req ? req.headers.cookie : '';
   axios.defaults.headers.Cookie = '';
   // 쿠키가 브라우저에 있는경우만 넣어서 실행

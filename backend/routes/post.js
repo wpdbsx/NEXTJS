@@ -109,7 +109,7 @@ const upload = multer({
             const basename = path.basename(file.originalname, ext); // 파일명 추출
             const timestamp = new Date().getTime();
             const newFilename = `${basename}_${timestamp}${ext}`;
-            console.log(newFilename)
+
             done(null, iconv.decode(newFilename, 'utf-8')); // text2143532.png 
 
 
@@ -131,7 +131,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
                 where: { name: tag.slice(1).toLowerCase() }
             })))
             // [[#노드 ,true],[#리액트,true]] 이런 형태라 v[0]을 등록
-            console.log(Object.keys(post.__proto__));
+
             await post.addHashtags(result.map((v) => v[0]))
         }
 
@@ -184,7 +184,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
 });
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { //Post /post/images
 
-    console.log(req.files) //업로드된 이미지의 정보가 있다.
+
     res.json(req.files.map((v) => v.filename));
 
 })

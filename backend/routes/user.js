@@ -6,6 +6,7 @@ const passport = require("passport");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 
 router.post("/", isNotLoggedIn, async (req, res, next) => {
+
     try {
         const exUser = await User.findOne({
             where: {
@@ -35,6 +36,7 @@ router.post("/", isNotLoggedIn, async (req, res, next) => {
 
 router.get('/', isLoggedIn, async (req, res, next) => {
     //GET /user
+    console.log(req.headers)
     try {
         if (req.user) {
             const fullUserWithoutPassword = await User.findOne({
@@ -70,6 +72,59 @@ router.get('/', isLoggedIn, async (req, res, next) => {
                 .status(200)
                 .json(null);
         }
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+})
+
+router.get('/:userId', async (req, res, next) => {
+    //GET /user
+    try {
+        console.log("여길탔어?")
+        console.log(req.params.userId)
+        const fullUserWithoutPassword = await User.findOne({
+            where: {
+                id: req.params.userId
+            },
+            attributes: {
+                exclude: ["password"]
+            },
+            include: [
+                {
+                    model: Post,
+                    as: "Posts",
+                    attributes: ["id"]
+                }, {
+                    model: User,
+                    as: "Followings",
+                    through: { attributes: [] },
+                    attributes: ["id"]
+                }, {
+                    model: User,
+                    as: "Followers",
+                    through: { attributes: [] },
+                    attributes: ["id"]
+                }
+            ]
+        });
+        if (fullUserWithoutPassword) {
+            const data = fullUserWithoutPassword.toJSON();
+            data.Posts = data.Posts.length;
+            data.Followers = data.Followers.length;
+            data.Followings = data.Followings.length;
+            console.log(data)
+            res
+                .status(200)
+                .json(data);
+
+        } else {
+            res
+                .status(404)
+                .json("존재하지 않는 사용자입니다.");
+
+        }
+
     } catch (err) {
         console.error(err);
         next(err);

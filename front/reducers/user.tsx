@@ -21,8 +21,7 @@ export interface initialUserStateType {
   signUpDone: boolean;
   signUpError: string | null;
   me: meType | null;
-  signUpdata: Record<string, any>;
-  loginData: Record<string, any>;
+  userInfo: meType | null;
   changeNicknameLoading: boolean; //닉네임 변경 시도중
   changeNicknameDone: boolean;
   changeNicknameError: string | null;
@@ -81,8 +80,7 @@ const initialState: initialUserStateType = {
   removefollowerError: null,
 
   me: null,
-  signUpdata: {},
-  loginData: {},
+  userInfo: null,
   selectedPostId: null,
   loadFollowingsLoading: false,
   loadFollowingsDone: false,
@@ -129,6 +127,10 @@ export const SELECT_POST = "SELECT_POST"
 export const LOAD_MY_INFO_REQUEST = "LOAD_MY_INFO_REQUEST";
 export const LOAD_MY_INFO_SUCCESS = "LOAD_MY_INFO_SUCCESS";
 export const LOAD_MY_INFO_FAILURE = "LOAD_MY_INFO_FAILURE";
+
+export const LOAD_USER_REQUEST = "LOAD_USER_REQUEST";
+export const LOAD_USER_SUCCESS = "LOAD_USER_SUCCESS";
+export const LOAD_USER_FAILURE = "LOAD_USER_FAILURE";
 
 export const LOAD_FOLLOWINGS_REQUEST = "LOAD_FOLLOWINGS_REQUEST";
 export const LOAD_FOLLOWINGS_SUCCESS = "LOAD_FOLLOWINGS_SUCCESS";
@@ -218,7 +220,6 @@ const reducer = (state = initialState, action) => {
         draft.loadUserDone = false;
         break;
       case LOAD_MY_INFO_SUCCESS:
-
         draft.loadUserLoading = false;
         draft.me = action.data;
         draft.loadUserDone = true;
@@ -226,7 +227,21 @@ const reducer = (state = initialState, action) => {
       case LOAD_MY_INFO_FAILURE:
         draft.loadUserLoading = false;
         draft.loadUserError = action.error;
-
+        break;
+      case LOAD_USER_REQUEST:
+        draft.loadUserLoading = true;
+        draft.loadUserError = null;
+        draft.loadUserDone = false;
+        break;
+      case LOAD_USER_SUCCESS:
+        console.log(action.data)
+        draft.loadUserLoading = false;
+        draft.userInfo = action.data;
+        draft.loadUserDone = true;
+        break;
+      case LOAD_USER_FAILURE:
+        draft.loadUserLoading = false;
+        draft.loadUserError = action.error;
         break;
       case UNFOLLOW_REQUEST:
         draft.unfollowLoading = true;

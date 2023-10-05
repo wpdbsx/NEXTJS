@@ -39,7 +39,10 @@ import {
   LOAD_FOLLOWINGS_SUCCESS,
   REMOVE_FOLLOWER_REQUEST,
   REMOVE_FOLLOWER_FAILURE,
-  REMOVE_FOLLOWER_SUCCESS
+  REMOVE_FOLLOWER_SUCCESS,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE
 } from "../reducers/user";
 
 interface signUpType {
@@ -159,14 +162,37 @@ function* unfollow(action) {
   }
 }
 
-function loadUserAPI(action) {
+function loadUserAPI(data) {
 
-  return axios.get("/user");
+  return axios.get(`/user/${data}`);
 }
 
 function* loadUser(action) {
   try {
     const result = yield call(loadUserAPI, action.data);
+    // yield delay(1000);
+
+    yield put({
+      type: LOAD_USER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_USER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadMyInfoAPI(action) {
+
+  return axios.get("/user");
+}
+
+function* loadMyInfo(action) {
+  try {
+    const result = yield call(loadMyInfoAPI, action.data);
     // yield delay(1000);
 
     yield put({
@@ -299,7 +325,10 @@ function* watchUnfollow() {
   yield takeLatest(UNFOLLOW_REQUEST, unfollow);
 }
 function* watchLoadUser() {
-  yield takeLatest(LOAD_MY_INFO_REQUEST, loadUser);
+  yield takeLatest(LOAD_USER_REQUEST, loadUser);
+}
+function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 function* watchLoadFollowers() {
   yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers);
@@ -324,5 +353,6 @@ export default function* userSaga() {
     fork(watchLogOut),
     fork(watchSignUp),
     fork(watchLoadUser),
+    fork(watchLoadMyInfo),
   ]);
 }
