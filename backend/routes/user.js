@@ -82,8 +82,8 @@ router.get('/', isLoggedIn, async (req, res, next) => {
 router.get('/:userId', async (req, res, next) => {
     //GET /user
     try {
-        console.log("여길탔어?")
-        console.log(req.params.userId)
+
+
         const fullUserWithoutPassword = await User.findOne({
             where: {
                 id: req.params.userId
@@ -296,6 +296,7 @@ router.delete('/follower/:userId', isLoggedIn, async (req, res, next) => { //del
 router.get('/:userId/posts', async (req, res, next) => {
     try {
 
+        console.log("여기도타니 설마?!@!122 /:userId/posts")
         const where = { UserId: req.params.userId };
         if (parseInt(req.query.lastId, 10)) {
             //초기 로딩이 아닐때

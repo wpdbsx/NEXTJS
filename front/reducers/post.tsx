@@ -378,6 +378,7 @@ const reducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_REQUEST:
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_POSTS_REQUEST:
+        console.log("여기왔니?")
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;

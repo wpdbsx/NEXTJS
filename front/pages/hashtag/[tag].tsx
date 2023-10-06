@@ -6,7 +6,7 @@ import { RootState } from "../../reducers";
 import PostForm from "../../components/PostForm";
 
 import { LOAD_HASHTAG_POSTS_REQUEST } from "../../reducers/post";
-import { LOAD_MY_INFO_REQUEST, LOAD_USER_REQUEST } from "../../reducers/user"
+import { LOAD_MY_INFO_REQUEST } from "../../reducers/user"
 import InfiniteLoaderScroll from "../../components/InfiniteLoaderScroll";
 
 
@@ -45,7 +45,7 @@ const Home: React.FC = () => {
 
 
 
-            <InfiniteLoaderScroll renderType={LOAD_HASHTAG_POSTS_REQUEST} />
+            <InfiniteLoaderScroll renderType={LOAD_HASHTAG_POSTS_REQUEST} data={tag} />
             {/* {mainPosts.map(
         (post, index) => {
           return <PostCard key={post.id} post={post} />;

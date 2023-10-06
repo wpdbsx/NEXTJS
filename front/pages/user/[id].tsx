@@ -53,9 +53,9 @@ const User: React.FC = () => {
                 <meta property="og:image" content={"https://nodebird.com/favicon.ico"} />
                 <meta property="og:url" content={`https://nodebird.com/user/${id}`} />
             </Head>
-           
 
-            <InfiniteLoaderScroll />
+
+            <InfiniteLoaderScroll renderType={LOAD_USER_POSTS_REQUEST} data={id}/>
             {/* {mainPosts.map(
         (post, index) => {
           return <PostCard key={post.id} post={post} />;

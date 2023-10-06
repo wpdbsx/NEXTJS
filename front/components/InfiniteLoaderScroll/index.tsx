@@ -24,13 +24,15 @@ const cellCache = new CellMeasurerCache({
 });
 
 type InfiniteLoaderScrollType = {
-  renderType?: string
+  renderType?: string,
+  data?: string | string[]
 }
 
-const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType = LOAD_POSTS_REQUEST }) => {
+const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType = LOAD_POSTS_REQUEST, data }) => {
 
 
   const listRef = useRef(null);
+  console.log(renderType)
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
     (state: RootState) => state.post
   );
@@ -82,10 +84,12 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
 
 
     if (hasMorePosts && !loadPostsLoading) {
+      console.log(renderType)
       dispatch(
         {
           type: renderType,
-          lastId
+          lastId,
+          data
         }
       )
     }
