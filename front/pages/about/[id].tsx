@@ -1,39 +1,26 @@
 import React from "react";
-import AppLayout from "../components/AppLayout";
+import AppLayout from "../../components/AppLayout";
 import Head from "next/head";
 
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../reducers";
+import { RootState } from "../../reducers";
 
-import { LOAD_USER_REQUEST } from "../reducers/user";
-import wrapper from "../store/configureStore";
+import { LOAD_USER_REQUEST } from "../../reducers/user";
+import wrapper from "../../store/configureStore";
 import { END } from "redux-saga";
 import { Card, Avatar } from "antd";
-import PostCard from "../components/PostCard";
-import InfiniteLoaderScroll from "../components/InfiniteLoaderScroll";
+import PostCard from "../../components/PostCard";
+import InfiniteLoaderScroll from "../../components/InfiniteLoaderScroll";
 import axios from 'axios';
+import { useRouter } from "next/router";
 const About: React.FC = () => {
     const dispatch = useDispatch();
     const { me, userInfo } = useSelector((state: RootState) => state.user);
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state: RootState) => state.post);
-    // useEffect(() => {
-    //     dispatch({
-    //         type: LOAD_FOLLOWERS_REQUEST,
-    //     }),
-    //         dispatch({
-    //             type: LOAD_FOLLOWINGS_REQUEST,
-    //         })
-    // }, [])
-
-    // useEffect(() => {
-
-    //     if (!(me && me?.id)) {
-    //         Router.push("/");
-    //     }
-    // }, [me && me?.id]);
-    // if (!me?.id) {
-    //     return null;
-    // }
+    const router = useRouter();
+    if (router.isFallback) {
+        return <div>로딩중 </div>
+    }
     return (
         <AppLayout>
 
@@ -71,6 +58,19 @@ const About: React.FC = () => {
     );
 };
 
+export async function getStaticPaths() {
+    //axios를 써서 전체 아이디를 가져와서 전체  ID를 넣는다 .
+    // 전체를 다불러와서 만들면 너무 오래걸린다.
+    return {
+        paths: [
+            { params: { id: '1' } },
+            { params: { id: '2' } },
+            { params: { id: '3' } },
+        ],
+        fallback: true, // false로 적혀있으면 params로 적혀있는 페이지 외는 다에러가난다.
+    }
+
+}
 
 export const getStaticProps = wrapper.getStaticProps((context) => async () => {
     // const cookie = context.req ? context.req.headers.cookie : '';
