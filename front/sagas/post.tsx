@@ -38,7 +38,13 @@ import {
     generateDummyPost,
     RETWEET_REQUEST,
     RETWEET_SUCCESS,
-    RETWEET_FAILURE
+    RETWEET_FAILURE,
+    LOAD_USER_POSTS_REQUEST,
+    LOAD_USER_POSTS_SUCCESS,
+    LOAD_USER_POSTS_FAILURE,
+    LOAD_HASHTAG_POSTS_REQUEST,
+    LOAD_HASHTAG_POSTS_SUCCESS,
+    LOAD_HASHTAG_POSTS_FAILURE
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME, SELECT_POST } from "../reducers/user";
 import shortId from "shortid";
@@ -79,6 +85,36 @@ function* addPost(action: postType) {
         yield put({ type: ADD_POST_FAILURE, error: err.response.data });
     }
 }
+function loadHashtagPostsAPI(data, lastId) {
+    return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
+}
+function* loadHashtagPosts(action) {
+    try {
+        const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
+
+        yield put({ type: LOAD_HASHTAG_POSTS_SUCCESS, data: result.data });
+
+    } catch (err) {
+        console.error(err);
+        yield put({ type: LOAD_HASHTAG_POSTS_FAILURE, error: err.response.data });
+    }
+}
+function loadUserPostsAPI(data, lastId) {
+    return axios.get(`/user/${data}/posts?lastId=${lastId || 0}`);
+}
+function* loadUserPosts(action) {
+    try {
+        const result = yield call(loadUserPostsAPI, action.data, action.lastId);
+
+        yield put({ type: LOAD_USER_POSTS_SUCCESS, data: result.data });
+
+    } catch (err) {
+        console.error(err);
+        yield put({ type: LOAD_USER_POSTS_FAILURE, error: err.response.data });
+    }
+}
+
+
 function loadPostsAPI(lastId) {
     return axios.get(`/posts?lastId=${lastId || 0}`);
 }
@@ -93,6 +129,7 @@ function* loadPosts(action) {
         yield put({ type: LOAD_POSTS_FAILURE, error: err.response.data });
     }
 }
+
 function loadPostAPI(data) {
     return axios.get(`/post/${data}`);
 }
@@ -223,6 +260,13 @@ function* watchLoadPosts() {
 function* watchLoadPost() {
     yield throttle(5000, LOAD_POST_REQUEST, loadPost);
 }
+function* watchLoadUserPosts() {
+    yield throttle(5000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
+function* watchLoadHashtagPosts() {
+    yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+}
+
 function* watchAddComment() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
@@ -244,8 +288,9 @@ function* watchRetweet() {
 }
 
 
+
 export default function* postSaga() {
     yield all(
-        [fork(watchRetweet), fork(watchUploadImages), fork(watchUnLikePost), fork(watchLikePost), fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost), fork(watchLoadPosts), fork(watchLoadPost)]
+        [fork(watchRetweet), fork(watchUploadImages), fork(watchUnLikePost), fork(watchLikePost), fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost), fork(watchLoadPosts), fork(watchLoadUserPosts), fork(watchLoadHashtagPosts), fork(watchLoadPost)]
     ); //call과는 다르다.
 }

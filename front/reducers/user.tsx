@@ -120,7 +120,7 @@ export const REMOVE_FOLLOWER_REQUEST = "REMOVE_FOLLOWER_REQUEST";
 export const REMOVE_FOLLOWER_SUCCESS = "REMOVE_FOLLOWER_SUCCESS";
 export const REMOVE_FOLLOWER_FAILURE = "REMOVE_FOLLOWER_FAILURE";
 
-export const ADD_POST_TO_ME = "ADD_POST_TO_ME";
+export const ADD_POST_TO_ME = "ADD_POST_T1O_ME";
 export const REMOVE_POST_OF_ME = "REMOVE_POST_OF_ME";
 export const SELECT_POST = "SELECT_POST"
 
@@ -234,7 +234,7 @@ const reducer = (state = initialState, action) => {
         draft.loadUserDone = false;
         break;
       case LOAD_USER_SUCCESS:
-        console.log(action.data)
+
         draft.loadUserLoading = false;
         draft.userInfo = action.data;
         draft.loadUserDone = true;

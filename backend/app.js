@@ -2,6 +2,7 @@ const express = require("express");
 const postRouter = require("./routes/post");
 const postsRouter = require("./routes/posts");
 const userRouter = require("./routes/user");
+const hashTagRouter = require("./routes/hashtag");
 const db = require("./models");
 const cors = require("cors");
 const passportConfig = require("./passport");
@@ -55,7 +56,7 @@ app.use("/post", postRouter);
 
 app.use("/user", userRouter);
 app.use("/posts", postsRouter);
-
+app.use('/hashtag', hashTagRouter)
 //에러처리 미들웨어 따로 만들려면 쓰면된다.
 // app.use((err, req, res, next) => {});
 

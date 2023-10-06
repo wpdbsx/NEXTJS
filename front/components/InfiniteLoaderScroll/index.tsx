@@ -23,9 +23,11 @@ const cellCache = new CellMeasurerCache({
   fixedWidth: true, //이미지를 동적으로 받을수있다.
 });
 
+type InfiniteLoaderScrollType = {
+  renderType?: string
+}
 
-
-const InfiniteLoaderScroll: React.FC = () => {
+const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType = LOAD_POSTS_REQUEST }) => {
 
 
   const listRef = useRef(null);
@@ -82,7 +84,7 @@ const InfiniteLoaderScroll: React.FC = () => {
     if (hasMorePosts && !loadPostsLoading) {
       dispatch(
         {
-          type: LOAD_POSTS_REQUEST,
+          type: renderType,
           lastId
         }
       )
