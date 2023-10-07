@@ -16,6 +16,7 @@ import axios from 'axios';
 import wrapper from "../../store/configureStore";
 import Head from "next/head";
 import { useRouter } from 'next/router';
+import { Card, Avatar } from "antd";
 const User: React.FC = () => {
     const dispatch = useDispatch();
 
@@ -54,6 +55,35 @@ const User: React.FC = () => {
                 <meta property="og:url" content={`https://nodebird.com/user/${id}`} />
             </Head>
 
+            {userInfo && (userInfo.id !== me?.id)
+                ? (
+                    <Card
+                        style={{ marginBottom: 20 }}
+                        actions={[
+                            <div key="twit">
+                                포스트 개수
+                                <br />
+                                {userInfo.Posts}
+                            </div>,
+                            <div key="following">
+                                팔로잉
+                                <br />
+                                {userInfo.Followings}
+                            </div>,
+                            <div key="follower">
+                                팔로워
+                                <br />
+                                {userInfo.Followers}
+                            </div>
+                        ]}
+                    >
+                        <Card.Meta
+                            avatar={<Avatar>{userInfo.nickname[0]}</Avatar>}
+                            title={userInfo.nickname}
+                        />
+                    </Card>
+                )
+                : null}
 
             <InfiniteLoaderScroll renderType={LOAD_USER_POSTS_REQUEST} data={id} />
             {/* {mainPosts.map(

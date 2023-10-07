@@ -29,6 +29,7 @@ export type Post = {
   Comments: {
     User: {
       nickname: string;
+      id: string;
     };
     content: string;
     // hasMoreComment:boolean;
@@ -152,6 +153,7 @@ const dummyPost = (data): Post => ({
     {
       User: {
         nickname: "hi",
+        id: '1'
       },
       content: "코딩테스트",
       // hasMoreComment:false,
@@ -159,6 +161,7 @@ const dummyPost = (data): Post => ({
     {
       User: {
         nickname: "bye",
+        id: '1'
       },
       content: "코딩권리",
       // hasMoreComment:false,

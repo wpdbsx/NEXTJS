@@ -16,6 +16,7 @@ import PostImages from "./PostImages";
 import PostCardContent from "./PostCardContent";
 import FollowButton from "./FollowButton";
 import CommentModal from "./CommentModal";
+import Link from "next/link";
 
 interface postCardType {
   post: mainPostsState;
@@ -136,14 +137,20 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
             <Card
               cover={post.Retweet.Images[0] && <PostImages Images={post.Retweet.Images} />}>
               <Card.Meta
-                avatar={<Avatar>{post.Retweet.User.nickname}</Avatar>}
+                avatar={<Link href={`/user/${post.Retweet.User.id}`}>
+                  <Avatar>{post.Retweet.User.nickname}
+                  </Avatar>
+                </Link>}
                 title={post.Retweet.User.nickname}
                 description={<PostCardContent postData={post.Retweet.content} />}
               />
             </Card>
             :
             <Card.Meta
-              avatar={<Avatar>{post.User.nickname}</Avatar>}
+              avatar={<Link href={`/user/${post.User.id}`}>
+                <Avatar>{post.User.nickname[0]}
+                </Avatar>
+              </Link>}
               title={post.User.nickname}
               description={<PostCardContent postData={post.content} />}
             />
@@ -164,7 +171,12 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
                 <List.Item>
                   <List.Item.Meta
                     title={item.User.nickname}
-                    avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                    avatar={
+                      <Link href={`/user/${item.User.id}`}>
+                        <Avatar>{item.User.nickname[0]}
+                        </Avatar>
+                      </Link>
+                    }
                     description={item.content}
 
                   />

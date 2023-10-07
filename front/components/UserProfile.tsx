@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
 import { RootState } from "../reducers";
+import Link from "next/link";
 const UserProfile: React.FC = () => {
   const ButtonWrapper = styled.div`
     margin-left: 47px;
@@ -20,21 +21,35 @@ const UserProfile: React.FC = () => {
       <Card
         actions={[
           <div key="twit">
-            포스트 개수 <br /> {me.Posts.length}
+            <Link href={`/user/${me.id}`}>
+              포스트 개수
+              <br /> {me.Posts.length}
+            </Link>
           </div>,
           <div key="followings">
-            팔로잉 <br /> {me.Followings.length}
+            <Link href={`/profile`}>
+              팔로잉 <br /> {me.Followings.length}
+            </Link>
           </div>,
           <div key="follower">
-            팔로워
-            <br /> {me.Followers.length}
+            <Link href={`/profile`}>
+              팔로워
+              <br /> {me.Followers.length}
+            </Link>
+
           </div>,
         ]}
       >
+
         <Card.Meta
-          avatar={<Avatar>{me.nickname[0]}</Avatar>}
+          avatar={<Link href={`/user/${me.id}`}>
+            <Avatar>{me.nickname[0]}
+            </Avatar>
+          </Link>}
           title={me.nickname}
         />
+
+
         <ButtonWrapper>
           <Button onClick={onLogOut} loading={logOutLoading}>
             로그아웃
