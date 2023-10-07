@@ -39,6 +39,7 @@ export type Post = {
   }[];
   RetweetId: string;
   Retweet: Retweet;
+  createdAt: string;
 };
 
 type initialStateType = {
@@ -181,7 +182,9 @@ const dummyPost = (data): Post => ({
     }],
     UserId: "1",
     RetweetId: "1",
+
   },
+  createdAt: '1'
 });
 
 const initialState: initialStateType = {

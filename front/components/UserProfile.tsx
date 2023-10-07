@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../reducers/user";
 import { RootState } from "../reducers";
 import Link from "next/link";
+
 const UserProfile: React.FC = () => {
   const ButtonWrapper = styled.div`
     margin-left: 47px;

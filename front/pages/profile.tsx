@@ -85,7 +85,8 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   if (req && cookie) {
     axios.defaults.headers.Cookie = cookie;
   }
-  await store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  const result = await store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  console.log(result)
   // await store.dispatch({ type: LOAD_FOLLOWINGS_REQUEST });
   await store.dispatch(END); // succeess 될떄 까지 기다려주는 함수
 

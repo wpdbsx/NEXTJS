@@ -17,6 +17,9 @@ import PostCardContent from "./PostCardContent";
 import FollowButton from "./FollowButton";
 import CommentModal from "./CommentModal";
 import Link from "next/link";
+import moment, { months } from 'moment';
+
+moment.locale('ko');
 
 interface postCardType {
   post: mainPostsState;
@@ -136,6 +139,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
           {post.RetweetId && post.Retweet ?
             <Card
               cover={post.Retweet.Images[0] && <PostImages Images={post.Retweet.Images} />}>
+              <div style={{ float: "right" }} >{moment(post.createdAt).format('YYYY.MM.DD')}</div>
               <Card.Meta
                 avatar={<Link href={`/user/${post.Retweet.User.id}`}>
                   <Avatar>{post.Retweet.User.nickname}
@@ -146,14 +150,17 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               />
             </Card>
             :
-            <Card.Meta
-              avatar={<Link href={`/user/${post.User.id}`}>
-                <Avatar>{post.User.nickname[0]}
-                </Avatar>
-              </Link>}
-              title={post.User.nickname}
-              description={<PostCardContent postData={post.content} />}
-            />
+            <>
+              <div style={{ float: "right" }} >{moment(post.createdAt).format('YYYY.MM.DD')}</div>
+              <Card.Meta
+                avatar={<Link href={`/user/${post.User.id}`}>
+                  <Avatar>{post.User.nickname[0]}
+                  </Avatar>
+                </Link>}
+                title={post.User.nickname}
+                description={<PostCardContent postData={post.content} />}
+              />
+            </>
           }
 
         </Card>
