@@ -25,9 +25,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
   const dispatch = useDispatch();
   const {
     handleSubmit,
-    formState: { errors },
     control,
-    watch,
     setValue,
   } = useForm<FormValue>({
     mode: "onBlur",
@@ -54,7 +52,7 @@ const CommentForm: React.FC<postCardType> = ({ post }) => {
     <>
 
       <Form onFinish={handleSubmit(onSubmitHandler)} >
-        <Form.Item style={{ position: 'relative', margin: 0 }}>
+        <Form.Item style={{ position: "relative", margin: 0 }}>
           <Controller
             name="commentText"
             control={control}

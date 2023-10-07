@@ -1,4 +1,4 @@
-import React, { use, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ImagesState } from "../../reducers/post";
 
 import Slick, { Settings } from "react-slick";

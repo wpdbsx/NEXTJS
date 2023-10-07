@@ -10,16 +10,16 @@ import {
   EllipsisOutlined,
   HeartTwoTone,
 } from "@ant-design/icons";
-import { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useState } from "react";
 import CommentForm from "./CommentForm";
 import PostImages from "./PostImages";
 import PostCardContent from "./PostCardContent";
 import FollowButton from "./FollowButton";
 import CommentModal from "./CommentModal";
 import Link from "next/link";
-import moment, { months } from 'moment';
+import moment from "moment";
 
-moment.locale('ko');
+moment.locale("ko");
 
 interface postCardType {
   post: mainPostsState;
@@ -35,7 +35,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
   const dispatch = useDispatch();
 
 
-  const [visibleComments, setVisibleComments] = useState(3);
+  const [visibleComments, _] = useState(3); // eslint-disable-line no-unused-vars
   const [visibelModal, setVisibelModal] = useState(false);
 
   const loadMoreComments = () => {
@@ -139,7 +139,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
           {post.RetweetId && post.Retweet ?
             <Card
               cover={post.Retweet.Images[0] && <PostImages Images={post.Retweet.Images} />}>
-              <div style={{ float: "right" }} >{moment(post.createdAt).format('YYYY.MM.DD')}</div>
+              <div style={{ float: "right" }} >{moment(post.createdAt).format("YYYY.MM.DD")}</div>
               <Card.Meta
                 avatar={<Link href={`/user/${post.Retweet.User.id}`}>
                   <Avatar>{post.Retweet.User.nickname}
@@ -151,7 +151,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
             </Card>
             :
             <>
-              <div style={{ float: "right" }} >{moment(post.createdAt).format('YYYY.MM.DD')}</div>
+              <div style={{ float: "right" }} >{moment(post.createdAt).format("YYYY.MM.DD")}</div>
               <Card.Meta
                 avatar={<Link href={`/user/${post.User.id}`}>
                   <Avatar>{post.User.nickname[0]}
@@ -172,7 +172,7 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
             itemLayout="horizontal"
             dataSource={post.Comments.slice(0, visibleComments)}
             locale={{ emptyText: <></> }}
-            renderItem={(item, index) => {
+            renderItem={(item) => {
 
               return (
                 <List.Item>

@@ -13,11 +13,8 @@ import { LOAD_POSTS_REQUEST, Post } from "../../reducers/post";
 import PostCard from "../PostCard";
 import { RootState } from "../../reducers";
 import { useSelector, useDispatch } from "react-redux";
-import { throttle } from 'lodash';
-interface InfiniteLoaderType {
-  renderData: Post[];
-  ref: React.MutableRefObject<any>
-}
+
+
 
 const cellCache = new CellMeasurerCache({
   fixedWidth: true, //이미지를 동적으로 받을수있다.
@@ -32,7 +29,7 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
 
 
   const listRef = useRef(null);
-  console.log(renderType)
+
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
     (state: RootState) => state.post
   );
@@ -65,7 +62,7 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
         rowIndex={index}
 
       >
-        {({ measure, registerChild }) => {
+        {({ registerChild }) => {
 
           return (
             <div ref={registerChild} key={index} style={{ ...style, paddingBottom: 100 }}>
@@ -78,13 +75,13 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
   }, [mainPosts]);
 
 
-  const loadMoreRows = useCallback(({ startIndex, stopIndex }) => {
+  const loadMoreRows = useCallback(() => {
 
     const lastId = mainPosts[mainPosts.length - 1]?.id;
 
 
     if (hasMorePosts && !loadPostsLoading) {
-      console.log(renderType)
+
       dispatch(
         {
           type: renderType,
@@ -108,12 +105,12 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
         rowCount={mainPosts.length} // 전체 댓글 개수 설정 
         threshold={0.7} // 데이터 호출지점
       >
-        {({ onRowsRendered, registerChild }) => {
+        {({ onRowsRendered }) => {
           // listRef.current = registerChild
 
           return (
             <WindowScroller>
-              {({ height, scrollTop, isScrolling, onChildScroll }) => {
+              {({ height, scrollTop }) => {
 
                 return (
                   <AutoSizer disableHeight>
@@ -122,7 +119,7 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
                         <List
                           ref={listRef}
                           autoHeight
-                          style={{ overflowY: 'auto' }}
+                          style={{ overflowY: "auto" }}
                           height={height}
                           width={width}
                           overscanRowCount={5} // overscanRowCount 속성은 사용자가 스크롤하는 방향으로 추가 행을 렌더링하여 사용자가 가상화된 콘텐츠를 렌더링할 수 있는 것보다 빠르게 스크롤시 깜빡임을 최소화합니다.

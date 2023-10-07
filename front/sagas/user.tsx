@@ -241,14 +241,14 @@ function* loadFollowers(action) {
   try {
     const result = yield call(loadFollowersAPI, action.data);
     // yield delay(1000);
-    console.log(result)
+
     yield put({
       type: LOAD_FOLLOWERS_SUCCESS,
       data: result.data,
     });
   } catch (err) {
     console.error(err);
-    console.log(err.response)
+
     yield put({
       type: LOAD_FOLLOWERS_FAILURE,
       error: err.response.data,

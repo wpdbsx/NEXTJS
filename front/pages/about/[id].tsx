@@ -1,24 +1,15 @@
 import React from "react";
 import AppLayout from "../../components/AppLayout";
-import Head from "next/head";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
-
 import { LOAD_USER_REQUEST } from "../../reducers/user";
 import wrapper from "../../store/configureStore";
 import { END } from "redux-saga";
 import { Card, Avatar } from "antd";
-import PostCard from "../../components/PostCard";
-import InfiniteLoaderScroll from "../../components/InfiniteLoaderScroll";
-import axios from 'axios';
 import { useRouter } from "next/router";
 const About: React.FC = () => {
-    const dispatch = useDispatch();
     const { me, userInfo } = useSelector((state: RootState) => state.user);
-    const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state: RootState) => state.post);
     const router = useRouter();
-    console.log(router)
     if (router.isFallback) {
         return <div>로딩중 </div>
     }
@@ -64,9 +55,9 @@ export async function getStaticPaths() {
     // 전체를 다불러와서 만들면 너무 오래걸린다.
     return {
         paths: [
-            { params: { id: '1' } },
-            { params: { id: '2' } },
-            { params: { id: '3' } },
+            { params: { id: "1" } },
+            { params: { id: "2" } },
+            { params: { id: "3" } },
         ],
         fallback: false, // false로 적혀있으면 params로 적혀있는 페이지 외는 다에러가난다.
     }
@@ -74,8 +65,8 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = wrapper.getStaticProps((context) => async () => {
-    // const cookie = context.req ? context.req.headers.cookie : '';
-    // axios.defaults.headers.Cookie = '';
+    // const cookie = context.req ? context.req.headers.cookie : "";
+    // axios.defaults.headers.Cookie = "";
     // if (context.req && cookie) {
     //     axios.defaults.headers.Cookie = cookie;
     // }

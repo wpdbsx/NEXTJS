@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
@@ -33,7 +33,7 @@ const SearchInput = styled(Input.Search)`
 `
 const AppLayout: React.FC<ComponentProps> = ({ children }) => {
   const { me } = useSelector((state: RootState) => state.user);
-  const [searchInput, onChangeSearchInput] = useInput('');
+  const [searchInput, onChangeSearchInput] = useInput("");
 
   const onSearch = useCallback(() => {
     Router.push(`/hashtag/${searchInput}`)

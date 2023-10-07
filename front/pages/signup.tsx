@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import AppLayout from "../components/AppLayout";
 import Head from "next/head";
-import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AnyObjectSchema } from "yup";
 import { signUpValidation } from "../components/yup";
@@ -46,8 +46,7 @@ const Signup: React.FC = () => {
   const {
     handleSubmit,
     formState: { errors },
-    control,
-    watch,
+    control
   } = useForm<FormValue>({
     resolver: yupResolver<AnyObjectSchema>(signUpValidation),
     mode: "onBlur",

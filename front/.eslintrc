@@ -1,20 +1,51 @@
 {
-  "parser": "bable-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "babelOptions": {
+      "presets": ["next/babel"]
+    },
+    "requireConfigFile": false
   },
   "env": {
     "browser": true,
     "node": true,
     "es6": true
   },
-  "extends": ["airbnb"],
-  "plugins": ["import", "react-hooks", "jsx-a11y"],
+  "settings": {
+    // import/resolver` 는 `eslint-plugin-import` 의 경로 설정 옵션
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "paths": ["src"]
+      }
+    }
+  },
+  "extends": ["eslint:recommended"],
+  "plugins": ["import", "react-hooks", "jsx-a11y", "react"],
   "rules": {
+    "react/function-component-definition": [
+      "error",
+      {
+        "namedComponents": ["arrow-function", "function-declaration"],
+        "unnamedComponents": "arrow-function"
+      }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "import/prefer-default-export": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "no-console": "off",
@@ -26,7 +57,8 @@
     "object-curly-newline": "off",
     "linebreak-style": "off",
     "no-param-reassign": "off",
-    "max-len": "off"
+    "max-len": "off",
+    "quotes": [2, "double", { "avoidEscape": false }]
   },
   "ignorePatterns": ["node_modules/*", ".next/*"]
 }

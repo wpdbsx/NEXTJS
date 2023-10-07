@@ -3,16 +3,16 @@
 import { useRouter } from "next/router";
 import React from "react";
 import wrapper from "../../store/configureStore";
-import axios from 'axios'
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
-import { END } from 'redux-saga';
+import axios from "axios"
+import { GetServerSideProps } from "next";
+import { END } from "redux-saga";
 import { LOAD_MY_INFO_REQUEST } from "../../reducers/user";
 import { LOAD_POST_REQUEST } from "../../reducers/post";
 import AppLayout from "../../components/AppLayout";
 import { useSelector } from "react-redux";
 import { RootState } from "../../reducers";
 import PostCard from "../../components/PostCard";
-import Head from 'next/head';
+import Head from "next/head";
 const Post: React.FC = () => {
 
     const router = useRouter();
@@ -42,8 +42,8 @@ const Post: React.FC = () => {
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async ({ req, params }) => {
     //순전히 프론트서버에서 실행하는 부분
-    const cookie = req ? req.headers.cookie : '';
-    axios.defaults.headers.Cookie = '';
+    const cookie = req ? req.headers.cookie : "";
+    axios.defaults.headers.Cookie = "";
     // 쿠키가 브라우저에 있는경우만 넣어서 실행
     // (주의, 아래 조건이 없다면 다른 사람으로 로그인 될 수도 있음)
     if (req && cookie) {
@@ -54,7 +54,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
     await store.dispatch(END); // succeess 될떄 까지 기다려주는 함수
 
     await store.sagaTask.toPromise();
-    console.log('state', store.getState());
+
     return {
         props: {}, // 반드시 반환해줘야한다.
     };

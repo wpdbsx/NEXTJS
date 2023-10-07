@@ -3,15 +3,14 @@ import { PlusOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { ImagesState } from "../reducers/post";
 import ImagesZoom from "./ImagesZoom";
+
 interface PostImagesType {
   Images: ImagesState;
 }
 const PostImages: React.FC<PostImagesType> = ({ Images }) => {
   const [showImagesZoom, setShowImagesZoom] = useState(false);
   const onZoom = useCallback(() => {
-
     setShowImagesZoom(true);
-
   }, []);
   const onClose = useCallback(() => {
     setShowImagesZoom(false);
@@ -25,7 +24,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
           style={{
             height: "500px",
             width: "98%",
-            position: 'relative',
+            position: "relative",
             top: 1,
             left: 10,
           }}
@@ -56,7 +55,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             height: "500px",
             textAlign: "center",
             verticalAlign: "middle",
-            position: 'relative',
+            position: "relative",
             top: 1,
             left: 1,
           }}
@@ -80,7 +79,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             height: "500px",
             textAlign: "center",
             verticalAlign: "middle",
-            position: 'relative',
+            position: "relative",
             top: 1,
             right: 1,
           }}
@@ -96,58 +95,55 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
             style={{ objectFit: "fill" }}
 
           />
-
         </div >
-
-        {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />
-        }
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div
-          style={{
-            display: "inline-block",
-            width: "50%",
-            height: "500px",
-            textAlign: "center",
-            verticalAlign: "middle",
-            position: 'relative',
-            top: 1,
-            left: 1,
-          }}
-        >
-          <Image
-            role="presentation"
-            src={`http://localhost:3065/${Images[0].src}`}
-            alt={Images[0].src}
-            onClick={onZoom}
-            fill
-            priority
-            sizes="100%"
-            style={{ objectFit: "fill" }}
-
-          />
-        </div>
-        <div
-          style={{
-            display: "inline-block",
-            width: "50%",
-            textAlign: "center",
-            verticalAlign: "middle",
-            position: 'relative',
-          }}
-          onClick={onZoom}
-        >
-          <PlusOutlined />
-          <br />
-          {Images.length - 1} 개의 사진 더보기
-        </div>
         {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />}
       </>
     );
   }
+  return (
+    <>
+      <div
+        style={{
+          display: "inline-block",
+          width: "50%",
+          height: "500px",
+          textAlign: "center",
+          verticalAlign: "middle",
+          position: "relative",
+          top: 1,
+          left: 1,
+        }}
+      >
+        <Image
+          role="presentation"
+          src={`http://localhost:3065/${Images[0].src}`}
+          alt={Images[0].src}
+          onClick={onZoom}
+          fill
+          priority
+          sizes="100%"
+          style={{ objectFit: "fill" }}
+
+        />
+      </div>
+      <div
+        style={{
+          display: "inline-block",
+          width: "50%",
+          textAlign: "center",
+          verticalAlign: "middle",
+          position: "relative",
+        }}
+        onClick={onZoom}
+      >
+        <PlusOutlined />
+        <br />
+        {Images.length - 1} 개의 사진 더보기
+      </div>
+      {showImagesZoom && <ImagesZoom Images={Images} onClose={onClose} />}
+    </>
+  );
+
 };
 
 export default PostImages;

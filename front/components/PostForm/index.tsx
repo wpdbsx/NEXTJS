@@ -1,13 +1,14 @@
+import React, { useCallback, useEffect, useRef } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, Form, Input, InputRef } from "antd";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { styled } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../reducers";
-import { UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE, ADD_POST_REQUEST } from "../../reducers/post";
-import React, { useCallback, useEffect, useRef } from "react";
 import { AnyObjectSchema } from "yup";
 import { signUpValidation } from "./yup";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { RootState } from "../../reducers";
+import { UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE, ADD_POST_REQUEST } from "../../reducers/post";
+
 import { ErrorMessageWrapper } from "../CommonStyle";
 interface FormValue {
     content: string;
@@ -26,7 +27,6 @@ const PostForm: React.FC = () => {
     const imageInput = useRef<InputRef | null>(null);
 
     const {
-        register,
         handleSubmit,
         formState: { errors },
         control,
@@ -44,9 +44,9 @@ const PostForm: React.FC = () => {
     const onSubmitHandler: SubmitHandler<FormValue> = (data) => {
         const formData = new FormData();
         imagePaths.forEach((p) => {
-            formData.append('image', p);
+            formData.append("image", p);
         })
-        formData.append('content', data.content)
+        formData.append("content", data.content)
 
         dispatch(
             {
@@ -54,7 +54,7 @@ const PostForm: React.FC = () => {
                 data: formData
             }
         );
-        setValue('file', '')
+        setValue("file", "")
     };
 
     const onClickImageUpload = useCallback(() => {
@@ -67,7 +67,7 @@ const PostForm: React.FC = () => {
 
         const imageFormData = new FormData();
         [].forEach.call(e.target.files, (f) => {
-            imageFormData.append('image', f);
+            imageFormData.append("image", f);
         });
         dispatch({
             type: UPLOAD_IMAGES_REQUEST,
@@ -76,9 +76,10 @@ const PostForm: React.FC = () => {
 
     }, [])
 
-    const onRemoveImage = useCallback((Index) => () => {
+    const onRemoveImage = useCallback(() => () => {
         dispatch({
             type: REMOVE_IMAGE
+
         })
     }, [])
     return (
@@ -120,12 +121,12 @@ const PostForm: React.FC = () => {
                         포스트{" "}
                     </Button>
                 </div>
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    {imagePaths.map((v, i) => (
-                        <div key={v} style={{ flex: '0 0 calc(33.33% - 16px)', margin: '8px' }}>
+                <div style={{ display: "flex", flexWrap: "wrap" }}>
+                    {imagePaths.map((v) => (
+                        <div key={v} style={{ flex: "0 0 calc(33.33% - 16px)", margin: "8px" }}>
                             <img src={`http://localhost:3065/${v}`} style={{ width: "100px", height: "100px" }} alt={v} />
                             <div>
-                                <Button onClick={onRemoveImage(i)}>제거</Button>
+                                <Button onClick={onRemoveImage()}>제거</Button>
                             </div>
                         </div>
                     ))}

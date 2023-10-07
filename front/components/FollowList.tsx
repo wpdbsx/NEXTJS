@@ -3,7 +3,7 @@ import { Button, Card, List } from "antd";
 import { StopOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { UNFOLLOW_REQUEST, REMOVE_FOLLOWER_REQUEST } from "../reducers/user";
-import { KeyedMutator } from 'swr'
+import { KeyedMutator } from "swr"
 import { RootState } from "../reducers";
 interface FollowType {
   header: string;
@@ -30,7 +30,7 @@ const FollowList: React.FC<FollowType> = ({ header, data, onClickMore, loading, 
 
   const onClick = (id) => () => {
     refId.current = id;
-    if (header === '팔로잉') {
+    if (header === "팔로잉") {
       dispatch({
         type: UNFOLLOW_REQUEST,
         data: id,

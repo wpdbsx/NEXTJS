@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React from "react";
 
-interface PostCardContent {
+interface PostCardContentType {
   postData: String;
 }
-const PostCardContent: React.FC<PostCardContent> = ({ postData }) => {
+const PostCardContent: React.FC<PostCardContentType> = ({ postData }) => {
   return (
     <>
       <div>

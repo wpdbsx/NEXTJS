@@ -1,21 +1,20 @@
 import { List, Avatar } from "antd";
+import reactDom from "react-dom";
+import React, { useEffect } from "react";
 import {
   CloseBtn,
-  Global,
   Header,
   Overlay,
   SlickWrapper
 } from "./style";
 import { mainPostsState } from "../../reducers/post";
-import reactDom from "react-dom";
-import { useEffect } from "react";
+
 import { createModalBackdrop } from "../createModalBackdrop";
 interface postCardType {
   post: mainPostsState;
   onClose: () => void;
 }
 const CommentModal: React.FC<postCardType> = ({ post, onClose }) => {
-
   const el = document.getElementById("docTop");
 
 
@@ -42,7 +41,7 @@ const CommentModal: React.FC<postCardType> = ({ post, onClose }) => {
             itemLayout="horizontal"
             dataSource={post.Comments}
             locale={{ emptyText: <></> }}
-            renderItem={(item, index) => {
+            renderItem={(item) => {
 
               return (
                 <List.Item>

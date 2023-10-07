@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button } from "antd";
-import { useForm, SubmitHandler, Controller, Resolver } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Link from "next/link";
 import styled from "styled-components";
 import { loginRequestAction } from "../reducers/user";
@@ -26,9 +26,9 @@ const LoginForm: React.FC = () => {
   );
   const {
     handleSubmit,
-    formState: { errors },
+
     control,
-    watch,
+
   } = useForm<FormValue>({
     mode: "onBlur",
   });

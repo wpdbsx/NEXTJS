@@ -189,7 +189,7 @@ const reducer = (state = initialState, action) => {
         draft.loadFollowingsDone = false;
         break;
       case LOAD_FOLLOWINGS_SUCCESS:
-        console.log(action)
+
         draft.loadFollowingsLoading = false;
         draft.me.Followings = action.data;
         draft.loadFollowingsDone = true;
@@ -204,7 +204,7 @@ const reducer = (state = initialState, action) => {
         draft.loadFollowersDone = false;
         break;
       case LOAD_FOLLOWERS_SUCCESS:
-        console.log(action)
+
         draft.loadFollowersLoading = false;
         draft.me.Followers = action.data;
         draft.loadFollowersDone = true;
