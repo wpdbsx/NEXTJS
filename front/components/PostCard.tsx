@@ -22,7 +22,7 @@ interface postCardType {
 
 }
 
-const PostCard: React.FC<postCardType> = ({ post}) => {
+const PostCard: React.FC<postCardType> = ({ post }) => {
   const id = useSelector((state: RootState) => state.user.me?.id);
 
   const liked = post?.Likers?.find((v) => v.id === id);
@@ -86,6 +86,7 @@ const PostCard: React.FC<postCardType> = ({ post}) => {
       data: post.id
     })
   }, [])
+
   return (
     <>
       <div >

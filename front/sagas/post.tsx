@@ -35,7 +35,7 @@ import {
     UPLOAD_IMAGES_REQUEST,
     UPLOAD_IMAGES_SUCCESS,
     UPLOAD_IMAGES_FAILURE,
-    generateDummyPost,
+    // generateDummyPost,
     RETWEET_REQUEST,
     RETWEET_SUCCESS,
     RETWEET_FAILURE,
@@ -64,7 +64,7 @@ function unfollowAPI(data) {
 }
 
 function addPostAPI(action: postType) {
-    console.log(action.data)
+
     return axios.post("/post", action.data);
 }
 
@@ -86,12 +86,12 @@ function* addPost(action: postType) {
     }
 }
 function loadHashtagPostsAPI(data, lastId) {
-    console.log("hash태그타냐?")
+
     return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 }
 function* loadHashtagPosts(action) {
     try {
-        console.log("loadHashtagPosts")
+
         const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
 
         yield put({ type: LOAD_HASHTAG_POSTS_SUCCESS, data: result.data });
@@ -106,7 +106,7 @@ function loadUserPostsAPI(data, lastId) {
 }
 function* loadUserPosts(action) {
     try {
-        console.log("loadUserPosts")
+
         const result = yield call(loadUserPostsAPI, action.data, action.lastId);
 
         yield put({ type: LOAD_USER_POSTS_SUCCESS, data: result.data });
@@ -123,7 +123,7 @@ function loadPostsAPI(lastId) {
 }
 function* loadPosts(action) {
     try {
-        console.log("loadPosts")
+
         const result = yield call(loadPostsAPI, action.lastId);
 
         yield put({ type: LOAD_POSTS_SUCCESS, data: result.data });
@@ -173,7 +173,6 @@ function* addComment(action) {
     try {
 
 
-        console.log(action.data)
         yield put({ type: SELECT_POST, data: action.data });
         const result = yield call(addCommentAPI, action.data);
 
@@ -259,18 +258,15 @@ function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 function* watchLoadPosts() {
-    console.log("여기탔니? watchLoadPosts")
     yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
 }
 function* watchLoadPost() {
     yield throttle(5000, LOAD_POST_REQUEST, loadPost);
 }
 function* watchLoadUserPosts() {
-    console.log("여기탔니? watchLoadUserPosts")
     yield throttle(5000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
 function* watchLoadHashtagPosts() {
-    console.log("여기탔니? watchLoadHashtagPosts")
     yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
 

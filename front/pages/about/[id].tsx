@@ -18,6 +18,7 @@ const About: React.FC = () => {
     const { me, userInfo } = useSelector((state: RootState) => state.user);
     const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state: RootState) => state.post);
     const router = useRouter();
+    console.log(router)
     if (router.isFallback) {
         return <div>로딩중 </div>
     }
@@ -67,7 +68,7 @@ export async function getStaticPaths() {
             { params: { id: '2' } },
             { params: { id: '3' } },
         ],
-        fallback: true, // false로 적혀있으면 params로 적혀있는 페이지 외는 다에러가난다.
+        fallback: false, // false로 적혀있으면 params로 적혀있는 페이지 외는 다에러가난다.
     }
 
 }

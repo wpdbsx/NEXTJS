@@ -29,7 +29,7 @@ const User: React.FC = () => {
     const { hasMorePosts, loadPostsLoading, retweetError } = useSelector(
         (state: RootState) => state.post
     );
-    console.log(userInfo)
+
 
     useEffect(() => {
         if (retweetError) {

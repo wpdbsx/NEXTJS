@@ -1,7 +1,8 @@
 import shortId from "shortid";
 import { produce } from "immer";
-import { faker } from "@faker-js/faker";
-faker.seed(123);
+// import { faker } from "@faker-js/faker";
+import useSWR from 'swr';
+// faker.seed(123);
 export type Retweet = {
   id: string;
   User: {
@@ -84,51 +85,51 @@ export type ImagesState = Pick<
   postState,
   "mainPosts"
 >["mainPosts"][0]["Images"];
-export const generateDummyPost = (number): Post[] =>
-  Array(number)
-    .fill(null)
-    .map((v, i) => {
-      return {
-        id: shortId.generate(),
-        User: {
-          id: shortId.generate(),
-          nickname: faker.name.fullName(),
-        },
-        content: faker.lorem.paragraph(),
-        Images: [
-          {
-            src: faker.image.image(),
-          },
-        ],
-        Comments: [
-          {
-            User: {
-              id: shortId.generate(),
-              nickname: faker.name.fullName(),
-            },
-            content: faker.lorem.sentence(),
-            // hasMoreComment: false,
-          },
+// export const generateDummyPost = (number): Post[] =>
+//   Array(number)
+//     .fill(null)
+//     .map((v, i) => {
+//       return {
+//         id: shortId.generate(),
+//         User: {
+//           id: shortId.generate(),
+//           nickname: faker.name.fullName(),
+//         },
+//         content: faker.lorem.paragraph(),
+//         Images: [
+//           {
+//             src: faker.image.image(),
+//           },
+//         ],
+//         Comments: [
+//           {
+//             User: {
+//               id: shortId.generate(),
+//               nickname: faker.name.fullName(),
+//             },
+//             content: faker.lorem.sentence(),
+//             // hasMoreComment: false,
+//           },
 
-        ],
-        Likers: [{ id: "1" }],
-        RetweetId: '1',
-        Retweet: {
-          id: "1",
-          User: {
-            id: "1",
-            nickname: "nick",
-          },
-          content: "test",
-          Images: [{
-            src: "",
-          }],
-          UserId: "1",
-          RetweetId: "1",
-        },
-      };
+//         ],
+//         Likers: [{ id: "1" }],
+//         RetweetId: '1',
+//         Retweet: {
+//           id: "1",
+//           User: {
+//             id: "1",
+//             nickname: "nick",
+//           },
+//           content: "test",
+//           Images: [{
+//             src: "",
+//           }],
+//           UserId: "1",
+//           RetweetId: "1",
+//         },
+//       };
 
-    });
+//     });
 const dummyPost = (data): Post => ({
   id: data.id,
   User: {
@@ -312,7 +313,7 @@ const reducer = (state = initialState, action) => {
         draft.retweetError = null;
         break;
       case RETWEET_SUCCESS:
-        console.log(action.data)
+
         draft.retweetLoading = false;
         draft.retweetDone = true;
         draft.retweetError = null;
@@ -324,7 +325,7 @@ const reducer = (state = initialState, action) => {
         break;
 
       case REMOVE_IMAGE:
-        console.log(action.data)
+
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
         break;
       case UPLOAD_IMAGES_REQUEST:
@@ -378,7 +379,7 @@ const reducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_REQUEST:
       case LOAD_HASHTAG_POSTS_REQUEST:
       case LOAD_POSTS_REQUEST:
-        console.log("여기왔니?")
+
         draft.loadPostsLoading = true;
         draft.loadPostsDone = false;
         draft.loadPostsError = null;
@@ -387,7 +388,7 @@ const reducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_SUCCESS:
       case LOAD_HASHTAG_POSTS_SUCCESS:
       case LOAD_POSTS_SUCCESS:
-        console.log(action.data)
+
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.loadPostsError = null;

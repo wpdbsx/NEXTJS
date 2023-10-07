@@ -1,18 +1,35 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Card, List } from "antd";
 import { StopOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UNFOLLOW_REQUEST, REMOVE_FOLLOWER_REQUEST } from "../reducers/user";
-
+import { KeyedMutator } from 'swr'
+import { RootState } from "../reducers";
 interface FollowType {
   header: string;
   data: { id: string, nickname: string }[];
+  onClickMore: () => void;
+  loading: boolean;
+  mutate: KeyedMutator<any>;
 }
 
-const FollowList: React.FC<FollowType> = ({ header, data }) => {
+const FollowList: React.FC<FollowType> = ({ header, data, onClickMore, loading, mutate }) => {
   const dispatch = useDispatch();
-  console.log(data)
+  const refId = useRef(0);
+  const { unfollowDone, removefollowerDone } = useSelector(
+    (state: RootState) => state.user
+  );
+  useEffect(() => {
+
+    if (unfollowDone || removefollowerDone) {
+      mutate((prev) => {
+        return prev.filter((list) => list.id !== refId.current)
+      });
+    }
+  }, [unfollowDone, removefollowerDone])
+
   const onClick = (id) => () => {
+    refId.current = id;
     if (header === '팔로잉') {
       dispatch({
         type: UNFOLLOW_REQUEST,
@@ -24,7 +41,10 @@ const FollowList: React.FC<FollowType> = ({ header, data }) => {
         data: id,
       })
     }
+
+
   }
+
   return (
     <List
       header={<div>{header}</div>}
@@ -33,7 +53,7 @@ const FollowList: React.FC<FollowType> = ({ header, data }) => {
       size="small"
       loadMore={
         <div style={{ textAlign: "center", margin: "10px 0" }}>
-          <Button>더 보기</Button>{" "}
+          <Button onClick={onClickMore} loading={loading}>더 보기</Button>{" "}
         </div>
       }
       bordered

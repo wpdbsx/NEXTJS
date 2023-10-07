@@ -20,7 +20,7 @@ const Post: React.FC = () => {
     const { singlePost } = useSelector(
         (state: RootState) => state.post
     );
-    console.log(singlePost)
+
     return (
         <AppLayout>
             <Head>
