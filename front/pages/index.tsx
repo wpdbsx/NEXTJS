@@ -79,7 +79,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   if (req && cookie) {
     axios.defaults.headers.Cookie = cookie;
   }
-  // await store.dispatch({ type: LOAD_MY_INFO_REQUEST });
+  await store.dispatch({ type: LOAD_MY_INFO_REQUEST });
   await store.dispatch({ type: LOAD_POSTS_REQUEST });
   await store.dispatch(END); // succeess 될떄 까지 기다려주는 함수
 
@@ -88,7 +88,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   console.log(store.getState());
   return {
 
-    props: { data: '1234' }, // 반드시 반환해줘야한다.
+    props: { data: "1234" }, // 반드시 반환해줘야한다.
   };
 });
 
