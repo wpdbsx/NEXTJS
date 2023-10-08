@@ -394,7 +394,6 @@ const reducer = (state = initialState, action) => {
       case LOAD_USER_POSTS_SUCCESS:
       case LOAD_HASHTAG_POSTS_SUCCESS:
       case LOAD_POSTS_SUCCESS:
-
         draft.loadPostsLoading = false;
         draft.loadPostsDone = true;
         draft.loadPostsError = null;

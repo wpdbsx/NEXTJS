@@ -33,7 +33,6 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector(
     (state: RootState) => state.post
   );
-
   const prevRenderData = useRef<Post[]>(mainPosts);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -65,9 +64,12 @@ const InfiniteLoaderScroll: React.FC<InfiniteLoaderScrollType> = ({ renderType =
         {({ registerChild }) => {
 
           return (
-            <div ref={registerChild} key={index} style={{ ...style, paddingBottom: 100 }}>
-              <PostCard key={mainPosts[index].id} post={mainPosts[index]} />
-            </div>
+            <>
+              <div ref={registerChild} key={index} style={{ ...style, paddingBottom: 100 }}>
+                <PostCard key={mainPosts[index].id} post={mainPosts[index]} />
+              </div>
+              <div>test</div>
+            </>
           )
         }}
       </CellMeasurer>
