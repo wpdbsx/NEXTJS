@@ -11,7 +11,9 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const morgan = require('morgan')
 const dotenv = require("dotenv");
-const path = require('path')
+const path = require('path');
+const hpp = require("hpp");
+const { default: helmet } = require("helmet");
 dotenv.config();
 const app = express();
 
