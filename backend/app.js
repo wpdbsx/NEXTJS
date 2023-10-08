@@ -70,6 +70,6 @@ app.use('/hashtag', hashTagRouter)
 //에러처리 미들웨어 따로 만들려면 쓰면된다.
 // app.use((err, req, res, next) => {});
 
-app.listen(3065, () => {
+app.listen(80, () => {
   console.error("서버 실행중 !!");
 });
