@@ -26,11 +26,18 @@ db.sequelize
 passportConfig();
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", 'yoontae.com'],
     credentials: true, //쿠키 공유
   })
 );
-app.use(morgan('dev'))
+if (process.env.NODE_ENV === 'production') {
+  app.use(morgan('combined'))
+  app.use(hpp());
+  app.use(helmet());
+} else {
+  app.use(morgan('dev'))
+}
+
 
 app.use('/', express.static(path.join(__dirname, 'uploads'))) // path.join은 운영체제의 차이점에 따라 알아서 경로를 지정해준다.
 app.use(express.json()); // 프론트에서 보낸 데이터를 res.body에 넣는 역할을한다.
