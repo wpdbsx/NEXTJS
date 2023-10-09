@@ -28,7 +28,7 @@ db.sequelize
 passportConfig();
 app.use(
   cors({
-    origin: ["http://localhost:3000", 'yoontae.com', '15.164.211.52'],
+    origin: ["http://localhost:3000", 'yoontae.com', '13.125.210.2'],
     credentials: true, //쿠키 공유
   })
 );
