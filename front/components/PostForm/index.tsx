@@ -10,6 +10,7 @@ import { RootState } from "../../reducers";
 import { UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE, ADD_POST_REQUEST } from "../../reducers/post";
 
 import { ErrorMessageWrapper } from "../CommonStyle";
+import { backUrl } from "../../config/config";
 interface FormValue {
     content: string;
     file: string;
@@ -124,7 +125,7 @@ const PostForm: React.FC = () => {
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
                     {imagePaths.map((v) => (
                         <div key={v} style={{ flex: "0 0 calc(33.33% - 16px)", margin: "8px" }}>
-                            <img src={`http://localhost:3065/${v}`} style={{ width: "100px", height: "100px" }} alt={v} />
+                            <img src={`${backUrl}/${v}`} style={{ width: "100px", height: "100px" }} alt={v} />
                             <div>
                                 <Button onClick={onRemoveImage()}>제거</Button>
                             </div>

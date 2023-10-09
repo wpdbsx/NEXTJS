@@ -3,6 +3,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { ImagesState } from "../reducers/post";
 import ImagesZoom from "./ImagesZoom";
+import { backUrl } from "../config/config";
 
 interface PostImagesType {
   Images: ImagesState;
@@ -31,7 +32,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         >
           <Image
             role="presentation"
-            src={`http://localhost:3065/${Images[0].src}`}
+            src={`${backUrl}/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
             fill
@@ -63,7 +64,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
 
           <Image
             role="presentation"
-            src={`http://localhost:3065/${Images[0].src}`}
+            src={`${backUrl}/${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
             fill
@@ -86,7 +87,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         >
           <Image
             role="presentation"
-            src={`http://localhost:3065/${Images[1].src}`}
+            src={`${backUrl}/${Images[1].src}`}
             alt={Images[1].src}
             onClick={onZoom}
             fill
@@ -116,7 +117,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
       >
         <Image
           role="presentation"
-          src={`http://localhost:3065/${Images[0].src}`}
+          src={`${backUrl}/${Images[0].src}`}
           alt={Images[0].src}
           onClick={onZoom}
           fill
