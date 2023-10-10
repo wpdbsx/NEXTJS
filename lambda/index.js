@@ -2,13 +2,15 @@ const AWS = require('aws-sdk');
 
 const sharp = require('sharp');
 
+const iconv = require('iconv-lite');
 
 const s3 = new AWS.S3();
 
 
 exports.handler = async (event, context, callback) => {
     const Bucket = event.Records[0].s3.bucket.name; //react-yoontae
-    const Key = decodeURIComponent(event.Records[0].s3.object.key); //파일명  original/1234.png
+    const Key = iconv.decode(event.Records[0].s3.object.key, 'utf-8'); //파일명  original/1234.png
+
     console.log(Bucket, Key);
     const filename = Key.split('/')[Key.split('/').length - 1];
     const ext = Key.split('.')[Key.split('.').length - 1].toLowerCase();
@@ -28,6 +30,7 @@ exports.handler = async (event, context, callback) => {
             Body: resizedImage,
         }).promise();
         console.log('put', resizedImage.length);
+        console.log("실행되는건가요?")
         return callback(null, `thumb/${filename}`);
     } catch (error) {
         console.error(error);
