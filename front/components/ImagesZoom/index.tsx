@@ -14,7 +14,6 @@ import {
 } from "./style";
 import reactDom from "react-dom";
 import { createModalBackdrop } from "../createModalBackdrop";
-import { backUrl } from "../../config/config";
 interface ImagesZoomType {
   Images: ImagesState;
   onClose: () => void;
