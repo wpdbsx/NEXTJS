@@ -124,7 +124,7 @@ const PostForm: React.FC = () => {
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
                     {imagePaths.map((v) => (
                         <div key={v} style={{ flex: "0 0 calc(33.33% - 16px)", margin: "8px" }}>
-                            <img src={v} style={{ width: "100px", height: "100px" }} alt={v} />
+                            <img src={v.replace(/\/thumb\//, "/original/")} style={{ width: "100px", height: "100px" }} alt={v} />
                             <div>
                                 <Button onClick={onRemoveImage()}>제거</Button>
                             </div>
