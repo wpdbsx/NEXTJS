@@ -28,7 +28,7 @@ db.sequelize
 passportConfig();
 app.use(
   cors({
-    origin: ["http://localhost:3000", 'yoontae.com', 'http://3.36.71.231'],
+    origin: ["http://localhost:3000", 'yoontae.com', 'yoontae.store'],
     credentials: true, //쿠키 공유
   })
 );
@@ -53,6 +53,11 @@ app.use(
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
+    cookie: {
+      httpOnly: true,
+      secure: false, //https 적용시 true 
+      domain: process.env.NODE_ENV === 'production' && '.nodebird.com'
+    }
   })
 );
 

@@ -1,1 +1,1 @@
-export const backUrl = 'http://13.125.98.158';
+export const backUrl = 'http://api.yoontae.store';
