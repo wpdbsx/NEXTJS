@@ -57,7 +57,7 @@ const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
           <Slick {...settings}>
             {Images.map((v) => (
               <ImgWrapper key={v.src}>
-                <img src={`${v.src.replace(/\/thumb\//, '/original/')}`} alt={v.src} />
+                <img src={`${v.src.replace(/\/thumb\//, "/original/")}`} alt={v.src} />
               </ImgWrapper>
             ))}
 
