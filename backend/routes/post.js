@@ -6,7 +6,8 @@ const multer = require("multer")
 const path = require('path')
 const fs = require('fs');
 const iconv = require('iconv-lite');
-
+const multerS3 = require('multer-s3');
+const AWS = require('aws-sdk');
 try {
     fs.accessSync('uploads')
 } catch (error) {
@@ -99,22 +100,36 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => { //게시글 �
     }
 })
 
+AWS.config.update({
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: 'ap-northeast-2'
+})
 const upload = multer({
-    storage: multer.diskStorage({
-        destination(req, file, done) { //  하드디스크에 저장
-            done(null, 'uploads');
-        },
-        filename(req, file, done) {   // text.png
-            const ext = path.extname(file.originalname); // 확장자 추출(png) 
-            const basename = path.basename(file.originalname, ext); // 파일명 추출
-            const timestamp = new Date().getTime();
-            const newFilename = `${basename}_${timestamp}${ext}`;
-
-            done(null, iconv.decode(newFilename, 'utf-8')); // text2143532.png 
-
-
+    storage: multerS3({
+        s3: new AWS.S3(),
+        bucket: 'react-yoontae',
+        key(req, file, cb) {
+            cb(null, `original/${Date.now()}_${path.basename(file.orginalname)}}`)
+            //파일 생성 
         }
     }),
+
+    // multer.diskStorage({ //로컬 업데이트 
+    //     destination(req, file, done) { //  하드디스크에 저장
+    //         done(null, 'uploads');
+    //     },
+    //     filename(req, file, done) {   // text.png
+    //         const ext = path.extname(file.originalname); // 확장자 추출(png) 
+    //         const basename = path.basename(file.originalname, ext); // 파일명 추출
+    //         const timestamp = new Date().getTime();
+    //         const newFilename = `${basename}_${timestamp}${ext}`;
+
+    //         done(null, iconv.decode(newFilename, 'utf-8')); // text2143532.png 
+
+
+    //     }
+    // }),
     limits: { fileSize: 20 * 1024 * 1024 } // 20MB
 })
 //array(여러개) ,sigle(한개) , none ,fills( 2개이상의 이미지파일에서 올릴때) 
@@ -185,7 +200,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { //Post /post/images
 
 
-    res.json(req.files.map((v) => v.filename));
+    res.json(req.files.map((v) => v.location));
 
 })
 

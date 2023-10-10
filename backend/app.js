@@ -35,7 +35,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet());
   app.use(
     cors({
-      origin: ['yoontae.store'],
+      origin: ['http://yoontae.store'],
       credentials: true, //쿠키 공유
     })
   );
