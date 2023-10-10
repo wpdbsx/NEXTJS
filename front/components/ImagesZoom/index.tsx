@@ -14,6 +14,7 @@ import {
 } from "./style";
 import reactDom from "react-dom";
 import { createModalBackdrop } from "../createModalBackdrop";
+import { backUrl } from "../../config/config";
 interface ImagesZoomType {
   Images: ImagesState;
   onClose: () => void;
@@ -57,7 +58,7 @@ const ImagesZoom: React.FC<ImagesZoomType> = ({ Images, onClose }) => {
           <Slick {...settings}>
             {Images.map((v) => (
               <ImgWrapper key={v.src}>
-                <img src={`http://localhost:3065/${v.src}`} alt={v.src} />
+                <img src={`${v.src}`} alt={v.src} />
               </ImgWrapper>
             ))}
 

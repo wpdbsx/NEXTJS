@@ -32,7 +32,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         >
           <Image
             role="presentation"
-            src={`${backUrl}/${Images[0].src}`}
+            src={`${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
             fill
@@ -64,7 +64,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
 
           <Image
             role="presentation"
-            src={`${backUrl}/${Images[0].src}`}
+            src={`${Images[0].src}`}
             alt={Images[0].src}
             onClick={onZoom}
             fill
@@ -87,7 +87,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
         >
           <Image
             role="presentation"
-            src={`${backUrl}/${Images[1].src}`}
+            src={`${Images[1].src}`}
             alt={Images[1].src}
             onClick={onZoom}
             fill
@@ -117,7 +117,7 @@ const PostImages: React.FC<PostImagesType> = ({ Images }) => {
       >
         <Image
           role="presentation"
-          src={`${backUrl}/${Images[0].src}`}
+          src={`${Images[0].src}`}
           alt={Images[0].src}
           onClick={onZoom}
           fill
