@@ -4,7 +4,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   images: {
-    domains: ['react-nodebird.s3.ap-northeast-2.amazonaws.com', 'react-nodebird-s3.s3.amazonaws.com'],
+    domains: ['react-yoontae.s3.ap-northeast-2.amazonaws.com', 'react-yoontae-s3.s3.amazonaws.com'],
   },
   compress: true,
   compiler: {
@@ -13,6 +13,7 @@ module.exports = withBundleAnalyzer({
       displayName: true,
     },
   },
+
   webpack(config, { webpack }) {
     const prod = process.env.NODE_ENV === 'production';
     return {
