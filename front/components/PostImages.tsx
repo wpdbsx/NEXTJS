@@ -3,7 +3,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import Image from "next/image";
 import { ImagesState } from "../reducers/post";
 import ImagesZoom from "./ImagesZoom";
-import { backUrl } from "../config/config";
 
 interface PostImagesType {
   Images: ImagesState;

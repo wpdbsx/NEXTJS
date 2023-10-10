@@ -10,7 +10,6 @@ import { RootState } from "../../reducers";
 import { UPLOAD_IMAGES_REQUEST, REMOVE_IMAGE, ADD_POST_REQUEST } from "../../reducers/post";
 
 import { ErrorMessageWrapper } from "../CommonStyle";
-import { backUrl } from "../../config/config";
 interface FormValue {
     content: string;
     file: string;
