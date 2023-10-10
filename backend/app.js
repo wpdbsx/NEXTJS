@@ -67,7 +67,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false, //https 적용시 true 
-      domain: process.env.NODE_ENV === 'production' && '.nodebird.com'
+      domain: process.env.NODE_ENV === 'production' && '.yoontae.store'
     }
   })
 );
