@@ -1,3 +1,2 @@
-
-process.env.NODE_ENV === 'production'
+export const backUrl = process.env.NODE_ENV === 'production'
     ? 'http://api.yoontae.store' : 'http://localhost:80';
