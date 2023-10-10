@@ -200,7 +200,7 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { //Post /post/images
 
 
-    res.json(req.files.map((v) => v.location));
+    res.json(req.files.map((v) => v.location.replace(/\/original\//, '/thumb/'))); // original 이름이 있으면 thumb로 변경 
 
 })
 

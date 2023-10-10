@@ -1,7 +1,7 @@
 // aws 모듈 리콰이어 , s3객체를 생성하는데 필요
 const AWS = require('aws-sdk');
 
-const sharp = require('sharp');
+const Sharp = require('sharp');
 
 const iconv = require('iconv-lite');
 
@@ -11,7 +11,7 @@ const s3 = new AWS.S3({ region: 'ap-northeast-2' });
 exports.handler = async (event, context, callback) => {
     // 이벤트로부터 s3 버킷 정보 얻어 오기 
     console.log("여길탈까요?")
-    const Bucket = evet.Records[0].s3.bucket.name;
+    const Bucket = event.Records[0].s3.bucket.name;
     // 이벤트로부터 s3 파일 키 정보 얻어 오기 
     // const Key = event.Records[0].s3.object.key;
     const Key = decodeURIComponent(event.Records[0].s3.object.key);
@@ -36,7 +36,7 @@ exports.handler = async (event, context, callback) => {
         // sharp(이미지 배열).resize().toFormat().toBuffer() 으로 이미지 리사이징 하기
         // + 버퍼 단위의 데이터로 바꾼뒤 resizedImage 객체에 저장 하기 
         const resizedImage = await Sharp(s3Object.Body)
-            .resize(200, 200, { fit: 'inside' })
+            .resize(400, 400, { fit: 'inside' })
             .toFormat(requiredFormat)
             .toBuffer();
 
