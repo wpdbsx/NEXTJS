@@ -31,8 +31,8 @@ const Post: React.FC = () => {
                 <meta name="description" content={`${singlePost.content}`} />
                 <meta property="og:title" content={`${singlePost.User.nickname}님의 게시글`} />
                 <meta property="og:description" content={`${singlePost.User.nickname}님의 게시글`} />
-                <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : "https://yoontae.store/favicon.ico"} />
-                <meta property="og:url" content={`https://yoontae.store/user/${id}`} />
+                <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : "http://yoontae.store/favicon.ico"} />
+                <meta property="og:url" content={`http://yoontae.store/post/${id}`} />
             </Head>
             <PostCard post={singlePost} />
         </AppLayout>
