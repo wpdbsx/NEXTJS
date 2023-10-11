@@ -12,7 +12,6 @@ const App: React.FC = ({ Component, pageProps }: AppProps) => {
         <meta charSet="utf-8" />
         <title>포트폴리오</title>
       </Head>
-      <div>공통메뉴</div>
       <Component {...pageProps} />
     </div>
 

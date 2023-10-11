@@ -47,7 +47,7 @@ const AppLayout: React.FC<ComponentProps> = ({ children }) => {
         defaultSelectedKeys={["home"]}
         items={[
           {
-            label: <Link href="/">노드버드</Link>,
+            label: <Link href="/">메인</Link>,
             key: "home",
           },
           {
