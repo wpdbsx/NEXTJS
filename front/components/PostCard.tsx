@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, Popover, List } from "antd";
 
-import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, mainPostsState, RETWEET_REQUEST } from "../reducers/post";
+import { REMOVE_POST_REQUEST, LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, mainPostsState, RETWEET_REQUEST, UPDATE_POST_REQUEST, REMOVE_POST_IMAGE, UPLOAD_FETCH_IMAGES_REQUEST } from "../reducers/post";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../reducers";
 import {
@@ -37,7 +37,39 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
 
   const [visibleComments, _] = useState(3); // eslint-disable-line no-unused-vars
   const [visibelModal, setVisibelModal] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
+  const onChangePost = useCallback((editText?: string) => () => {
+
+    const formData = new FormData();
+    post.Images.forEach((p) => {
+      formData.append("image", p.src);
+    })
+    formData.append("content", editText)
+    formData.append("postId", post.id,)
+    dispatch(
+      {
+        type: UPDATE_POST_REQUEST,
+        data: formData
+      }
+    );
+
+
+
+  }, [post])
+  const onClickUpdate = useCallback(() => {
+
+    setEditMode(true);
+
+
+  }, []);
+  const onCancelUpdatePost = useCallback(() => {
+
+
+    setEditMode(false);
+
+
+  }, []);
   const loadMoreComments = () => {
     setVisibelModal(true)
     document.body.style.overflow = "hidden";
@@ -91,6 +123,28 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
     })
   }, [])
 
+  const onChangeImages = useCallback((e) => {
+
+    const imageFormData = new FormData();
+    [].forEach.call(e.target.files, (f) => {
+      imageFormData.append("image", f);
+    });
+    dispatch({
+      type: UPLOAD_FETCH_IMAGES_REQUEST,
+      data: imageFormData,
+      postId: post.id
+    })
+
+  }, [])
+
+  const onRemoveImage = useCallback((index) => () => {
+    dispatch({
+      type: REMOVE_POST_IMAGE,
+      data: index,
+      postId: post.id
+
+    })
+  }, [])
   return (
     <>
       <div >
@@ -112,9 +166,9 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
               key="more"
               content={
                 <Button.Group>
-                  {id ? (
+                  {id && post.User.id === id ? (
                     <>
-                      <Button>수정</Button>
+                      {!post.RetweetId && <Button onClick={onClickUpdate}>수정</Button>}
                       <Button
                         type="dashed"
                         onClick={onRemovePost}
@@ -158,7 +212,14 @@ const PostCard: React.FC<postCardType> = ({ post }) => {
                   </Avatar>
                 </Link>}
                 title={post.User.nickname}
-                description={<PostCardContent postData={post.content} />}
+                description={<PostCardContent onChangeImages={onChangeImages}
+                  onChangePost={onChangePost}
+                  editMode={editMode}
+                  postData={post.content}
+                  postImage={post.Images}
+                  onCancelUpdatePost={onCancelUpdatePost}
+                  onRemoveImage={onRemoveImage}
+                />}
               />
             </>
           }

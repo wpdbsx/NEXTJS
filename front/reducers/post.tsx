@@ -62,6 +62,9 @@ type initialStateType = {
   removePostLoading: boolean;
   removePostDone: boolean;
   removePostError: string | null;
+  updatePostLoading: boolean;
+  updatePostDone: boolean;
+  updatePostError: string | null;
   likePostLoading: boolean,
   likePostDone: boolean,
   likePostError: string | null,
@@ -77,6 +80,9 @@ type initialStateType = {
   retweetLoading: boolean,
   retweetDone: boolean,
   retweetError: string | null,
+  uploadFetchImagesLoading: boolean,
+  uploadFetchImagesDone: boolean,
+  uploadFetchImagesError: string | null,
 
 };
 
@@ -207,6 +213,9 @@ const initialState: initialStateType = {
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
+  updatePostLoading: false,
+  updatePostDone: false,
+  updatePostError: null,
   likePostLoading: false,
   likePostDone: false,
   likePostError: null,
@@ -222,6 +231,9 @@ const initialState: initialStateType = {
   retweetLoading: false,
   retweetDone: false,
   retweetError: null,
+  uploadFetchImagesLoading: false,
+  uploadFetchImagesDone: false,
+  uploadFetchImagesError: null,
 
 };
 
@@ -232,6 +244,11 @@ export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 export const REMOVE_POST_REQUEST = "REMOVE_POST_REQUEST";
 export const REMOVE_POST_SUCCESS = "REMOVE_POST_SUCCESS";
 export const REMOVE_POST_FAILURE = "REMOVE_POST_FAILURE";
+
+
+export const UPDATE_POST_REQUEST = "UPDATE_POST_REQUEST";
+export const UPDATE_POST_SUCCESS = "UPDATE_POST_SUCCESS";
+export const UPDATE_POST_FAILURE = "UPDATE_POST_FAILURE";
 
 export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
 export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
@@ -277,6 +294,12 @@ export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
 
 
+export const UPLOAD_FETCH_IMAGES_REQUEST = "UPLOAD_FETCH_IMAGES_REQUEST";
+export const UPLOAD_FETCH_IMAGES_SUCCESS = "UPLOAD_FETCH_IMAGES_SUCCESS";
+export const UPLOAD_FETCH_IMAGES_FAILURE = "UPLOAD_FETCH_IMAGES_FAILURE";
+
+
+
 export const RETWEET_REQUEST = "RETWEET_REQUEST";
 export const RETWEET_SUCCESS = "RETWEET_SUCCESS";
 export const RETWEET_FAILURE = "RETWEET_FAILURE";
@@ -284,6 +307,7 @@ export const RETWEET_FAILURE = "RETWEET_FAILURE";
 
 
 export const REMOVE_IMAGE = "REMOVE_IMAGE";
+export const REMOVE_POST_IMAGE = "REMOVE_POST_IMAGE";
 
 
 
@@ -331,8 +355,12 @@ const reducer = (state = initialState, action) => {
         break;
 
       case REMOVE_IMAGE:
-
         draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
+        break;
+      case REMOVE_POST_IMAGE:
+        selectedPost = draft.mainPosts.find((v) => v.id === action.postId);
+
+        selectedPost.Images = selectedPost.Images.filter((v, i) => i !== action.data)
         break;
       case UPLOAD_IMAGES_REQUEST:
         draft.uploadImagesLoading = true;
@@ -348,6 +376,24 @@ const reducer = (state = initialState, action) => {
       case UPLOAD_IMAGES_FAILURE:
         draft.uploadImagesLoading = false;
         draft.uploadImagesError = action.error;
+        break;
+
+      case UPLOAD_FETCH_IMAGES_REQUEST:
+        draft.uploadFetchImagesLoading = true;
+        draft.uploadFetchImagesDone = false;
+        draft.uploadFetchImagesError = null;
+        break;
+      case UPLOAD_FETCH_IMAGES_SUCCESS:
+        selectedPost = draft.mainPosts.find((v) => v.id === action.postId);
+
+        selectedPost.Images = selectedPost.Images.concat(...action.data.map((src) => { return { src, PostId: action.postId } }));
+        draft.uploadFetchImagesLoading = false;
+        draft.uploadFetchImagesDone = true;
+        draft.uploadFetchImagesError = null;
+        break;
+      case UPLOAD_FETCH_IMAGES_FAILURE:
+        draft.uploadFetchImagesLoading = false;
+        draft.uploadFetchImagesError = action.error;
         break;
       case UNLIKE_POST_REQUEST:
         draft.unlikePostLoading = true;
@@ -371,8 +417,8 @@ const reducer = (state = initialState, action) => {
         draft.likePostError = null;
         break;
       case LIKE_POST_SUCCESS:
-        selectedPost = draft.mainPosts.find((v) => v.id === action.data.PostId)
-        selectedPost.Likers.push({ id: action.data.UserId })
+        selectedPost = draft.mainPosts.find((v) => v.id === action.postId)
+        selectedPost.Images = selectedPost.Images.concat(action.data)
         draft.likePostLoading = false;
         draft.likePostDone = true;
         draft.likePostError = null;
@@ -468,13 +514,31 @@ const reducer = (state = initialState, action) => {
         break;
       case REMOVE_POST_SUCCESS:
         // const addPost = dummyPost(action.data); // dummyPost 호출하여 실제 데이터 생성
-        draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.data.postId),
-          draft.removePostLoading = false;
+        draft.mainPosts = draft.mainPosts.filter((v) => v.id !== action.data.postId);
+        draft.removePostLoading = false;
         draft.removePostDone = true;
         break;
       case REMOVE_POST_FAILURE:
         draft.removePostLoading = false;
         draft.removePostError = action.error;
+        break;
+
+      case UPDATE_POST_REQUEST:
+        draft.updatePostLoading = true;
+        draft.updatePostDone = false;
+        draft.updatePostError = null;
+
+        break;
+      case UPDATE_POST_SUCCESS:
+        // const addPost = dummyPost(action.data); // dummyPost 호출하여 실제 데이터 생성
+
+        draft.mainPosts.find((v) => v.id === action.data.postId).content = action.data.content;
+        draft.updatePostLoading = false;
+        draft.updatePostDone = true;
+        break;
+      case UPDATE_POST_FAILURE:
+        draft.updatePostLoading = false;
+        draft.updatePostError = action.error;
         break;
 
       case REMOVE_POST_REQUEST:

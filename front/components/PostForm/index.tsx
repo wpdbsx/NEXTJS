@@ -76,10 +76,10 @@ const PostForm: React.FC = () => {
 
     }, [])
 
-    const onRemoveImage = useCallback(() => () => {
+    const onRemoveImage = useCallback((index) => () => {
         dispatch({
-            type: REMOVE_IMAGE
-
+            type: REMOVE_IMAGE,
+            data: index,
         })
     }, [])
     return (
@@ -122,11 +122,11 @@ const PostForm: React.FC = () => {
                     </Button>
                 </div>
                 <div style={{ display: "flex", flexWrap: "wrap" }}>
-                    {imagePaths.map((v) => (
+                    {imagePaths.map((v, i) => (
                         <div key={v} style={{ flex: "0 0 calc(33.33% - 16px)", margin: "8px" }}>
                             <img src={v.replace(/\/thumb\//, "/original/")} style={{ width: "100px", height: "100px" }} alt={v} />
                             <div>
-                                <Button onClick={onRemoveImage()}>제거</Button>
+                                <Button onClick={onRemoveImage(i)}>제거</Button>
                             </div>
                         </div>
                     ))}

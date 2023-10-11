@@ -16,6 +16,7 @@ try {
 }
 
 
+
 router.delete("/", (req, res) => {
     res.json({ id: 1 });
 });
@@ -84,6 +85,8 @@ router.post(
     }
 );
 
+
+
 router.delete('/:postId', isLoggedIn, async (req, res, next) => { //게시글 삭제
     try {
         await Post.destroy({
@@ -99,6 +102,7 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => { //게시글 �
 
     }
 })
+
 
 AWS.config.update({
     accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -199,11 +203,53 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
 });
 router.post('/images', isLoggedIn, upload.array('image'), (req, res, next) => { //Post /post/images
 
-
     res.json(req.files.map((v) => v.location.replace(/\/original\//, '/thumb/'))); // original 이름이 있으면 thumb로 변경 
 
 })
+router.patch('/', isLoggedIn, upload.none(), async (req, res, next) => { //게시글 삭제
+    try {
+        const hashtags = req.body.content.match(/#[^\s#]+/g)
+        await Post.update({
+            content: req.body.content
+        }, {
+            where: {
+                id: req.body.postId,
+                UserId: req.user.id
+            },
+        })
+        const post = await Post.findOne({ where: { id: req.body.postId } });
+        if (hashtags) {
+            const result = await Promise.all(hashtags.map((tag) => Hashtag.findOrCreate({
+                where: { name: tag.slice(1).toLowerCase() }
 
+            })))
+            await post.setHashTags(result.map((v) => v[0]))
+            // [노드, true], [리액트, true]
+
+        }
+        if (req.body.image) {
+            if (Array.isArray(req.body.image)) { //이미지가 여러개면 이미지는 배열이 된다.
+
+                const images = await Promise.all(req.body.image.map(async (image) => Image.create({ src: image })))
+
+
+                await post.setImages(images);
+                // 디비에는 파일을 저장하는게 아니라 파일의 주소만 저장한다. 
+                //파일을 캐싱할수있는데 디비에 넣으면 캐싱을 하지 못한다.
+            } else {  //이미지를 하나만 올리면 배열이 아니라 단일객체로 온다.
+                const image = await Image.create({ src: req.body.image })
+                await post.setImages(image);
+            }
+        } else {
+            post.setImages();
+        }
+        res.json({ postId: parseInt(req.body.postId, 10), content: req.body.content, image: req.body.image });
+    } catch (error) {
+        console.error(error);
+        next(error);
+
+    }
+})
 router.post('/:postId/retweet', isLoggedIn, async (req, res, next) => { //Post /post/images
     try {
         const post = await Post.findOne({

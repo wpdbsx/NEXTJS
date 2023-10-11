@@ -44,7 +44,13 @@ import {
     LOAD_USER_POSTS_FAILURE,
     LOAD_HASHTAG_POSTS_REQUEST,
     LOAD_HASHTAG_POSTS_SUCCESS,
-    LOAD_HASHTAG_POSTS_FAILURE
+    LOAD_HASHTAG_POSTS_FAILURE,
+    UPDATE_POST_REQUEST,
+    UPDATE_POST_FAILURE,
+    UPDATE_POST_SUCCESS,
+    UPLOAD_FETCH_IMAGES_REQUEST,
+    UPLOAD_FETCH_IMAGES_SUCCESS,
+    UPLOAD_FETCH_IMAGES_FAILURE
 } from "../reducers/post";
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME, SELECT_POST } from "../reducers/user";
 import shortId from "shortid";
@@ -56,12 +62,7 @@ interface postType {
 
 
 
-function followAPI() {
-    return axios.post("/api/post");
-}
-function unfollowAPI(data) {
-    return axios.post(`/api/${data.postId}/comment`, data);
-}
+
 
 function addPostAPI(action: postType) {
 
@@ -161,6 +162,22 @@ function* removePost(action) {
         yield put({ type: REMOVE_POST_FAILURE, error: err.response.data });
     }
 }
+function updatePostAPI(data) {
+    console.log(data) //여기
+
+    return axios.patch(`/post`, data);
+}
+function* updatePost(action) {
+    try {
+        console.log(action.data)
+        const result = yield call(updatePostAPI, action.data);
+        yield put({ type: UPDATE_POST_SUCCESS, data: result.data });
+
+    } catch (err) {
+        yield put({ type: UPDATE_POST_FAILURE, error: err.response.data });
+    }
+}
+
 
 function addCommentAPI(data) {
     return axios.post(
@@ -229,6 +246,7 @@ function uploadImagesAPI(data) {
 function* uploadImages(action) {
     try {
         const result = yield call(uploadImagesAPI, action.data);
+
         yield put({ type: UPLOAD_IMAGES_SUCCESS, data: result.data });
 
     } catch (err) {
@@ -236,7 +254,23 @@ function* uploadImages(action) {
         yield put({ type: UPLOAD_IMAGES_FAILURE, error: err.response.data });
     }
 }
+function uploadFetchImagesAPI(data) {
+    return axios.post(
+        `/post/images`, data
+    );
+}
 
+function* uploadFetchImages(action) {
+    try {
+        const result = yield call(uploadFetchImagesAPI, action.data);
+        console.log(result)
+        yield put({ type: UPLOAD_FETCH_IMAGES_SUCCESS, data: result.data, postId: action.postId });
+
+    } catch (err) {
+        console.error(err)
+        yield put({ type: UPLOAD_FETCH_IMAGES_FAILURE, error: err.response.data });
+    }
+}
 function retweetAPI(data) {
     return axios.post(
         `/post/${data}/retweet`, data
@@ -286,14 +320,21 @@ function* watchUnLikePost() {
 function* watchUploadImages() {
     yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
+function* watchFetchImages() {
+    yield takeLatest(UPLOAD_FETCH_IMAGES_REQUEST, uploadFetchImages);
+}
 function* watchRetweet() {
     yield takeLatest(RETWEET_REQUEST, retweet);
 }
+function* watchUpdatePost() {
+    yield takeLatest(UPDATE_POST_REQUEST, updatePost);
+}
+
 
 
 
 export default function* postSaga() {
     yield all(
-        [fork(watchRetweet), fork(watchUploadImages), fork(watchUnLikePost), fork(watchLikePost), fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost), fork(watchLoadPosts), fork(watchLoadUserPosts), fork(watchLoadHashtagPosts), fork(watchLoadPost)]
+        [fork(watchRetweet), fork(watchFetchImages), fork(watchUploadImages), fork(watchUnLikePost), fork(watchLikePost), fork(watchAddPost), fork(watchAddComment), fork(watchRemovePost), fork(watchUpdatePost), fork(watchLoadPosts), fork(watchLoadUserPosts), fork(watchLoadHashtagPosts), fork(watchLoadPost)]
     ); //call과는 다르다.
 }

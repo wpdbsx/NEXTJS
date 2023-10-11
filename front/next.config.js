@@ -4,7 +4,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer({
   images: {
-    domains: ['react-yoontae.s3.ap-northeast-2.amazonaws.com', 'react-yoontae-s3.s3.amazonaws.com'],
+    domains: ['localhost', 'react-yoontae.s3.ap-northeast-2.amazonaws.com', 'react-yoontae-s3.s3.amazonaws.com'],
   },
   compress: true,
   compiler: {

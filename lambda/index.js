@@ -18,7 +18,7 @@ exports.handler = async (event, context, callback) => {
     console.log(Bucket, Key);
 
     // 파일 이름 얻어 오기 
-    const filename = Key.split('/')[Key.split('/').length - 1];
+    const filename = Key.split('/')[Key.split('/').length - 1].replace(/\+/g, '_');
     // 확장자 이름 얻어 오기 
     // const ext = Key.split('.')[Key.split('.').length-1];
     const ext = Key.split('.')[Key.split('.').length - 1].toLowerCase();

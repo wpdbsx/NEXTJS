@@ -16,7 +16,7 @@ const hpp = require("hpp");
 const { default: helmet } = require("helmet");
 dotenv.config();
 const app = express();
-app.set('trust proxy', 1);
+
 db.sequelize
   .sync()
   .then(() => {
@@ -31,6 +31,7 @@ passportConfig();
 
 
 if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
   app.use(morgan('combined'))
   app.use(hpp());
   app.use(helmet({
@@ -60,20 +61,28 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
-app.use(
-  session({
-    proxy: true,
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(
+    session({
+      proxy: true,
+      saveUninitialized: false,
+      resave: false,
+      secret: process.env.COOKIE_SECRET,
+      cookie: {
+        httpOnly: true,
+        secure: true, //https 적용시 true 
+        domain: process.env.NODE_ENV === 'production' && '.yoontae.store'
+      }
+    })
+  );
+} else {
+  app.use(session({
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: true, //https 적용시 true 
-      domain: process.env.NODE_ENV === 'production' && '.yoontae.store'
-    }
-  })
-);
-
+  }));
+}
 app.use(passport.initialize());
 app.use(passport.session());
 
