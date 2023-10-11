@@ -16,11 +16,12 @@ const hpp = require("hpp");
 const { default: helmet } = require("helmet");
 dotenv.config();
 const app = express();
-
+app.set('trust proxy', 1);
 db.sequelize
   .sync()
   .then(() => {
     console.log("db 연결 성공");
+
   })
   .catch((err) => {
     console.error(err);
@@ -61,6 +62,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
+    proxy: true,
     saveUninitialized: false,
     resave: false,
     secret: process.env.COOKIE_SECRET,
