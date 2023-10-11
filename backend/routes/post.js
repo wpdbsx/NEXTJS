@@ -114,7 +114,7 @@ const upload = multer({
         s3: new AWS.S3(),
         bucket: 'react-yoontae',
         key(req, file, cb) {
-            cb(null, iconv.decode(`original/${Date.now()}_${path.basename(file.originalname)}`, 'utf-8'))
+            cb(null, iconv.decode(`original/${Date.now()}_${path.basename(file.originalname.replace(/\s+/g, "_"))}`, 'utf-8'))
             //파일 생성 
         }
     }),
