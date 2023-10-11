@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === 'production') {
   }));
   app.use(
     cors({
-      origin: ['http://yoontae.store'],
+      origin: ['https://yoontae.store'],
       credentials: true, //쿠키 공유
     })
   );
@@ -66,7 +66,7 @@ app.use(
     secret: process.env.COOKIE_SECRET,
     cookie: {
       httpOnly: true,
-      secure: false, //https 적용시 true 
+      secure: true, //https 적용시 true 
       domain: process.env.NODE_ENV === 'production' && '.yoontae.store'
     }
   })
