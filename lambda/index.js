@@ -14,11 +14,11 @@ exports.handler = async (event, context, callback) => {
     const Bucket = event.Records[0].s3.bucket.name;
     // 이벤트로부터 s3 파일 키 정보 얻어 오기 
     // const Key = event.Records[0].s3.object.key;
-    const Key = iconv.decode((event.Records[0].s3.object.key), 'utf-8');
+    const Key = iconv.decode((event.Records[0].s3.object.key.replace(/\+/g, '_')), 'utf-8');
     console.log(Bucket, Key);
 
     // 파일 이름 얻어 오기 
-    const filename = Key.split('/')[Key.split('/').length - 1].replace(/\+/g, '_');
+    const filename = Key.split('/')[Key.split('/').length - 1];
     // 확장자 이름 얻어 오기 
     // const ext = Key.split('.')[Key.split('.').length-1];
     const ext = Key.split('.')[Key.split('.').length - 1].toLowerCase();
