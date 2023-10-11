@@ -222,7 +222,7 @@ router.get('/followings', isLoggedIn, async (req, res, next) => { //GET /user/fo
             through: { attributes: [] },
 
         });
-        console.log(followings)
+
         res.status(200).json(followings)
     } catch (error) {
         console.log(error)

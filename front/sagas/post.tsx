@@ -169,7 +169,7 @@ function updatePostAPI(data) {
 }
 function* updatePost(action) {
     try {
-        console.log(action.data)
+
         const result = yield call(updatePostAPI, action.data);
         yield put({ type: UPDATE_POST_SUCCESS, data: result.data });
 
@@ -263,7 +263,7 @@ function uploadFetchImagesAPI(data) {
 function* uploadFetchImages(action) {
     try {
         const result = yield call(uploadFetchImagesAPI, action.data);
-        console.log(result)
+
         yield put({ type: UPLOAD_FETCH_IMAGES_SUCCESS, data: result.data, postId: action.postId });
 
     } catch (err) {

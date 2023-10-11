@@ -265,7 +265,7 @@ function* loadFollowings(action) {
   try {
     const result = yield call(loadFollowingsAPI, action.data);
     // yield delay(1000);
-    console.log(result)
+
     yield put({
       type: LOAD_FOLLOWINGS_SUCCESS,
       data: result.data,
