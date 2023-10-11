@@ -1,10 +1,9 @@
 
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Button, Col, Input, InputRef, Row, Space } from "antd";
+import { Button, Input, InputRef, Space } from "antd";
 import { useSelector } from "react-redux";
 import { RootState } from "../reducers";
-import { REMOVE_IMAGE } from "../reducers/post";
 
 
 const { TextArea } = Input;
