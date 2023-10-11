@@ -292,16 +292,16 @@ function* watchAddPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 function* watchLoadPosts() {
-    yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
+    yield throttle(100, LOAD_POSTS_REQUEST, loadPosts);
 }
 function* watchLoadPost() {
-    yield throttle(5000, LOAD_POST_REQUEST, loadPost);
+    yield throttle(100, LOAD_POST_REQUEST, loadPost);
 }
 function* watchLoadUserPosts() {
-    yield throttle(5000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
+    yield throttle(100, LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
 function* watchLoadHashtagPosts() {
-    yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
+    yield throttle(100, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 }
 
 function* watchAddComment() {

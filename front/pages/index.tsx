@@ -14,7 +14,7 @@ import { GetServerSideProps } from "next";
 import { END } from "redux-saga";
 import axios from "axios";
 const Home: React.FC = (data) => {
-  console.log(data)
+
   const { me } = useSelector((state: RootState) => state.user);
 
   const { retweetError } = useSelector(
@@ -84,8 +84,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   await store.dispatch(END); // succeess 될떄 까지 기다려주는 함수
 
   await store.sagaTask.toPromise();
-  console.log("getServerSideProps")
-  console.log(store.getState());
+
   return {
 
     props: { data: "1234" }, // 반드시 반환해줘야한다.
