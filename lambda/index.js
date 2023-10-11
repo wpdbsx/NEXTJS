@@ -49,7 +49,7 @@ exports.handler = async (event, context, callback) => {
 
         // 저장한 이미지 확인 + callback 함수로 결과 리턴 하기 (에러 없음, 업로드한 파일 정보)
         console.log('put', resizedImage.length);
-        return callback(null, `thumb${filename}`);
+        return callback(null, `thumb/${filename}`);
     } catch (error) {
         console.error(error);
         // 이미지 사이징 결과를 call back 으로 통보
