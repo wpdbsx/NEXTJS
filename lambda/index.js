@@ -10,7 +10,7 @@ const s3 = new AWS.S3({ region: 'ap-northeast-2' });
 
 exports.handler = async (event, context, callback) => {
     // 이벤트로부터 s3 버킷 정보 얻어 오기 
-    console.log("여길탈까요?")
+
     const Bucket = event.Records[0].s3.bucket.name;
     // 이벤트로부터 s3 파일 키 정보 얻어 오기 
     // const Key = event.Records[0].s3.object.key;
